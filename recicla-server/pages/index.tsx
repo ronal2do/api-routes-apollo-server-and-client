@@ -2,6 +2,7 @@ import gql from 'graphql-tag'
 import Link from 'next/link'
 import { useQuery } from '@apollo/client'
 import { initializeApollo } from '../apollo/client'
+import React from 'react'
 
 const ViewerQuery = gql`
   query ViewerQuery {
