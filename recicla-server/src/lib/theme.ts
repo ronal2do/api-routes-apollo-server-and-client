@@ -1,0 +1,118 @@
+import { extendTheme, type ThemeConfig } from "@chakra-ui/react";
+import { mode } from '@chakra-ui/theme-tools'
+
+const config: ThemeConfig = {
+  initialColorMode: "dark",
+  useSystemColorMode: false,
+};
+
+export const theme = extendTheme(
+  { config },
+  {
+    colors: {
+      primary: {
+        50: '#FBE5FF',
+        100: '#F3D4FF',
+        200: '#D6BEFB',
+        300: '#BB9CF5',
+        400: '#A280EB',
+        500: '#7F58DE',
+        600: '#6140BE',
+        700: '#472C9F',
+        800: '#301C80',
+        900: '#20106A',
+      },
+      secondary: {
+        50: '#EAFDED',
+        100: '#DCFBE7',
+        200: '#BBF8D6',
+        300: '#94ECC4',
+        400: '#75D9B5',
+        500: '#4AC1A2',
+        600: '#36A593',
+        700: '#258A84',
+        800: '#176D6F',
+        900: '#0E525C',
+      },
+      purple: {
+        50: '#FBE5FF',
+        100: '#F3D4FF',
+        200: '#D6BEFB',
+        300: '#BB9CF5',
+        400: '#A280EB',
+        500: '#7F58DE',
+        600: '#6140BE',
+        700: '#472C9F',
+        800: '#301C80',
+        900: '#20106A',
+      },
+      green: {
+        50: '#EAFDED',
+        100: '#DCFBE7',
+        200: '#BBF8D6',
+        300: '#94ECC4',
+        400: '#75D9B5',
+        500: '#4AC1A2',
+        600: '#36A593',
+        700: '#258A84',
+        800: '#176D6F',
+        900: '#0E525C',
+      },
+      gray: {
+        50: '#F7FAFC',
+        100: '#EDF2F7',
+        200: '#E2E8F0',
+        300: '#CBD5E0',
+        400: '#A0AEC0',
+        500: '#718096',
+        600: '#4A5568',
+        700: '#252b35',
+        800: '#1A202C',
+        900: '#171923',
+      },
+    },
+    shadows: {
+      surface: '0 0 0 1px rgba(63,63,68,0.05), 0 1px 35px 0 rgba(63,63,68,0.05)',
+      surfaceDark: '0 0 0 1px rgba(195,195,195,0.045), 0 1px 35px 0 rgba(0,0,0,0.1)',
+      sm: '0 1px 2px 0 rgba(0, 0, 0, 0.05)',
+      outline: '0 0 0 3px rgba(125, 125, 125, 0.3)',
+      xs: '0 0 0 1px rgba(0, 0, 0, 0.05)',
+      base: '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
+      md: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+      lg: '0 6px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+      xl: '0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+      '2xl': '0 15px 50px -12px rgba(0, 0, 0, 0.25)',
+      inner: 'inset 0 2px 4px 0 rgba(0,0,0,0.06)',
+      none: 'none',
+    },
+    sizes: {
+      '3xs': '14rem',
+      '2xs': '16rem',
+      xs: '20rem',
+      sm: '24rem',
+      md: '28rem',
+      lg: '32rem',
+      xl: '36rem',
+      '2xl': '42rem',
+      '3xl': '48rem',
+      '4xl': '56rem',
+      '5xl': '64rem',
+      '6xl': '72rem',
+      '7xl': '80rem',
+      '8xl': '90rem',
+      container: {
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+      },
+    },
+    styles: {
+      global: (props) => ({
+        body: {
+          color: mode('gray.700', 'whiteAlpha.900')(props),
+        },
+      }),
+    },
+  }
+);

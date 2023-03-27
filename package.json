@@ -1,0 +1,8 @@
+{
+  "name": "recicla",
+  "private": true,
+  "workspaces": [
+    "./recicla-server/",
+    "./recicla-graphql/"
+  ]
+}

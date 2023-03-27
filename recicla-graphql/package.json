@@ -1,0 +1,31 @@
+{
+  "name": "@recicla/graphql",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node --experimental-specifier-resolution=node --loader ts-node/esm ./src/index.ts"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.5.0",
+    "@graphql-tools/schema": "^9.0.17",
+    "@prisma/client": "^4.11.0",
+    "apollo-server-express": "^3.12.0",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "graphql": "^16.6.0",
+    "lodash.merge": "^4.6.2",
+    "loglevel": "^1.8.1",
+    "next-auth": "^4.20.1",
+    "typescript": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/lodash.merge": "^4.6.7",
+    "@types/node": "^18.15.10",
+    "nodemon": "^2.0.22",
+    "prisma": "^4.11.0",
+    "ts-node": "^10.9.1"
+  }
+}
