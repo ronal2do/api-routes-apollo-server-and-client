@@ -1,0 +1,1 @@
+Mock APP, o aplicativo não esta conectado a nenhum serviço, apenas layout visual

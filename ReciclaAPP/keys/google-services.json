@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "109950038905",
+    "firebase_url": "https://reciclaapp-35eb2.firebaseio.com",
+    "project_id": "reciclaapp-35eb2",
+    "storage_bucket": "reciclaapp-35eb2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:109950038905:android:bc5d1212a8282957",
+        "android_client_info": {
+          "package_name": "com.stq.reciclaapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "109950038905-2gb0pjtp67o6890fo3ccmdr21b7bg9ct.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOA-GhNnzhQTlPo71Zdhyzkczs4IHuZbE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "109950038905-2gb0pjtp67o6890fo3ccmdr21b7bg9ct.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "109950038905-e6bb8nffsa6blrh0mu8m01512elvqemn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.stq.reciclaapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
