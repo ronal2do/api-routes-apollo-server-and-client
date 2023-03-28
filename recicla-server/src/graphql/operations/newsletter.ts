@@ -1,7 +1,33 @@
 import { gql } from '@apollo/client'
 
 export default {
-  Queries: {},
+  Queries: {
+    newslettersCount: gql`
+      query NewsletterCount {
+        newsletters {
+          count
+        }
+      }
+    `,
+    newsletters: gql`
+      query newsletters {
+        newsletters {
+          count
+          edges {
+            cursor
+            node {
+              email
+              id
+            }
+          }
+          pageInfo {
+            endCursor
+            hasNextPage
+          }
+        }
+      }
+    `
+  },
   Mutations: {
     createNewsletterEntry: gql`
       mutation CreateNewsletterEntry($email: String!) {

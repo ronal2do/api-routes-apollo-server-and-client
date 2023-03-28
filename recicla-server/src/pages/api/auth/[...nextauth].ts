@@ -1,14 +1,13 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import { compare } from "bcryptjs";
-import NextAuth from "next-auth"
+import NextAuth, { NextAuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google";
 import { ROUTES } from "../../../config";
+import { prisma } from "../../../lib/prisma";
 
-const prisma = new PrismaClient();
-
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
@@ -32,7 +31,7 @@ export default NextAuth({
           throw new Error('user not found')
         }
 
-        const checkPass = await compare(credentials.password, user.hashedPassword)
+        const checkPass = await compare(credentials.password, user.hashedPassword as string)
 
         if (!checkPass) {
           throw new Error('Incorred password')
@@ -57,9 +56,9 @@ export default NextAuth({
     newUser: ROUTES.singup
   },
   session: {
-    // Set to jwt in order to CredentialsProvider works properly
     strategy: 'jwt'
   },
   secret: process.env.NEXTAUTH_SECRET,
-})
+}
 
+export default NextAuth(authOptions)

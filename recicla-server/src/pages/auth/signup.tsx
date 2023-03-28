@@ -18,22 +18,7 @@ import {
 import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { ROUTES } from '../../config';
-import { useMutation } from '@apollo/client';
-import UserOperations from '../../graphql/operations/user';
-import { User } from '@prisma/client';
-
-export interface ISignUpResponse {
-  registerUserWithEmail: {
-    user?: User
-    success: boolean;
-    error: string;
-  }
-}
-
-export interface ISignupInput {
-  email: string
-}
-
+import { useRegisterUserWithEmail } from '../../hooks';
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -42,9 +27,7 @@ export default function SignupCard() {
   const [ password, setPassword ] = useState("")
   const toast = useToast()
 
-  const [registerUserWithEmail, { data, loading, error }] = useMutation<ISignUpResponse, ISignupInput>(
-    UserOperations.Mutations.registerUserWithEmail
-  )
+  const { registerUserWithEmail, data, loading, error } = useRegisterUserWithEmail()
 
   const _signUp = async () => {
     if (!name || !email || !password) {
@@ -69,7 +52,7 @@ export default function SignupCard() {
         variables
       })
 
-      if (data?.registerUserWithEmail.error) {
+      if (data?.registerUserWithEmail.error || error) {
         toast({
           title: 'Email ja registrado',
           status: 'error',
@@ -159,7 +142,8 @@ export default function SignupCard() {
             <Stack spacing={10} pt={2}>
               <Button
                 loadingText="Submitting"
-                disabled={!name || !email || !password}
+                isLoading={loading}
+                isDisabled={!name || !email || !password}
                 onClick={() => _signUp()}
                 size="lg"
                 bg={'blue.400'}

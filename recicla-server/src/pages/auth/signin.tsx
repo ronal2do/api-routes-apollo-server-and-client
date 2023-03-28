@@ -124,6 +124,7 @@ const SingIn = () => {
                 mb='20px'
                 color='white'
                 mt='20px'
+                isDisabled={!email || !password}
                 onClick={(event) => _signIn(event)}
                 _hover={{
                   bg: "teal.200",

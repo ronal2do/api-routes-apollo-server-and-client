@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import {
   IconButton,
   Avatar,
@@ -21,6 +21,14 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Button,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTrigger,
 } from '@chakra-ui/react';
 import {
   FiHome,
@@ -32,11 +40,14 @@ import {
   FiBell,
   FiChevronDown,
   FiMail,
+  FiSearch,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { Breadcrumb } from './Breadcrumb';
 import { getSession, useSession } from 'next-auth/react';
 import { NextPageContext } from 'next';
+import { SearchModal } from './modal';
+import { NotificationsList } from './NotificationsList';
 
 interface LinkItemProps {
   name: string;
@@ -77,9 +88,9 @@ export function DashboardLayout({
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav onOpen={onOpen}/>
+      <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        <Breadcrumb/>
+        <Breadcrumb />
         {children}
       </Box>
     </Box>
@@ -177,6 +188,10 @@ interface MobileProps extends FlexProps {
 
 const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
   const session = useSession();
+  const [isOpen, setIsOpen] = useState(false)
+  const _onOpen = () => setIsOpen(true)
+  const _onClose = () => setIsOpen(false)
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -209,8 +224,17 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
           size="lg"
           variant="ghost"
           aria-label="open menu"
-          icon={<FiBell />}
+          icon={<FiSearch />}
+          onClick={() => _onOpen()}
         />
+        <ControlledUsage>
+          <IconButton
+            size="lg"
+            variant="ghost"
+            aria-label="open menu"
+            icon={<FiBell />}
+          />
+        </ControlledUsage>
         <Flex alignItems={'center'}>
           <Menu>
             <MenuButton
@@ -250,6 +274,30 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
           </Menu>
         </Flex>
       </HStack>
+      <SearchModal isOpen={isOpen} onClose={_onClose} />
     </Flex>
   );
 };
+
+function ControlledUsage({ children }) {
+  return (
+    <>
+      <Popover
+        isLazy
+        returnFocusOnClose={false}
+        placement='bottom'
+        closeOnBlur={false}
+        
+      >
+        <PopoverTrigger>
+          {children}
+        </PopoverTrigger>
+        <PopoverContent 
+          bg={useColorModeValue('gray.100', 'gray.800')}
+        >
+          <NotificationsList />
+        </PopoverContent>
+      </Popover>
+    </>
+  )
+}

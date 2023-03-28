@@ -3,8 +3,8 @@ import {
 } from "@chakra-ui/react";
 
 import { Session } from "@prisma/client";
-import { NextPageContext } from "next";
-import { getSession, useSession } from "next-auth/react";
+import { NextPage, NextPageContext } from "next";
+import { getSession } from "next-auth/react";
 import { DashboardLayout } from "../../components";
 
 import { NextPageWithLayout } from "../_app";
