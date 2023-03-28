@@ -1,14 +1,13 @@
 import React, { PureComponent } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
 import { theme as color } from '../constants/Colors';
-import { NavigationScreenProp } from 'react-navigation';
 import AwesomeInput from '../components/AwesomeInput';
 import { withFormik, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import LoginButton from '../components/LoginButton';
 
 type RegisterFormScreenProps = {
-  navigation: NavigationScreenProp<any, any>,
+  navigation: any,
   mutation: any,
 };
 

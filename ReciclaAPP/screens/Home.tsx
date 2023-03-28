@@ -14,7 +14,7 @@ import { ADD_POINTS, USER_PUSH_TOKEN } from '../graphql/mutations';
 import { client } from '../services/apollo';
 import Analytics from '../services/Analytics';
 import Button from 'react-native-really-awesome-button';
-import { useRouter } from "expo-router";
+import { useNavigation } from 'expo-router';
 
 interface QuoteType {
   id: string;
@@ -22,7 +22,7 @@ interface QuoteType {
   phrase: string;
 }
 
-const MyHomeScreen: React.FC = () => {
+export const MyHomeScreen: React.FC = () => {
   const [quote, setQuote] = useState<QuoteType | null>(null);
   const [me, setMe] = useState<any | null>(null);
 
@@ -112,9 +112,6 @@ const MyHomeScreen: React.FC = () => {
   );
 };
 
-export default MyHomeScreen;
-
-
 const Hero = () => {
     const { loading, data, error, refetch } = useQuery(PROFILE_QUERY)
     if (loading) {
@@ -163,21 +160,24 @@ const Hero = () => {
 
 const ButtonGame = () => {
 	const { loading, data, error } = useQuery(PROFILE_QUERY)
-  const router = useRouter();
+  // const router = useNavigation();
 
 	const welcomeToTheGame = async (points: number, _id: string) => {
     try {
-      Number(points) === 0 ?
+      Number(points) === 0 ? 
         client.mutate({
           mutation: ADD_POINTS,
           variables: { userId: _id, action: 'GOLD' },
           refetchQueries: () => [{ query: PROFILE_QUERY }]
         }).then(() => {
-          Analytics.track(Analytics.events.START_GAME, { id: _id });
-          router.push('Quizz')}
-        ) : 
+          Analytics.track(Analytics.events.START_GAME, { id: _id })
+          // router.navigate('Quizz')}
+        }) : (
+          Analytics.track(Analytics.events.START_GAME, { id: _id })
+
+        ) 
 				
-				router.push('Quizz')
+				// router.navigate('Quizz')
     } catch (error) {
       Analytics.track(Analytics.events.ERROR, { 
         path: 'Home.tsx', 

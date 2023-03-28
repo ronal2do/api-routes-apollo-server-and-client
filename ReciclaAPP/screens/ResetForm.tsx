@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
 import { theme as color } from '../constants/Colors';
-import { NavigationScreenProp } from 'react-navigation';
 import AwesomeInput from '../components/AwesomeInput';
 import { withFormik, FormikProps } from 'formik';
 import * as Yup from 'yup';
@@ -9,7 +8,6 @@ import LoginButton from '../components/LoginButton';
 import Typography from '../components/Typography';
 
 type RegisterFormScreenProps = {
-  navigation: NavigationScreenProp<any, any>,
   mutation: any,
 };
 
@@ -107,7 +105,7 @@ export default withFormik<any, RegisterScreenFormProps>({
 
   handleSubmit: async (
     values,
-    { props, setError }
+    { props }
   ) => {
     console.log('@@ props token ', props)
     await props.mutation({

@@ -7,7 +7,7 @@ import LoginButton from '../components/LoginButton';
 import Menu from '../components/Menu';
 import Me from '../components/Me';
 
-const RESULT = {
+const RESULT: any = {
   street: 'nome da rua, 000 - Nome do bairro - Cidade.',
   days: ['Segundas-feiras 14h', 'Quartas-feiras 14h'],
 };
@@ -40,7 +40,7 @@ export default function ContactScreen() {
           <AwesomeInput
             label={'Cep'}
             value={cep}
-            onChangeTypography={(text) => setCep(text.replace(/\D/g, ''))}
+            onChange={(text) => setCep(text.replace(/\D/g, ''))}
             color="#fff"
             style={styles.input}
             keyboardType="numeric"
@@ -64,7 +64,7 @@ export default function ContactScreen() {
               <Typography color="#fff" kind="instructions">
                 Coleta
               </Typography>
-              {RESULT.days.map((day, index) => (
+              {RESULT.days.map((day: any, index: any) => (
                 <Typography color="#fff" key={index} kind="welcome">
                   {day}
                 </Typography>

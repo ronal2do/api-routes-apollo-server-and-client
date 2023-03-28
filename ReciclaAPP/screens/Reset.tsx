@@ -1,42 +1,39 @@
-import React, { PureComponent } from 'react';
-import { AsyncStorage, Alert } from 'react-native';
+import React from 'react';
+import { Alert } from 'react-native';
 import { FormikProps } from 'formik';
-import { Mutation } from 'react-apollo'
+import { useMutation } from '@apollo/client';
 import ResetForm from './ResetForm';
 import { errorsToHumans } from '../utils/normalizeErrors';
 import { theme as color } from '../constants/Colors';
 import { RESET_PASSWORD } from '../graphql/mutations';
 import { APP_KEYS } from '../utils/asyncStorage';
 import Analytics from '../services/Analytics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 type ResetScreenProps = {
-  password: string,
-  email: string,
-}
+  password: string;
+  email: string;
+};
 
-type MixedProps = { navigation: any, mutation: any } & FormikProps<ResetScreenProps>
+type MixedProps = FormikProps<ResetScreenProps>;
 
-export default class ResetScreen extends PureComponent<MixedProps, {}> {
-  static navigationOptions = {
-    title: 'Nova senha',
-    headerStyle: {
-      backgroundColor: '#fff',
-      borderBottomWidth: 0,
-    },
-    headerTintColor: color.BLUE,
-  }
+export default function ResetScreen({ }: MixedProps) {
+  const [resetPassword] = useMutation(RESET_PASSWORD, {
+    onCompleted: (data: any) => _signInAsync(data),
+  });
 
-  _signInAsync = async (data: any) => {
-    const { UserResetPassword : {error, token, id, email } } = data;
-    if  (error) {
+  const _signInAsync = async (data: any) => {
+    const { UserResetPassword: { error, token, id, email } } = data;
+    if (error) {
       return Alert.alert(
         'Oops!',
-          errorsToHumans(error),
+        errorsToHumans(error),
         [
-          {text: 'Gerar novo', onPress: () => console.log('OK Pressed')},
-          {text: 'Cancelar', onPress: () => console.log('OK Pressed')},
+          { text: 'Gerar novo', onPress: () => console.log('OK Pressed') },
+          { text: 'Cancelar', onPress: () => console.log('OK Pressed') },
         ],
-        {cancelable: true},
+        { cancelable: true },
       );
     }
     await AsyncStorage.setItem(APP_KEYS.LOGIN, token);
@@ -47,16 +44,17 @@ export default class ResetScreen extends PureComponent<MixedProps, {}> {
 
     Analytics.track(Analytics.events.USER_RESET_PASSWORD, trackingOpts);
 
-    return this.props.navigation.navigate('App')
+    return navigation.navigate('App');
   };
 
-  render() {
-    const token = this.props.navigation.getParam('token', null)
-
-    return (
-      <Mutation mutation={RESET_PASSWORD} onCompleted={(data: any) => this._signInAsync(data)}>
-        {(mutation: any) => <ResetForm navigation={this.props.navigation} mutation={mutation} token={token}/>}
-      </Mutation>
-    );
-  }
+  return <ResetForm navigation={null} resetPassword={resetPassword} token={null} />;
 }
+
+ResetScreen.navigationOptions = {
+  title: 'Nova senha',
+  headerStyle: {
+    backgroundColor: '#fff',
+    borderBottomWidth: 0,
+  },
+  headerTintColor: color.BLUE,
+};

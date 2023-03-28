@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React, { useCallback } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
 import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
@@ -7,36 +7,31 @@ import { theme as color } from '../constants/Colors';
 import SettingsRow from '../components/SettingsRow';
 import { ENV } from '../environment';
 
-export default class AboutScreen extends PureComponent {
-  static navigationOptions = {
-    title: 'Sobre o APP',
-    headerStyle: {
-      backgroundColor: '#fff',
-      borderBottomWidth: 0,
-    },
-    headerTintColor: color.BLUE,
-  }
+const AboutScreen = () => {
+  const handlePressButtonAsync = useCallback(async () => {
+    await WebBrowser.openBrowserAsync(ENV.STQ_URL);
+  }, []);
 
-  _goTo = (route: string) => {
-    this.props.navigation.navigate(route);
-  };
+  const goTo = useCallback((route: string) => {
+    // router.push(route);
+  }, []);
 
-  _handlePressButtonAsync = async () => {
-    WebBrowser.openBrowserAsync(ENV.STQ_URL);
-  };
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.optionButton}>
+        <Typography kind="instructions">Versão do APP: {String(Constants.manifest?.version || 0)}</Typography>
+      </View>
+      <View style={styles.optionButton}>
+        <Typography kind="instructions">Native App Version: {String(Constants.nativeAppVersion || 0)}</Typography>
+      </View>
+      <SettingsRow onPress={handlePressButtonAsync} label="Desenvolvedora: STQ Digital" />
+      <SettingsRow onPress={() => goTo('Licences')} label="Licenças de terceira parte" />
+      <View style={{ padding: 35 }} />
+    </ScrollView>
+  );
+};
 
-  render() {
-    return (
-      <ScrollView style={styles.container}>
-        <View style={styles.optionButton}><Typography kind="instructions">Versão do APP: {String(Constants!.manifest!.version || 0)}</Typography></View>
-        <View style={styles.optionButton}><Typography kind="instructions">Native App Version: {String(Constants!.nativeAppVersion || 0)}</Typography></View>
-        <SettingsRow onPress={() => this._handlePressButtonAsync()} label="Desenvolvedora: STQ Digital" />
-        <SettingsRow onPress={() => this._goTo('Licences')} label="Licenças de terceira parte"/>
-        <View style={{ padding: 35 }}/>
-      </ScrollView>
-    )
-  }
-}
+export default AboutScreen;
 
 const styles = StyleSheet.create({
   container: {

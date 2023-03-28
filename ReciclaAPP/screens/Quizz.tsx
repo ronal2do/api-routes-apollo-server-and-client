@@ -1,7 +1,6 @@
 
 import React from 'react'
-import { StyleSheet, ActivityIndicator, AsyncStorage } from 'react-native'
-import { Query } from 'react-apollo'
+import { StyleSheet, ActivityIndicator } from 'react-native'
 
 import LogoTitle from '../components/LogoTitle'
 import AnswerButton from '../components/AnswerButton'
@@ -23,6 +22,8 @@ import { PROFILE_QUERY, NEXT_QUESTION_2, QUESTION_COUNT } from '../graphql/queri
 import { client } from '../services/apollo'
 import { getRulles } from '../utils'
 import Analytics from '../services/Analytics';
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useQuery } from '@apollo/client'
 
 type Answers = 'info' | 'answer' | 'final' | 'error' | 'end' | 'end-season'
 
@@ -273,35 +274,32 @@ export default class QuizzScreen extends React.PureComponent {
     const { isLoading, sequence } = this.state
     if (isLoading) return (<Loading />)
     return (
-      <Query
-        query={NEXT_QUESTION_2}
-        variables={{
-          sequence,
-        }}
-        fetchPolicy="cache-and-network"
-      >
-      {({ data, refetch, loading, error }: any) => {
-        if (loading) return  <Loading />
-        if (!data) return <ActivityIndicator />
-        if (error) return <Typography kind="welcome">Error</Typography>
-        const { nextQuestion: { edges } } = data  
-          console.log('edges', edges )      
-        if (edges.count === 0) return <Typography kind="welcome">No more questions</Typography>
-        const question = edges[0] && edges[0].node
-        const loadNext = () => refetch()
-
-        if (data) return (
-          <QuestionsContainer
+      <QuestionRotation>
+        <QuestionsContainer
             header={this.renderHeader(question && question)}
             body={this.renderBody(question && question)}
             label={this.state.stage === 'info' ? 'Responder' : this.state.stage === 'answer' ? 'Pular pergunta' :  this.state.stage === 'end' ? 'Voltar' :'Próxima pergunta' }
             onPress={() => this.renderFunction(loadNext, sequence)}
           />
-        )}
-      }
-      </Query>
+      </QuestionRotation>
     )
   }
+}
+
+const QuestionRotation = ({ children }) => {
+    const { data, refetch, loading, error } = useQuery(NEXT_QUESTION_2)
+    if (loading) return  <Loading />
+    if (!data) return <ActivityIndicator />
+    if (error) return <Typography kind="welcome">Error</Typography>
+    const { nextQuestion: { edges } } = data  
+      console.log('edges', edges )      
+    if (edges.count === 0) return <Typography kind="welcome">No more questions</Typography>
+    const question = edges[0] && edges[0].node
+    const loadNext = () => refetch()
+
+    if (data) return (
+      {children}
+    )
 }
 
 const styles = StyleSheet.create({

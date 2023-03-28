@@ -1,24 +1,18 @@
-import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import * as SplashScreen from 'expo-splash-screen';
-import AppLoading from 'expo-app-loading';
-import * as Icon from '@expo/vector-icons'
-import { Asset } from 'expo-asset'
-import * as Font from 'expo-font'
-import AppNavigator from './navigation/AppNavigator';
-import LoadingSreen from './screens/LoadingScreen';
+import {AppNavigator} from './navigation/AppNavigator';
 import { ApolloProvider } from '@apollo/client';
 import { client } from './services/apollo';
-import Analytics from './services/Analytics';
 import * as Linking from 'expo-linking';
 
-import './services/reactotronConfig';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Platform, StyleSheet, Text, View } from 'react-native';
+import Entypo from '@expo/vector-icons/Entypo';
+import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
+import { StatusBar } from 'expo-status-bar';
+import Analytics from './services/Analytics';
 
-type AppState = {
-  isLoadingComplete: boolean,
-  isSplashReady: boolean,
-  initialUrl?: string | undefined
-};
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
 
 function getActiveRouteName(navigationState: any = null): string | null {
   if (!navigationState) {
@@ -32,101 +26,55 @@ function getActiveRouteName(navigationState: any = null): string | null {
   return route.routeName;
 }
 
-export default class App extends React.PureComponent<{ skipLoadingScreen: boolean }, AppState> {
-  state: AppState = {
-    isLoadingComplete: false,
-    isSplashReady: false,
-    initialUrl: undefined
-  };
+export default function App() {
+  const [appIsReady, setAppIsReady] = useState(false);
 
-  componentDidMount() {
-    this.setupAsync()
-    Linking.addEventListener('url', this.handleUrl)
-  }
-
-  handleUrl = (element: any) => {
-    console.log('==>', element.url)
-    let data = Linking.parse(element.url);
-    console.log('handleUrl ==>', data)
-  }
-
-  setupAsync = async () => {
-    const initialUrl: string | null = await Linking.getInitialURL();
-    if (typeof initialUrl != "string") return;
-    this.setState({ initialUrl }, () => console.log('initialUrl', initialUrl));
-  }
-
-  _loadResourcesAsync = async (): Promise<any> => {
-    return Promise.all([
-      Asset.loadAsync([
-        require('./assets/images/robot-dev.png'),
-        require('./assets/images/robot-prod.png'),
-        require('./assets/images/home.png')
-      ]),
-      Font.loadAsync({
-        // This is the font that we are using for our tab bar
-        // @ts-ignore
-        ...Icon.Ionicons.font
-      })
-    ]);
-  };
-
-  _handleLoadingError = (error: Error): void => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
-    console.warn(error);
-  };
-
-  _handleFinishLoading = () => {
-    SplashScreen.hide();
-    this.setState({ isSplashReady: true });
-  };
-
-  _cacheResourcesAsync = () => {
-    this.setState({ isLoadingComplete: true });
-  };
-
-  renderContent() {
-    const prefix = Linking.createURL('/');
-    console.log('@@ prefix', prefix)
-    if (!this.state.isSplashReady && !this.props.skipLoadingScreen) {
-      return (
-        <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-          autoHideSplash={false}
-        />
-      );
+  useEffect(() => {
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        await Font.loadAsync(Entypo.font);
+        // Artificially delay for two seconds to simulate a slow loading
+        // experience. Please remove this if you copy and paste the code!
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
     }
-    if (!this.state.isLoadingComplete) {
-      return <LoadingSreen onLoad={this._cacheResourcesAsync} />;
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      await SplashScreen.hideAsync();
     }
-    return (
-      <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        {/* <AppNavigator
-          uriPrefix={prefix}
-          onNavigationStateChange={(prevState, currentState, action) => {
-            const currentScreen = getActiveRouteName(currentState);
-            const prevScreen = getActiveRouteName(prevState);
-            if (prevScreen !== currentScreen) {
-              Analytics.track(Analytics.events.USER_PAGE_VIEW, { view: currentScreen });
-            }
-          }}
-        /> */}
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
+  const prefix = Linking.createURL('/');
+  console.log('@@ prefix', prefix)
+  return (
+    <ApolloProvider client={client}>
+      <View style={styles.container} onLayout={onLayoutRootView}>
+        {Platform.OS === 'ios' && <StatusBar />}
+        <AppNavigator /> 
       </View>
-    );
-  }
-
-  render() {
-    return (
-      <ApolloProvider client={client}>
-        {this.renderContent()}
-      </ApolloProvider>
-    );
-  }
+    </ApolloProvider>
+  );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

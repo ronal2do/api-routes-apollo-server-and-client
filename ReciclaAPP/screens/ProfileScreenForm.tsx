@@ -1,17 +1,15 @@
 import React, { PureComponent } from 'react'
-import { StyleSheet, View, ScrollView, Image, ImageBackground, Keyboard } from 'react-native'
-import { EventSubscription } from 'fbemitter';
+import { StyleSheet, View, ScrollView, Image, ImageBackground, Keyboard, EventSubscription } from 'react-native'
 import { withFormik, FormikProps } from 'formik';
 import * as Yup from 'yup';
 
 import Typography from '../components/Typography'
 import { theme as color } from '../constants/Colors';
-import { NavigationScreenProp } from 'react-navigation';
 import AwesomeInput from '../components/AwesomeInput';
 import LoginButton from '../components/LoginButton';
 
 type ProfileScreenFormProps = {
-  navigation: NavigationScreenProp<any, any>
+  navigation: any
   mutation: any,
 };
 

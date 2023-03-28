@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Image, View, StyleSheet, Dimensions, Keyboard, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Image, View, StyleSheet, Dimensions, Keyboard, TouchableOpacity, SafeAreaView, EventSubscription } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import * as Yup from 'yup';
 import { withFormik, FormikProps } from 'formik';
-import { EventSubscription } from 'fbemitter';
 
 import { theme as color } from '../constants/Colors';
 import LoginButton from '../components/LoginButton';

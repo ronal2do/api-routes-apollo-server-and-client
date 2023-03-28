@@ -4,10 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { APP_KEYS } from '../utils/asyncStorage';
 import Analytics from '../services/Analytics';
-import { useRouter } from 'expo-router'
 
 const AuthLoadingScreen: React.FC<{}> = () => {
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
     bootstrapAsync();
@@ -17,7 +16,8 @@ const AuthLoadingScreen: React.FC<{}> = () => {
     Analytics.track(Analytics.events.BOOTSTRAP);
 
     const userToken = await AsyncStorage.getItem(APP_KEYS.LOGIN);
-    router.push(userToken ? 'App' : 'Auth');
+    // router.push(userToken ? 'App' : 'Auth');
+    console.log('AUTH LOADIGN')
   };
 
   return (

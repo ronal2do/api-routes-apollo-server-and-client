@@ -47,10 +47,3 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
 });
-
-
-
-// import { TouchableOpacity, View, Image, ActivityIndicator } from 'react-native';
-// import { PROFILE_QUERY } from '../graphql/queries';
-// import { Query } from 'react-apollo';
-// import { NavigationScreenProp } from 'react-navigation';

@@ -1,15 +1,9 @@
 import React, { PureComponent } from 'react'
-import { StyleSheet, View } from 'react-native'
-import { theme as color } from '../constants/Colors';
-import { NavigationScreenProp } from 'react-navigation';
+import { StyleSheet, View, FlatList } from 'react-native'
 // @ts-ignore
 import Licences from '../constants/licenses.json';
 import LicensesListItem from '../components/LicensesListItem';
-import { FlatList } from 'react-native-gesture-handler';
 
-type LicencesScreenProps = {
-  navigation: NavigationScreenProp<any, any>
-};
 
 type iLicence = { 
   licenses: string; 

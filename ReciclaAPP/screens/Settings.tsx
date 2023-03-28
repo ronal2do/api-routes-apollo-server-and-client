@@ -5,18 +5,13 @@ import * as WebBrowser from 'expo-web-browser';
 import Typography from '../components/Typography'
 import Menu from '../components/Menu';
 import { theme as color } from '../constants/Colors';
-import { NavigationScreenProp } from 'react-navigation';
 import SettingsRow from '../components/SettingsRow';
 import Me from '../components/Me';
 import { clearStorage, logout } from '../utils/asyncStorage';
-import { Linking } from 'expo';
+import * as Linking from 'expo-linking';
 import { ENV } from '../environment';
 import Analytics from '../services/Analytics';
 import { client } from '../services/apollo';
-
-type SettingsScreenProps = {
-  navigation: NavigationScreenProp<any, any>
-};
 
 const DEVELOPER_ENABLE_TIMEOUT_MS: number = 500;
 const DEVELOPER_ENABLE_NUM_TAPS: number = 5;

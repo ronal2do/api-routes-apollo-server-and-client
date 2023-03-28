@@ -1,16 +1,10 @@
 import React, { PureComponent } from 'react'
-import { StyleSheet, View, ScrollView, Image, ImageBackground, Keyboard } from 'react-native'
+import { StyleSheet, View, ScrollView, Keyboard, EventSubscription } from 'react-native'
 
 import Typography from '../components/Typography'
 import { theme as color } from '../constants/Colors';
-import { NavigationScreenProp } from 'react-navigation';
-import { EventSubscription } from 'fbemitter';
 import UploadableAvatar from '../components/UploadableAvatar';
 import SettingsRow from '../components/SettingsRow';
-
-type ProfileScreenProps = {
-  navigation: NavigationScreenProp<any, any>
-};
 
 export default class ProfileScreen extends PureComponent {
   keyboardDidShowListener!: EventSubscription;

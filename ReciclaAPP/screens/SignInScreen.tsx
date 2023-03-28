@@ -1,12 +1,12 @@
 import React, { PureComponent } from 'react';
-import { AsyncStorage, Alert } from 'react-native';
+import { Alert } from 'react-native';
 import { FormikProps } from 'formik';
-import { Mutation } from 'react-apollo'
 import SignInScreenForm from './SignInScreenForm';
 import { errorsToHumans } from '../utils/normalizeErrors';
 import { LOGIN_MUTATION } from '../graphql/mutations';
 import { APP_KEYS } from '../utils/asyncStorage';
-import Analytics, { TrackingOpts } from '../services/Analytics';
+import Analytics from '../services/Analytics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type SignInScreenProps = {
   password: string,
@@ -38,8 +38,8 @@ export default class SignInScreen extends PureComponent<MixedProps, {}> {
       usernameOrEmail: email,
     };
 
-    Analytics.identify(id, TrackingOpts);
-    Analytics.track(Analytics.events.USER_LOGGED_IN, trackingOpts);
+    Analytics.identify(id);
+    Analytics.track(Analytics.events.USER_LOGGED_IN);
 
     await AsyncStorage.setItem(APP_KEYS.LOGIN, token);
     this.props.navigation.navigate('App');
@@ -47,9 +47,10 @@ export default class SignInScreen extends PureComponent<MixedProps, {}> {
 
   render() {
     return (
-      <Mutation mutation={LOGIN_MUTATION} onCompleted={(data: any) => this._signInAsync(data)}>
-        {(mutation: any) => <SignInScreenForm navigation={this.props.navigation} mutation={mutation}/>}
-      </Mutation>
+      // <Mutation mutation={LOGIN_MUTATION} onCompleted={(data: any) => this._signInAsync(data)}>
+      //   {(mutation: any) => <SignInScreenForm navigation={this.props.navigation} mutation={mutation}/>}
+      // </Mutation>
+      <SignInScreenForm navigation={this.props.navigation} mutation={() => {}}/>
     );
   }
 }
