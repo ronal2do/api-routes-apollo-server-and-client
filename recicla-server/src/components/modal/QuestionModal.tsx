@@ -1,4 +1,4 @@
-import { chakra, Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, useColorModeValue, Divider, Text, Flex, ListItem, ListIcon, List } from "@chakra-ui/react"
+import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody, useColorModeValue, Divider, Text, Flex, ListItem, ListIcon, List } from "@chakra-ui/react"
 import { Question } from "@prisma/client";
 import { MdCheckCircle } from 'react-icons/md'
 
@@ -14,13 +14,13 @@ export const QuestionModal: React.FC<ModalProps> = ({isOpen, onClose, question})
       <ModalOverlay />
       <ModalContent bg={useColorModeValue('white', 'gray.900')} pb={4}>
         <ModalHeader>{question.label}
-        <chakra.p
+        <Text
           fontWeight="medium"
           fontSize="sm"
           color={useColorModeValue('gray.600', 'gray.300')}
         >
-          Published: {question.createdAt}
-        </chakra.p>
+          {`Published: ${question.createdAt}`}
+        </Text>
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>

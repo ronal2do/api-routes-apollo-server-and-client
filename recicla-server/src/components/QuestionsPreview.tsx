@@ -12,7 +12,8 @@ import {
   Divider,
   Link,
   useColorModeValue,
-  Button
+  Button,
+  Text
 } from '@chakra-ui/react';
 // Here we have used react-icons package for the icons
 import { IconType } from 'react-icons';
@@ -44,16 +45,18 @@ export const QuestionsPreview = ({ questions }: { questions: IQuestions }) => {
               _hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
             >
               <Box gridColumnEnd={{ base: 'span 2', md: 'unset' }}>
-                <chakra.h3 noOfLines={1} fontWeight="bold" fontSize="lg">
-                  {question.label}
-                </chakra.h3>
-                <chakra.p
-                  fontWeight="medium"
-                  fontSize="sm"
-                  color={useColorModeValue('gray.600', 'gray.300')}
-                >
-                  Published: {question.createdAt}
-                </chakra.p>
+                <>
+                  <chakra.h3 noOfLines={1} fontWeight="bold" fontSize="lg">
+                    {question.label}
+                  </chakra.h3>
+                  <Text
+                    fontWeight="medium"
+                    fontSize="sm"
+                    color={useColorModeValue('gray.600', 'gray.300')}
+                  >
+                     {`Published: ${question.createdAt}`}
+                  </Text>
+                </>
               </Box>
               <HStack
                 spacing={{ base: 0, sm: 3 }}

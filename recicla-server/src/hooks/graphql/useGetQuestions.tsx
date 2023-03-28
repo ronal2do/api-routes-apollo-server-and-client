@@ -4,9 +4,18 @@ import QuestionOperations from "../../graphql/operations/question";
 
 interface IQuestionInput {}
 
+interface IQuestion extends Question {
+  metadata: {
+    hits: number
+    misses: number
+    views: number
+  }
+}
+
+
 interface Edge {
   cursor: string;
-  node: Question;
+  node: IQuestion;
 }
 
 export interface IQuestions {
