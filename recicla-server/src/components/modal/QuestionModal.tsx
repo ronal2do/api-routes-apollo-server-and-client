@@ -32,7 +32,7 @@ export const QuestionModal: React.FC<ModalProps> = ({isOpen, onClose, question})
           <List spacing={3}>
             {question.answers.map((label, index) => {
               return (
-                <ListItem>
+                <ListItem key={index}>
                   {label}
                   {question.correctAnswer === index + 1 && <ListIcon as={MdCheckCircle} color='green.500' />}
                 </ListItem>

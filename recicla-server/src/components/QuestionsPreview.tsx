@@ -44,7 +44,7 @@ export const QuestionsPreview = ({ questions }: { questions: IQuestions }) => {
               _hover={{ bg: useColorModeValue('gray.200', 'gray.700') }}
             >
               <Box gridColumnEnd={{ base: 'span 2', md: 'unset' }}>
-                <chakra.h3 noOfLines={1} as={Link} href={question.link} isExternal fontWeight="bold" fontSize="lg">
+                <chakra.h3 noOfLines={1} fontWeight="bold" fontSize="lg">
                   {question.label}
                 </chakra.h3>
                 <chakra.p

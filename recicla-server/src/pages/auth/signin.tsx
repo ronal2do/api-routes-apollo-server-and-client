@@ -29,7 +29,7 @@ const SingIn = () => {
   const bgIcons = useColorModeValue("teal.200", "rgba(255, 255, 255, 0.5)");
   const toast = useToast()
 
-  const _signIn = async (event) => {
+  const _signIn = async (event: React.FormEvent) => {
     event.preventDefault()
     console.log(email, password)
     if (!email || !password) return;
