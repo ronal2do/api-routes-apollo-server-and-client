@@ -95,18 +95,7 @@ class Licenses extends PureComponent<{ licenses: any }> {
   }
 }
 
-export default class LicencesScreen extends PureComponent<LicencesScreenProps> {
-  static navigationOptions = ({ navigation }: any) => {
-    return {
-      title: 'Licenças',
-      headerStyle: {
-        backgroundColor: '#fff',
-        borderBottomWidth: 0,
-      },
-      headerTintColor: color.BLUE,
-    }
-  }
-
+export default class LicencesScreen extends PureComponent {
   render() {
     return (
       <View style={styles.container}>

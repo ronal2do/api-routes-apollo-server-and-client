@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "ReciclaAPP",
+    "scheme": "ReciclaAPP",
     "slug": "ReciclaAPP",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,16 +16,30 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.stq.reciclaapp",
+      "buildNumber": "1.1.31",
+      "config": {
+        "usesNonExemptEncryption": false
+      },
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "ReciclaAPP gostaria de ter acesso a suas fotos, para personalizar o seu avatar",
+        "NSCameraUsageDescription": "ReciclaAPP gostaria de ter acesso a sua camera, para personalizar o seu avatar"
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.stq.reciclaapp",
+      "versionCode": 28,
+      "googleServicesFile": "./keys/google-services.json",
+      "permissions": []
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro"
     }
   }
 }

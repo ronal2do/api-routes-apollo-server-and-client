@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react'
-import { ImageBackground, StyleSheet, View } from 'react-native'
+import { ImageBackground, StyleSheet, View, Platform } from 'react-native'
 import Typography from './Typography'
 import { theme as color } from '../constants/Colors'
 import AnimatedNumber from './AnimatedNumber';
-import { Platform } from '@unimodules/core';
 
 export default class QuestionHeader extends PureComponent<{ label: string, answer: number | null | undefined, points: any }> {
   render() {

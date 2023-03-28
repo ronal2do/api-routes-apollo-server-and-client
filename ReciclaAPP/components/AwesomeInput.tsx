@@ -35,6 +35,7 @@ const AwesomeInput = React.forwardRef((props: AwesomeInputProps, ref ) => {
       iconColor={color}
       inputPadding={16}
       labelHeight={24}
+      useNativeDriver={false}
       borderHeight={1}
       onChange={onChange}
       value={value}

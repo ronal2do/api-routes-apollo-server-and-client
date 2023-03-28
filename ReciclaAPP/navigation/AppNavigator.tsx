@@ -1,15 +1,19 @@
-import { createDrawerNavigator, createAppContainer, createStackNavigator, createSwitchNavigator } from 'react-navigation';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from 'react';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import SignInScreen from '../screens/SignInScreen';
 import MyHomeScreen from '../screens/Home';
 import QuizzScreen from '../screens/Quizz';
-import ColetaScreen from '../screens/Coleta';
+import ColetaScreen from '../app/Coleta';
 import ContatoScreen from '../screens/Contato';
 import CooperativaScreen from '../screens/Cooperativa';
 import ProgramaScreen from '../screens/Programa';
 import ReciclagemScreen from '../screens/Reciclagem';
 import SeparacaoScreen from '../screens/Separation';
-import CupomsScreen from '../screens/Cupoms';
+import CupomsScreen from '../app/Cupoms';
 import SorteioScreen from '../screens/Sorteio';
 import SettingsScreen from '../screens/Settings';
 import LicencesScreen from '../screens/Licences';
@@ -19,119 +23,84 @@ import ProfileScreen from '../screens/Profile';
 import RegisterScreen from '../screens/Register';
 import ResetScreen from '../screens/Reset';
 import ForgetScreen from '../screens/Forget';
-import AboutScreen from '../screens/About';
+import AboutScreen from '../app/About';
 import ChangePasswordScreen from '../screens/ChangePassword';
 
-import { theme } from '../constants/Colors';
+const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
+const Tab = createBottomTabNavigator();
+const AuthStack = createStackNavigator();
+const SettingsStack = createStackNavigator();
 
-const options: any = {
-  defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: theme.BLUE,
-      borderBottomWidth: 0
-    },
-    headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      fontSize: 12
-    },
-    headerBackTitle: null
-  }
-};
-
-const sharedScreens = {
-  Profile: ProfileScreen, 
-  ChangePassword: ChangePasswordScreen
+function AppStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={MyHomeScreen} />
+      <Stack.Screen name="Quizz" component={QuizzScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+    </Stack.Navigator>
+  );
 }
 
-const AppStack = createStackNavigator(
-  {
-    Home: MyHomeScreen,
-    Quizz: QuizzScreen, 
-    ...sharedScreens
-  },
-  options
-);
+function SettingsStacks() {
+  return (
+    <SettingsStack.Navigator>
+      <SettingsStack.Screen name="Settings" component={SettingsScreen} />
+      <SettingsStack.Screen name="Licences" component={LicencesScreen} />
+      <SettingsStack.Screen name="SendAError" component={SendAErrorScreen} />
+      <SettingsStack.Screen name="Feedback" component={FeedbackScreen} />
+      <SettingsStack.Screen name="About" component={AboutScreen} />
+      <SettingsStack.Screen name="Profile" component={ProfileScreen} />
+      <SettingsStack.Screen name="ChangePassword" component={ChangePasswordScreen} />
+    </SettingsStack.Navigator>
+  );
+}
 
-const QuizzStack = createStackNavigator({ Quizz: QuizzScreen, ...sharedScreens }, options);
-const ColetaStack = createStackNavigator({ Coleta: ColetaScreen, ...sharedScreens }, options);
-const ContatoStack = createStackNavigator({ Contato: ContatoScreen, ...sharedScreens }, options);
-const CooperativaStack = createStackNavigator({ Cooperativa: CooperativaScreen, ...sharedScreens }, options);
-const ProgramaStack = createStackNavigator({ Programa: ProgramaScreen, ...sharedScreens }, options);
-const ReciclagemStack = createStackNavigator({ Reciclagem: ReciclagemScreen, ...sharedScreens }, options);
-const SeparacaoStack = createStackNavigator({ Separacao: SeparacaoScreen, ...sharedScreens }, options);
-const CupomsStack = createStackNavigator({ Cupoms: CupomsScreen, ...sharedScreens }, options);
-const SorteiosStack = createStackNavigator({ Sorteios: SorteioScreen, ...sharedScreens }, options);
-const SettingsStack = createStackNavigator(
-  {
-    Settings: SettingsScreen,
-    Licences: LicencesScreen,
-    SendAError: SendAErrorScreen,
-    Feedback: FeedbackScreen,
-    About: AboutScreen,
-    ...sharedScreens
-  },
-  options
-);
+function AuthStackScreens() {
+  return (
+    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+      <AuthStack.Screen name="SignIn" component={SignInScreen} />
+      <AuthStack.Screen name="SignUp" component={RegisterScreen} />
+      <AuthStack.Screen name="Forget" component={ForgetScreen} />
+      <AuthStack.Screen name="Reset" component={ResetScreen} />
+    </AuthStack.Navigator>
+  );
+}
 
-const AuthStack = createStackNavigator(
-  {
-    SignIn: {
-      screen: SignInScreen,
-      navigationOptions: {
-        headerMode: 'none'
-      }
-    },
-    SignUp: RegisterScreen,
-    Forget: ForgetScreen,
-    Reset: {
-      screen: ResetScreen,
-      path: 'reset/:token',
-      navigationOptions: ({ navigation }: any) => ({
-        // title: `${navigation.state.params.token}'s Profile'`,
-      }),
-    }
-  },
-  {
-    ...options
-  }
-);
+function MyDrawerNavigator() {
+  return (
+    <Drawer.Navigator
+      // drawerContentOptions={{
+      //   activeTintColor: theme.CYAN,
+      //   inactiveTintColor: '#FFF',
+      //   drawerBackgroundColor: theme.BLUE
+      // }}
+    >
+      <Drawer.Screen name="Home" component={AppStack} />
+      <Drawer.Screen name="Sorteios" component={SorteioScreen} />
+      <Drawer.Screen name="Cupons" component={CupomsScreen} />
+      <Drawer.Screen name="Coleta" component={ColetaScreen} />
+      <Drawer.Screen name="Separação" component={SeparacaoScreen} />
+      <Drawer.Screen name="Reciclagem" component={ReciclagemScreen} />
+      <Drawer.Screen name="Programa" component={ProgramaScreen} />
+      <Drawer.Screen name="Cooperativas" component={CooperativaScreen} />
+      <Drawer.Screen name="Contato" component={ContatoScreen} />
+      <Drawer.Screen name="Configurações" component={SettingsStacks} />
+    </Drawer.Navigator>
+  );
+}
 
-const MyDrawerNavigator = createDrawerNavigator(
-  {
-    Home: { screen: AppStack },
-    // Quizz: { screen: QuizzStack },
-    Sorteios: { screen: SorteiosStack },
-    Cupons: { screen: CupomsStack },
-    Coleta: { screen: ColetaStack },
-    Separação: { screen: SeparacaoStack },
-    Reciclagem: { screen: ReciclagemStack },
-    Programa: { screen: ProgramaStack },
-    Cooperativas: { screen: CooperativaStack },
-    Contato: { screen: ContatoStack },
-    Configurações: { screen: SettingsStack }
-  },
-  {
-    drawerBackgroundColor: theme.BLUE,
-    contentOptions: {
-      activeTintColor: theme.CYAN,
-      inactiveTintColor: '#FFF',
-    }
-  }
-);
+function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="AuthLoading" component={AuthLoadingScreen} />
+        <Stack.Screen name="App" component={MyDrawerNavigator} />
+        <Stack.Screen name="Auth" component={AuthStackScreens} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
 
-export default createAppContainer(
-  createSwitchNavigator(
-    {
-      AuthLoading: AuthLoadingScreen,
-      App: MyDrawerNavigator,
-      Auth: {
-        screen: AuthStack,
-        path: 'auth'
-      },
-    },
-    {
-      initialRouteName: 'AuthLoading'
-    }
-  )
-);
+export default App;

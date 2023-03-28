@@ -39,7 +39,7 @@ export const UserContext = React.createContext<UserContext>({
   logOut: () => {},
 })
 
-export const UserProvider: React.FunctionComponent<{}> = props => {
+export const UserProvider: React.FunctionComponent<{ children: React.ReactNode }> = ({ children }) => {
   const [userState, setUserState] = React.useState<UserState>(initialState)
 
   const getUser = async () => {
@@ -96,7 +96,7 @@ export const UserProvider: React.FunctionComponent<{}> = props => {
         logOut,
       }}
     >
-      {props.children}
+      {children}
     </UserContext.Provider>
   )
 }

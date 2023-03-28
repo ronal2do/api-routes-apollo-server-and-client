@@ -4,7 +4,7 @@ export type QuoteType = {
   phrase: String,
 }
 
-export const QUOTES: Array<QuoteType | null> = [
+export const QUOTES: Array<QuoteType> = [
   {id: 1, title: 'Separação', phrase: 'Tenha em casa duas lixeiras, uma para o lixo reciclável e outra para o lixo comum. E vale colar nelas os adesivos de identificação fornecidos de graça pelo ReciclaAPP. Além de informar os tipos de resíduos, eles estimulam as crianças a também separarem.'},
   {id: 2, title: 'Reciclagem', phrase: 'Uma bituca de cigarro leva 5 anos para se decompor. O correto é descartar numa lixeira, verificando antes se ela está apagada. Mas a melhor saída segue sendo parar de fumar. Sua saúde agradece.'},
   {id: 3, title: 'Reciclagem', phrase: 'Nunca descarte no ralo o óleo de cozinha usado, pois ele vai entupir seu encanamento. Coloque-o com um funil numa garrafa PET e depois leve a um ponto de coleta. O óleo de cozinha pode ser reaproveitando para fazer sabão.'},

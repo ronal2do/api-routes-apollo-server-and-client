@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react'
 import { Text, StyleSheet } from 'react-native'
-import { theme } from '../constants/Colors';
 
 export type TypographyStyle =
   | 'welcome'

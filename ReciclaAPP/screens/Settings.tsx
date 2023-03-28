@@ -22,7 +22,7 @@ const DEVELOPER_ENABLE_TIMEOUT_MS: number = 500;
 const DEVELOPER_ENABLE_NUM_TAPS: number = 5;
 const FeedbackLink: string = 'mailto://fernando.pereira@stqpublicidade.com.br?subject=Recicla BC [ Feedback ]'
 const SendAErrorLink: string = 'mailto://fernando.pereira@stqpublicidade.com.br?subject=Recicla BC [ Erro ]'
-export default class SettingsScreen extends PureComponent<SettingsScreenProps, { points: boolean, devMode: boolean }> {
+export default class SettingsScreen extends PureComponent {
   public _timeoutId?: any;
   public _taps?: any;
 

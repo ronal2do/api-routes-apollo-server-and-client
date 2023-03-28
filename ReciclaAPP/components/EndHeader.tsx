@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { StyleSheet, ImageBackground } from 'react-native';
 import Typography from './Typography';
-import { theme as color } from '../constants/Colors';
 
 export default class EndHeader extends PureComponent {
   render() {

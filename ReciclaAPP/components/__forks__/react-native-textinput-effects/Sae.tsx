@@ -18,7 +18,7 @@ type BaseInputProps = {
   labelStyle?: any,
   easing?: (...args: any[]) => any,
   animationDuration?: number,
-  useNativeDriver?: boolean,
+  useNativeDriver: boolean,
   editable?: boolean,
   onBlur?: (...args: any[]) => any,
   onFocus?: (...args: any[]) => any,
@@ -130,7 +130,7 @@ export default class Sae extends PureComponent<SaeProps, BaseInputState> {
   }
 
   _toggle = (isActive: boolean) => {
-    const { animationDuration, easing, useNativeDriver } = this.props;
+    const { animationDuration, easing, useNativeDriver = false } = this.props;
     this.isActive = isActive;
     Animated.timing(this.state.focusedAnim, {
       toValue: isActive ? 1 : 0,

@@ -2,19 +2,12 @@ import React, { PureComponent } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
 import Constants from 'expo-constants';
 import * as WebBrowser from 'expo-web-browser';
-import { Linking } from 'expo';
-
 import Typography from '../components/Typography'
 import { theme as color } from '../constants/Colors';
-import { NavigationScreenProp } from 'react-navigation';
 import SettingsRow from '../components/SettingsRow';
 import { ENV } from '../environment';
 
-type AboutScreenProps = {
-  navigation: NavigationScreenProp<any, any>
-};
-
-export default class AboutScreen extends PureComponent<AboutScreenProps, { points: boolean, devMode: boolean }> {
+export default class AboutScreen extends PureComponent {
   static navigationOptions = {
     title: 'Sobre o APP',
     headerStyle: {

@@ -12,7 +12,7 @@ type ProfileScreenProps = {
   navigation: NavigationScreenProp<any, any>
 };
 
-export default class ProfileScreen extends PureComponent<ProfileScreenProps, {showImage: boolean}> {
+export default class ProfileScreen extends PureComponent {
   keyboardDidShowListener!: EventSubscription;
   keyboardDidHideListener!: EventSubscription;
 

@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import AwesomeButton from 'react-native-really-awesome-button/src/themes/bojack'
+import { ThemedButton  } from 'react-native-really-awesome-button'
 import { theme as color } from '../constants/Colors';
 import { Dimensions } from 'react-native';
 const sWidth = Dimensions.get('screen').width;
@@ -31,9 +31,11 @@ export default class Button extends PureComponent<ButtonProps> {
     } = this.props;
 
     return (
-      <AwesomeButton size="medium"
+      <ThemedButton   
+        size="medium"
         style={{ marginBottom: 15 }}
         type="primary"
+        name="bojack"
         width={width ? width : sWidth - 40}
         backgroundDarker={backgroundColor}
         backgroundColor={backgroundColor}
@@ -42,14 +44,12 @@ export default class Button extends PureComponent<ButtonProps> {
         raiseLevel={raiseLevel}
         disabled={disabled}
         textColor={textColor}
-        onPress={(next: () => void) =>
-          setTimeout(() => {
-            onPress()
-            next()
-          }, timer)
-        }
+        onPress={async (next) => {
+          await onPress();
+          next && next();
+        }}
         {...rest}
-      >{label}</AwesomeButton>
+      >{label}</ThemedButton  >
     )
   }
 }

@@ -1,4 +1,4 @@
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const APP_KEYS = {
   LOGIN: '@@_APP_TOKEN_NEW',

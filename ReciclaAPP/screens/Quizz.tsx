@@ -40,7 +40,7 @@ type QuizzScreenState = {
 
 const errorText = 'Oops!, Algo deu errado'
 
-export default class QuizzScreen extends React.PureComponent<{navigation: any}, QuizzScreenState> {
+export default class QuizzScreen extends React.PureComponent {
   static navigationOptions = {
     drawerLabel: 'Quizz',
     headerTitle: <LogoTitle />,

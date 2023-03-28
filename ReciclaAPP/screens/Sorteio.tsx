@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, Image, ScrollView, View } from 'react-native';
+import { StyleSheet, Image, ScrollView, View, Platform } from 'react-native';
 import Typography from '../components/Typography';
 import Menu from '../components/Menu';
 import Me from '../components/Me';
 import { theme as color } from '../constants/Colors';
-import { Platform } from '@unimodules/core';
 import Button from '../components/Button';
 import { ENV } from '../environment';
 import * as WebBrowser from 'expo-web-browser';

@@ -120,7 +120,7 @@ export default withFormik<any, ChangePasswordScreenFormProps>({
 
   handleSubmit: async (
     values,
-    { props, setError }
+    { props }
   ) => {
     await props.mutation({
       variables:

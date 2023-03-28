@@ -1,26 +1,11 @@
 
-import Constants from 'expo-constants';
-import * as Amplitude from 'expo-analytics-amplitude';
+import * as Amplitude from '@amplitude/analytics-react-native';
 
-import { TrackingOptions, normalizeTrackingOptions } from './AnalyticsUtils';
+import { TrackingOptions } from './AnalyticsUtils';
 import { ENV } from '../environment';
 
 let isInitialized = false;
 const apiKey = ENV.AMPLITUDE;
-
-const { installationId, deviceName, deviceId, deviceYearClass, expoVersion, nativeAppVersion, nativeBuildVersion, platform, manifest: { version }} = Constants
-
-export const TrackingOpts = {
-  installationId,
-  deviceName,
-  deviceId,
-  deviceYearClass,
-  expoVersion,
-  nativeAppVersion,
-  nativeBuildVersion,
-  platform,
-  version,
-}
 
 export const events = {
   BOOTSTRAP: 'BOOTSTRAP',
@@ -55,33 +40,21 @@ export function initialize(): void {
     return;
   }
 
-  Amplitude.initialize(apiKey);
+  Amplitude.init(apiKey);
   isInitialized = true;
 }
 
 export function identify(id: string | null, options?: TrackingOptions) {
   initialize();
-  const properties = normalizeTrackingOptions(options);
 
   if (id) {
     Amplitude.setUserId(id);
-    if (properties) {
-      Amplitude.setUserProperties(properties);
-    }
-  } else {
-    Amplitude.clearUserProperties();
   }
 }
 
 export function track(event: string, options?: TrackingOptions): void {
   initialize();
-  const properties = normalizeTrackingOptions(options);
-
-  if (properties) {
-    Amplitude.logEventWithProperties(event, properties);
-  } else {
-    Amplitude.logEvent(event);
-  }
+  Amplitude.logEvent(event);
 }
 
 export default {
