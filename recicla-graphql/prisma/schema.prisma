@@ -8,6 +8,7 @@ datasource db {
   url      = env("MONGODB_URI")
 }
 
+
 enum UserEndpointType {
   IOS
   ANDROID
@@ -53,33 +54,26 @@ model Session {
 }
 
 model User {
-  id             String         @id @default(auto()) @map("_id") @db.ObjectId
+  id             String           @id @default(auto()) @map("_id") @db.ObjectId
   name           String?
-  email          String?        @unique
+  email          String?          @unique
   emailVerified  DateTime?
   image          String?
   hashedPassword String?
-  username       String?        @unique
+  username       String?          @unique
   accounts       Account[]
   sessions       Session[]
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
   userPushToken  UserPushToken?
-  Cupoms         Cupoms[]
+  Coupons        Coupons[]
+  answers        ComputedAnswers?
 }
 
 model Quote {
   id     String @id @default(auto()) @map("_id") @db.ObjectId
   title  String
   phrase String
-}
-
-model Answer {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  text       String
-  option     Int
-  question   Question? @relation(fields: [questionId], references: [id])
-  questionId String?   @db.ObjectId
 }
 
 enum QuestionLevels {
@@ -90,22 +84,33 @@ enum QuestionLevels {
 }
 
 model Question {
-  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  id            String            @id @default(auto()) @map("_id") @db.ObjectId
   introduction  String
-  label         String
-  option        Int
+  label         String            @unique
   correctAnswer Int
   level         QuestionLevels
-  answers       Answer[]
+  answers       String[]
+  metadata      QuestionMetadata?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model QuestionMetadata {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  question   Question @relation(fields: [questionId], references: [id])
+  questionId String   @unique @db.ObjectId
+  hits       Int      @default(0)
+  misses     Int      @default(0)
+  views      Int      @default(0)
 }
 
 type ComputedAnswers {
-  userId     String @db.ObjectId
-  questionId String @db.ObjectId
+  userId     String   @db.ObjectId
+  questionId String   @db.ObjectId
   createdAt  DateTime @default(now())
 }
 
-model Cupoms {
+model Coupons {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   user      User     @relation(fields: [userId], references: [id])
   userId    String   @unique @map("user_id") @db.ObjectId
@@ -117,6 +122,6 @@ model Cupoms {
 }
 
 model Newsletter {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  email        String   @unique
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
 }

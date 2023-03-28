@@ -67,10 +67,10 @@ const resolvers = {
       }
 
     },
-    // me: (_: any,  args: any,  context: GraphQLContext ) => {
-    //   console.log('me', context)
-    //   // return contextValue.dataSources.userApi.findUser(contextValue.token);
-    // },
+    me: (_: any,  args: any,  context: GraphQLContext ) => {
+      console.log('me', context, args)
+      // return contextValue.dataSources.userApi.findUser(contextValue.token);
+    },
   },
   Mutation: {
     registerUserWithEmail: async (

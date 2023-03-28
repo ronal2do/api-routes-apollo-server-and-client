@@ -11,8 +11,8 @@ const typeDefs = gql`
     image: String
     hashedPassword: String
     username: String
-    createdAt: String
-    updatedAt: String
+    createdAt: Date
+    updatedAt: Date
   }
 
   type SearchedUser {
@@ -23,7 +23,7 @@ const typeDefs = gql`
   type Query {
     user(id: String!): User 
     searchUsers(name: String): [User]
-    # me(): User
+    me: User
   }
 
   type Mutation {

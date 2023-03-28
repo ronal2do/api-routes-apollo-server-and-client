@@ -23,6 +23,7 @@ import { useRegisterUserWithEmail } from '../../hooks';
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
   const [ name, setName ] = useState("")
+  const [ lastName, setLastName ] = useState("")
   const [ email, setEmail ] = useState("")
   const [ password, setPassword ] = useState("")
   const toast = useToast()
@@ -42,7 +43,7 @@ export default function SignupCard() {
     }
 
     const variables = {
-      name,
+      name: lastName ? `${name} ${lastName}` : name,
       email,
       password
     }
@@ -69,6 +70,8 @@ export default function SignupCard() {
         isClosable: true,
       })
 
+      // TODO login and redirect
+
     } catch (error) {
       console.log('error', error)
       toast({
@@ -81,6 +84,7 @@ export default function SignupCard() {
     } finally {
       setEmail('')
       setName('')
+      setLastName('')
       setPassword('')
     }
   }
@@ -116,7 +120,7 @@ export default function SignupCard() {
               <Box>
                 <FormControl id="lastName">
                   <FormLabel>Last Name</FormLabel>
-                  <Input type="text"/>
+                  <Input type="text" value={lastName} onChange={(event) => setLastName(event.target.value)}/>
                 </FormControl>
               </Box>
             </HStack>

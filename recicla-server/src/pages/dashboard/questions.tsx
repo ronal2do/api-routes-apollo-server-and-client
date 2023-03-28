@@ -1,12 +1,14 @@
 import {
   Box,
-  Container
+  Container,
+  Text
 } from "@chakra-ui/react";
 
 import { Session } from "@prisma/client";
 import { NextPageContext } from "next";
 import { getSession } from "next-auth/react";
 import { DashboardLayout, QuestionsPreview, StatsWithIcons } from "../../components";
+import { useGetQuestions } from "../../hooks";
 
 import { NextPageWithLayout } from "../_app";
 
@@ -15,14 +17,18 @@ interface IAuthProps {
   reloadSession: () => void
 }
 
-const Dashboard: NextPageWithLayout<IAuthProps> = () => {
+const Question = () => {
+  const { data, loading, error } = useGetQuestions();
+
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+  console.log('data', data?.questions)
   return (
     <>
-      <Container maxW="6xl" p={{ base: 5, md: 10 }}>
-        Main Content Here 
-      </Container>
-      <StatsWithIcons/>
-      {/* <QuestionsPreview /> */}
+      {data?.questions ? (
+        <QuestionsPreview questions={data.questions}/>
+      ) : (<Text>No questions</Text>)
+      }
     </>
   );
 }
@@ -46,7 +52,7 @@ export async function getServerSideProps(context: NextPageContext) {
   }
 }
 
-Dashboard.getLayout = function getLayout(page) {
+Question.getLayout = function getLayout(page) {
   return (
     <DashboardLayout>
       {page}
@@ -54,4 +60,4 @@ Dashboard.getLayout = function getLayout(page) {
   )
 }
 
-export default Dashboard
+export default Question

@@ -4,7 +4,7 @@ export { IconBox } from "./IconBox"
 export { Separator } from './Separator'
 export { Breadcrumb } from './Breadcrumb'
 
-export { SearchModal } from './modal'
+export { SearchModal, QuestionModal } from './modal'
 export { UserSearchList } from './UserSearchList'
 export { NotificationsList } from './NotificationsList'
 export { SubscribeToNewsletter } from './SubscribeToNewsletter'
@@ -17,6 +17,7 @@ export { DashboardHeader } from './DashboardHeader'
 export { LandpageHeader } from './LandpageHeader'
 export { LandpageHero } from './LandpageHero'
 export { DashboardLayout } from './DashboardLayout'
-
+export { StatsWithIcons } from './StatsWithIcons'
+export { QuestionsPreview } from './QuestionsPreview'
 // icons
 export * from './Icons'

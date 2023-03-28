@@ -1,5 +1,5 @@
 import {
-  Box, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr,
+  Container, Table, TableCaption, TableContainer, Tbody, Td, Tfoot, Th, Thead, Tr,
 } from "@chakra-ui/react";
 import { ReactNode } from "react";
 import { DashboardLayout } from "../../components";
@@ -12,7 +12,7 @@ const Newsletter = () => {
   if (error) return `Error! ${error.message}`;
 
   return (
-    <Box height="100vh" p={4}>
+    <Container maxW="6xl" p={{ base: 5, md: 10 }}>
       <TableContainer>
         <Table variant='striped'>
           <TableCaption>Imperial to metric conversion factors</TableCaption>
@@ -38,7 +38,7 @@ const Newsletter = () => {
           </Tfoot>
         </Table>
       </TableContainer>
-    </Box>
+    </Container>
   );
 }
 

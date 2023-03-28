@@ -21,7 +21,7 @@ export const SearchModal: React.FC<ModalProps> = ({isOpen, onClose}) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent bg={useColorModeValue('white', 'gray.900')} pb={4}>
-        <ModalHeader>Modal Title</ModalHeader>
+        <ModalHeader>Search for users</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={onSubmit}>
