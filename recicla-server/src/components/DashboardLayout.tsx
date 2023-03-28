@@ -44,7 +44,7 @@ import {
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { Breadcrumb } from './Breadcrumb';
-import { getSession, useSession } from 'next-auth/react';
+import { getSession, signOut, useSession } from 'next-auth/react';
 import { NextPageContext } from 'next';
 import { SearchModal } from './modal';
 import { NotificationsList } from './NotificationsList';
@@ -269,7 +269,7 @@ const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={ () => signOut() }>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

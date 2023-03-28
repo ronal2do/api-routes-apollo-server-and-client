@@ -17,7 +17,7 @@ import {
   Center,
 } from '@chakra-ui/react';
 import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { getSession, signIn, signOut, useSession } from 'next-auth/react';
+import { getSession, signOut, useSession } from 'next-auth/react';
 import { NextPageContext } from 'next';
 import { ROUTES } from '../config';
 

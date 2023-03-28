@@ -89,7 +89,7 @@ const resolvers = {
   },
   Query: {
     newsletters: async (_: any, args: any, context: GraphQLContext) => {
-      const { prisma } = context;
+      const { prisma, session } = context;
       const data = await prisma.newsletter.findMany()
       const convert = createRelayData(data, args)
       return convert

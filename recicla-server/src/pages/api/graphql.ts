@@ -9,6 +9,7 @@ import { authOptions } from './auth/[...nextauth]';
 import resolvers from "../../graphql/resolvers";
 import typeDefs from "../../graphql/typeDefs";
 import { prisma } from '../../lib/prisma';
+import { getToken, JWT } from 'next-auth/jwt';
 
 export interface Session {
   user?: Partial<User>;
@@ -17,6 +18,7 @@ export interface Session {
 export interface GraphQLContext {
   session: Session | null;
   prisma: PrismaClient;
+  token: JWT | null
 }
 
 const schema = makeExecutableSchema({
@@ -26,11 +28,12 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({schema});
 
+const secret = process.env.NEXTAUTH_SECRET
+
 export default startServerAndCreateNextHandler(server, {
-  // context: async (req: NextApiRequest, res: NextApiResponse) => {({ req, res, user: await getServerSession(req, res, authOptions) })},
   context: async  (req: NextApiRequest, res: NextApiResponse): Promise<GraphQLContext> => {
     const session = await getServerSession(req, res, authOptions);
-
-    return { session: session as Session, prisma };
+    const token = await getToken({ req, secret })
+    return { session: session as Session, prisma, token };
   },
 });

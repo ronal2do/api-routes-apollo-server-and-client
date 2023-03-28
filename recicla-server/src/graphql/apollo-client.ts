@@ -1,7 +1,6 @@
 import { useMemo } from 'react'
 import { SchemaLink } from '@apollo/client/link/schema'
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client';
-import { relayStylePagination } from "@apollo/client/utilities";
 import { schema } from './schema';
 import merge from 'deepmerge'
 
@@ -14,6 +13,9 @@ function createIsomorphLink() {
     return new HttpLink({
       uri: '/api/graphql',
       credentials: 'same-origin',
+      // headers: {
+      //   Ronaldo: 'ronaldo dwadw'
+      // }
     })
   }
 }
@@ -28,9 +30,6 @@ function createApolloClient() {
 
 export function initializeApollo(initialState = null) {
   const _apolloClient = apolloClient ?? createApolloClient()
-
-  // If your page has Next.js data fetching methods that use Apollo Client, the initial state
-  // gets hydrated here
   if (initialState) {
     // Get existing cache, loaded during client side data fetching
     const existingCache = _apolloClient.extract()

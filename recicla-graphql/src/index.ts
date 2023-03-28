@@ -12,6 +12,7 @@ import cors from "cors";
 import { json } from "body-parser";
 import { prisma } from './lib/prisma'
 import { PrismaClient, User } from "@prisma/client";
+import { getToken } from "next-auth/jwt";
 
 export interface Session {
   user?: Partial<User>;
@@ -53,6 +54,8 @@ const main = async () => {
     credentials: true,
   };
 
+  const secret = "hBqCGbcnERZ3D1MXCP2unQsq/iaLH7kdm2xP+mRLiEs="
+
   app.use(
     "/graphql",
     cors<cors.CorsRequest>(corsOptions),
@@ -60,6 +63,12 @@ const main = async () => {
     expressMiddleware(server, {
       context: async ({ req }): Promise<GraphQLContext> => {
         const session = await getSession({ req });
+
+            
+        const token = await getToken({ req, secret })
+        
+        console.log('server grapqhl token', token)
+        console.log('server grapqhl req', req.headers['cookie'])
 
         return { session: session as Session, prisma };
       },
