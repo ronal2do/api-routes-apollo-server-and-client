@@ -57,31 +57,20 @@ export const FORGET_PASSWORD = gql`
 `
 
 export const ANSWER_QUESTION = gql`
-  mutation ANSWER_QUESTION($userId: String!, $questionId: String!) {
-    AnswerAdd(input: { userId: $userId, questionId: $questionId }) {
+  mutation Mutation($userId: String!, $questionId: String!, $result: Boolean!) {
+    answerQuestion(userId: $userId, questionId: $questionId, result: $result) {
       error
-      answerEdge {
-        node {
-          _id
-        }
-      }
+      success
     }
   }
 `
 
 export const ADD_POINTS = gql`
-  mutation ADD_POINTS($userId: String!, $action: String!) {
-    PointAdd(input: { 
-      userId: $userId, 
-      action: $action
-    }) {
+  mutation ADD_POINTS($userId: String!, $action: Rules!) {
+    addPointsToUser(id: $userId, action: $action) {
       error
-      userEdge {
-        node {
-          _id
-        }
-      }
-    }
+      success
+    } 
   }
 `
 

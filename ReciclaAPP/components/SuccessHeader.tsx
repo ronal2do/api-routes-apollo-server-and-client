@@ -14,7 +14,7 @@ const Points = () => {
     return <View />
   }
   const { me } = data;
-  const points = me.points.points
+  const points = me.points
   return (
     <Typography kind="instructions" color="#fff" style={{ textAlign: 'center' }}>Saldo de pontos atual: {points | 0} pontos</Typography>
   )

@@ -29,6 +29,7 @@ const typeDefs = gql`
     metadata: QuestionMetadata
     createdAt: Date
     updatedAt: Date
+    sequentialIndex: Int
   }
 
   type QuestionMetadata {
@@ -55,14 +56,21 @@ const typeDefs = gql`
 
   type Query {
     questions(first: Int, after: String, search: String): QuestionResponse
+    randomQuestions: Question
   }
 
   type Mutation {
     registerQuestion(introduction: String!, label: String!, level: QuestionLevels!, correctAnswer: Int, answers: [String]): RegisteredQuestionPayload
+    answerQuestion(userId: String!, questionId: String!, result: Boolean!): MetaQuestionPayload
   }
 
   type RegisteredQuestionPayload {
     question: Question
+    success: Boolean
+    error: String
+  }
+
+  type MetaQuestionPayload {
     success: Boolean
     error: String
   }

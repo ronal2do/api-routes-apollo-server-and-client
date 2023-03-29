@@ -73,6 +73,22 @@ export const NEXT_QUESTION = gql`
   }
 `
 
+export const RANDOM_QUESTION = gql`
+  query RandomQuestions {
+    randomQuestions {
+      id
+      introduction
+      label
+      correctAnswer
+      level
+      answers
+      createdAt
+      updatedAt
+      sequentialIndex
+    }
+  }
+`
+
 export const NEXT_QUESTION_2 = gql`
   query NEXT_QUESTION_2($sequence: Int) {
     nextQuestion(sequence: $sequence) {

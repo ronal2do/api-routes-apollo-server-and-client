@@ -48,42 +48,57 @@ const errorText = 'Oops!, Algo deu errado'
 
 type QuestiobBodyTypes = {question: any, stage: Stages, userId: string, setStage: (stage: Stages) => void}
 
+export enum Rules {
+  SOFT = 'SOFT',
+  MEDIUM = 'MEDIUM',
+  HARD = 'HARD',
+  EXPERT = 'EXPERT',
+  GOLD = 'GOLD',
+}
+
+const addPointsToTheUser = async ({ userId, action }:{ userId: string, action: Rules}) => {
+  try {
+    await client.mutate({
+        mutation: ADD_POINTS,
+        variables: { userId, action},
+        refetchQueries: () => [{ query: PROFILE_QUERY }]
+      }).then(() => {
+          console.log("points addded")
+      })
+  } catch (error) {
+      console.log('eerror to adicionar pontos', error)
+  }
+}
+
 const QuestionBody = ({question, stage, userId, setStage}: QuestiobBodyTypes) => {
 
   const [response, setResponse] = useState(null)
 
   useEffect(() => {
+    setResponse(null)
+  }, [question])
+  
+
+  useEffect(() => {
     if (!response) return
     const { correctAnswer, id, level } = question
-    const isCorrect: Boolean = Number(response) === Number(correctAnswer)
-    setStage(!!isCorrect ? 'final' : 'error' )
-    console.log("@@ new response", response)
-    // Analytics.track(Analytics.events.QUESTION_RESPONSE, { ...question, userResponse: response, isCorrect });
+    const result: Boolean = Number(response) === Number(correctAnswer)
+    setStage(!!result ? 'final' : 'error' )
+
     client
       .mutate({
         mutation: ANSWER_QUESTION,
         variables: {
           userId,
-          questionId: id ,
+          questionId: id,
+          result
         },
       })
-      .then(() => {
-        !!isCorrect ?
-        client
-          .mutate({
-            mutation: ADD_POINTS,
-            variables: {
-              userId,
-              action: level,
-            },
-            refetchQueries: () => [
-              {
-                query: PROFILE_QUERY
-              },
-            ]
-          }).then(console.log)
-        : {}
-      })
+
+    !!result && addPointsToTheUser({
+      userId,
+      action: level,
+    })
 
   }, [response])
   

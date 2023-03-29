@@ -9,7 +9,6 @@ import { authOptions } from './auth/[...nextauth]';
 import resolvers from "../../graphql/resolvers";
 import typeDefs from "../../graphql/typeDefs";
 import { prisma } from '../../lib/prisma';
-import { getUser } from '../../lib/auth';
 
 export interface Session {
   user?: Partial<User>;

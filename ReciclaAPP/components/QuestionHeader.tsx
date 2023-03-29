@@ -7,7 +7,6 @@ import AnimatedNumber from './AnimatedNumber';
 export default class QuestionHeader extends PureComponent<{ label: string, answer: number | null | undefined, points: any }> {
   render() {
     const { label, answer } = this.props;
-    console.log('question header props', this.props)
     const defineLabel = label.length < 120 ? 'welcome' : 'title'
     return (
       <ImageBackground style={styles.header} imageStyle={styles.backImage} resizeMode="contain" source={require('../assets/images/stars02.png')}>

@@ -1,6 +1,20 @@
 import { Question, QuestionLevels } from "@prisma/client";
 import { GraphQLContext } from "../../pages/api/graphql";
 
+function getRandomDifferent(arr, last = undefined) {
+  if (arr.length === 0) {
+    return null;
+  } else if (arr.length === 1) {
+    return arr[0];
+  } else {
+    let num = 0;
+    do {
+      num = Math.floor(Math.random() * arr.length);
+    } while (arr[num] === last);
+    return arr[num];
+  }
+}
+
 function createRelayData(data: any, args: any) {
   if (data.length === 0) {
     return {
@@ -12,6 +26,7 @@ function createRelayData(data: any, args: any) {
       edges: [],
     }
   }
+
   let first = 5;
 
   if (args.first !== undefined) {
@@ -79,6 +94,7 @@ const resolvers = {
       const { session, prisma } = context;
 
       try {
+        const count = await prisma.question.count()
         const existing = await prisma.question.findUnique({
           where: {
             // @ts-ignore
@@ -92,14 +108,15 @@ const resolvers = {
             error: "question elaready registered"
           }
         }
-
+        const sequentialIndex = count + 1;
         const question = await prisma.question.create({
           data: {
             introduction,
             label,
             level,
             correctAnswer,
-            answers
+            answers,
+            sequentialIndex,
           }
         })
         
@@ -116,7 +133,89 @@ const resolvers = {
           success: false
         }
       }
-    }
+    },
+    // answerQuestion(userId: String!, questionId: String!, result: Boolean!): MetaQuestionPayload
+    // addQuestionMetadata(questionId: String!, result: Boolean!): MetaQuestionPayload
+    answerQuestion: async (
+      _: any, 
+      args: { userId: string, questionId: string, result: Boolean }, 
+      context: GraphQLContext
+    ): Promise<{ success?: boolean, error?: string | null }> => {
+      const {
+        userId,
+        questionId,
+        result
+      } = args;
+      const { session, prisma } = context;
+
+
+
+      try {
+        const findQuestion = await prisma.question.findUnique({
+          where: {
+            id: questionId
+          }
+        })
+
+        if (!findQuestion) {
+          return {
+            error: "question not found"
+          }
+        }
+        
+        const findMeta = await prisma.questionMetadata.findUnique({
+          where: {
+            questionId
+          }
+        })
+
+        if (!findMeta) {
+
+          await prisma.questionMetadata.create({
+            data: {
+              questionId,
+              hits: result == true ? 1 : 0,
+              misses: result == false ? 1 : 0,
+              views: 1,
+            }
+          })
+
+        }
+        
+        if (findMeta) {
+          await prisma.questionMetadata.update({
+            where: {
+              questionId
+            },
+            data: {
+              hits: result == true ? findMeta.hits + 1 : findMeta.hits,
+              misses: result == false ? findMeta.misses + 1 : findMeta.misses,
+              views: findMeta.views + 1,
+            }
+          })
+        }
+        
+        await prisma.computedAnswers.create({
+          data: {
+            userId,
+            questionId,
+            result,
+          }
+        })
+        
+        return {
+          success: true,
+          error: null
+        }
+
+      } catch (error: any) {
+        console.log("nerwsletter errror", error)
+        return {
+          error: error?.message,
+          success: false
+        }
+      }
+    },
   },
   Query: {
     questions: async (_: any, args: any, context: GraphQLContext) => {
@@ -124,6 +223,23 @@ const resolvers = {
       const data = await prisma.question.findMany()
       const convert = createRelayData(data, args)
       return convert
+    },
+    randomQuestions: async (_: any, args: any, context: GraphQLContext) => {
+      const { prisma } = context;
+      const count = await prisma.question.count()
+
+      const randomNumber = (min: number, max: number) => {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      const sequentialIndex = randomNumber(1, count)
+      const data = await prisma.question.findUnique({
+        where: {
+          sequentialIndex
+        }
+      })
+
+      return data
     },
   },
 }
