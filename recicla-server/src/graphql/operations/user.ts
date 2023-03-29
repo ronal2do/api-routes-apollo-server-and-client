@@ -33,6 +33,7 @@ export default {
           user {
             name
           }
+          token
           success
           error
         }

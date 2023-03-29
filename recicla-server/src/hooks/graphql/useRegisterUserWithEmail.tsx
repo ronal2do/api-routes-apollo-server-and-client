@@ -7,7 +7,7 @@ interface ISignUpResponse {
   registerUserWithEmail: {
     user?: User
     success: boolean;
-    error: string;
+    error?: string;
   }
 }
 

@@ -1,81 +1,73 @@
-import React, { PureComponent } from 'react'
+import React, { useState } from 'react'
 import { StyleSheet, View, ScrollView } from 'react-native'
 import { theme as color } from '../constants/Colors';
 import AwesomeInput from '../components/AwesomeInput';
-import { withFormik, FormikProps } from 'formik';
-import * as Yup from 'yup';
 import LoginButton from '../components/LoginButton';
 
-type RegisterFormScreenProps = {
-  navigation: any,
-  mutation: any,
-};
+const RegisterFormScreen = ({ mutation }: any) => {
+  const [ name, setName ] = useState('')
+  const [ email, setEmail ] = useState('')
+  const [ password, setPassword ] = useState('')
+  const [ confirmPassword, setConfirmPassword ] = useState('')
 
-type RegisterFormScreenState = {};
+  const handleSubmit = async () => {
+    const variables = {
+      name,
+      email,
+      password
+    }
 
-type RegisterScreenFormProps = {
-  name: string,
-  email: string,
-  password: string,
-  confirmPassword: string,
-}
-
-type MixedProps = RegisterFormScreenProps & RegisterScreenFormProps & FormikProps<RegisterScreenFormProps>
-
-class RegisterFormScreen extends PureComponent<MixedProps, RegisterFormScreenState> {
-  static navigationOptions = {
-    title: 'Criar conta',
-    headerStyle: {
-      backgroundColor: '#fff',
-      borderBottomWidth: 0,
-    },
-    headerTintColor: color.BLUE,
+    try {
+      mutation({
+        variables
+      })
+    } catch (err) {
+      console.log('-== register', err)
+    }
   }
 
-  render() {
-    return (
-      <>
-        <ScrollView style={styles.container}>
-          <AwesomeInput
-            label="Nome"
-            color={color.BLUE}
-            onChange={(text) => this.props.setFieldValue('name', text)}
-            value={this.props.name}
-          />
+  return (
+    <>
+      <ScrollView style={styles.container}>
+        <AwesomeInput
+          label="Nome"
+          color={color.BLUE}
+          onChange={(text) => setName(text)}
+          value={name}
+        />
 
-          <AwesomeInput
-            label="E-mail"
-            color={color.BLUE}
-            onChange={(text) => this.props.setFieldValue('email', text)}
-            value={this.props.email}
-          />
+        <AwesomeInput
+          label="E-mail"
+          color={color.BLUE}
+          onChange={(text) => setEmail(text)}
+          value={email}
+        />
 
-          <AwesomeInput
-            label="Senha"
-            secureTextEntry={true}
-            color={color.BLUE}
-            onChange={(text) => this.props.setFieldValue('password', text)}
-            value={this.props.password}
-          />
-          <AwesomeInput
-            label="Confirmar senha"
-            color={color.BLUE}
-            secureTextEntry={true}
-            onChange={(text) => this.props.setFieldValue('confirmPassword', text)}
-            value={this.props.confirmPassword}
-          />
-          <View style={{ height: 80 }} />
-        </ScrollView>
+        <AwesomeInput
+          label="Senha"
+          secureTextEntry={true}
+          color={color.BLUE}
+          onChange={(text) => setPassword(text)}
+          value={password}
+        />
+        <AwesomeInput
+          label="Confirmar senha"
+          color={color.BLUE}
+          secureTextEntry={true}
+          onChange={(text) => setConfirmPassword(text)}
+          value={confirmPassword}
+        />
+        <View style={{ height: 80 }} />
+      </ScrollView>
 
-        <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-          <LoginButton label="Cadastrar" action={() => {
-            this.props.handleSubmit()
-          }} />
-        </View>
+      <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+        <LoginButton label="Cadastrar" action={() => {
+          handleSubmit()
+        }} />
+      </View>
 
-      </>
-    )
-  }
+    </>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -96,43 +88,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default withFormik<any, RegisterScreenFormProps>({
-  mapPropsToValues: () => ({ name: '', email: '', password: '', confirmPassword: '' }),
-
-  validationSchema: Yup.object().shape({
-    name: Yup
-      .string()
-      .min(4, 'A senha deve ter no mínimo 4 caracteres')
-      .required('Preencha o campo de Senha'),
-    password: Yup
-      .string()
-      .min(4, 'A senha deve ter no mínimo 4 caracteres')
-      .required('Preencha o campo de Senha'),
-    email: Yup
-      .string()
-      .email('O e-mail deve ser válido !')
-      .required('Preencha o campo de e-mail'),
-    confirmPassword: Yup
-      .string()
-      .required()
-      .label('Confirm password')
-      .test('passwords-match', 'Passwords must match ya fool', function (value) {
-        return this.parent.password === value;
-      }),
-  }),
-
-  handleSubmit: (
-    values,
-    { props, setSubmitting, setErrors, resetForm, setValues, setTouched }
-  ) => {
-
-    const a = props.mutation({
-      variables:
-      {
-        name: values.name,
-        email: values.email,
-        password: values.password,
-      },
-    })
-  },
-})(RegisterFormScreen)
+export default RegisterFormScreen;

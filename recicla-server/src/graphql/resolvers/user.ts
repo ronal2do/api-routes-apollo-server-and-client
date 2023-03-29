@@ -1,10 +1,49 @@
 import { ApolloError } from "@apollo/client";
 import { User } from "@prisma/client";
-import { hash } from "bcryptjs";
+import { compareSync, hash } from "bcryptjs";
+import { generateToken, getUser } from "../../lib/auth";
+import { getRules, Rules } from "../../lib/game";
 import { GraphQLContext } from "../../pages/api/graphql";
 
 const resolvers = {
   Query: {
+    me: async (
+      _: any, 
+      __: any, 
+      context: GraphQLContext
+    ): Promise<Partial<User>> => {      
+      const { prisma, token } = context;
+
+      if (!token) {
+        throw new Error("Not Authorized")
+      }
+      
+      try {
+        const found = await getUser(token as string)
+
+        if (!found) {
+          throw new Error("User not found token on profile")
+        }
+
+        console.log('-== user found', found)
+
+        const user = await prisma.user.findFirst({
+          where: {
+            id: found.id
+          }
+        })
+
+        if (!user) {
+          throw new Error("Invalid token on profile")
+        }
+
+        return user;
+      } catch (error) {
+        console.log('search users ewrror', error)
+        throw new ApolloError(error?.message)
+      }
+
+    },
     user: async (
       _: any, 
       args: { id: string }, 
@@ -33,7 +72,6 @@ const resolvers = {
       }
 
     },
-    // user(id: String!): User 
     searchUsers: async (
       _: any, 
       args: { name: string }, 
@@ -41,8 +79,8 @@ const resolvers = {
     ): Promise<Array<Partial<User>>> => {
       
       const { name } = args;
-      const { session, prisma } = context;
-      console.log('SESSION', session)
+      const { session, prisma, token } = context;
+      console.log('SESSION', session, token)
       // if (!session?.user) {
       //   throw new ApolloError("Not Authorized")
       // }
@@ -67,17 +105,13 @@ const resolvers = {
       }
 
     },
-    me: (_: any,  args: any,  context: GraphQLContext ) => {
-      console.log('me', context, args)
-      // return contextValue.dataSources.userApi.findUser(contextValue.token);
-    },
   },
   Mutation: {
     registerUserWithEmail: async (
       _: any, 
       args: { email: string, name: string, password: string }, 
       context: GraphQLContext
-    ): Promise<{ user?: User, success?: boolean, error: string | null }> => {
+    ): Promise<{ user?: User, success?: boolean, error?: string, token?: string }> => {
       const { email, name, password } = args;
       const { session, prisma } = context;
 
@@ -109,7 +143,7 @@ const resolvers = {
         return {
           user,
           success: true,
-          error: null
+          token: generateToken(user.id)
         }
 
       } catch (error: any) {
@@ -119,7 +153,107 @@ const resolvers = {
           success: false
         }
       }
-    }
+    },
+    loginUserWithEmail: async (
+      _: any, 
+      args: { email: string, password: string }, 
+      context: GraphQLContext
+    ): Promise<{ user?: User, success?: boolean, error?: string, token?: string }> => {
+      const { email, password } = args;
+      const { prisma } = context;
+      let user;
+      try {
+        user = await prisma.user.findUnique({
+          where: {
+            email
+          }
+        })
+
+        if (!user) {
+          return {
+            error: "email invalido"
+          }
+        }
+
+        if (!user.hashedPassword) {
+          const hashedPassword = await hash(password, 8)
+          user = await prisma.user.update({
+            where: {
+              email
+            },
+            data: {
+              hashedPassword
+            }
+          })
+        } else {
+          const checkPassword = compareSync(password, user.hashedPassword as string)
+
+          if(!checkPassword) return {
+            error: "invalid password"
+          }
+        }
+          
+        return {
+          user,
+          success: true,
+          token: generateToken(user.id)
+        }
+
+      } catch (error: any) {
+        console.log("nerwsletter errror", error)
+        return {
+          error: error?.message,
+          success: false
+        }
+      }
+    },
+    addPointsToUser: async (
+      _: any, 
+      args: { id: string, action: Rules }, 
+      context: GraphQLContext
+    ): Promise<{ success?: boolean, error?: string }> => {
+      const { id, action } = args;
+      const { prisma, token } = context;
+      const points = getRules(action)
+     // verify token + user
+      try {
+        const user = await prisma.user.findUnique({
+          where: {
+            id
+          }
+        })
+
+        if (!user) {
+          return {
+            error: "user invalido"
+          }
+        }
+
+        if (!user.points) {
+          user.points = 0
+        }
+
+        await prisma.user.update({
+          where: {
+            id
+          },
+          data: {
+            points: user.points + points
+          }
+        })
+ 
+        return {
+          success: true,
+        }
+
+      } catch (error: any) {
+        console.log("nerwsletter errror", error)
+        return {
+          error: error?.message,
+          success: false
+        }
+      }
+    },
   },
 }
 

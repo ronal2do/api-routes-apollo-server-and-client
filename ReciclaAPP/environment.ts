@@ -2,7 +2,7 @@ import Constants from 'expo-constants';
 
 const ENVFILE = {
   dev: {
-    API: 'https://server.ronal2do.now.sh/graphql',
+    API: 'http://192.168.1.14:3000/api/graphql',
     COUNTLY: 'edccf3b35448b40060ea3b19c3965e65717c5bac',
     COUNTLY_URL: 'https://countly.stqpublicidade.com.br',
     SUPPORT_URL: 'https://reciclaabc.com.br/politica-de-privacidade',

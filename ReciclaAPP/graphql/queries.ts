@@ -4,49 +4,72 @@ export const PROFILE_QUERY = gql`
   query ME{
     me{
       id
-      _id
-      email
       name
-      picture
+      email
+      emailVerified
+      image
+      hashedPassword
+      username
+      createdAt
+      updatedAt
       cpf
-      points {
-        points
+      userPushToken {
+        id
+        pushUserId
+        token
+        deleted
+        active
+        createdAt
+        updatedAt
+        type
       }
-      cupoms {
-        count
-        edges {
-          node {
-            _id
-            id
-            actived
-            number
-          }
-        }
+      accounts {
+        provider
       }
+      coupons {
+        id
+        createdAt
+      }
+      answers {
+        userId
+        questionId
+        result
+        createdAt
+      }
+      points
     }
   }
 `
 
 export const NEXT_QUESTION = gql`
-  query NEXT_QUESTION($cursor: String) {
-    questions(first: 1, after: $cursor) {
-      pageInfo {
-        endCursor
-        hasNextPage
-      }
-      count
-      edges {
-        node {
+  query NEXT_QUESTION($first: Int) {
+    questions(first: $first) {
+    edges {
+      cursor
+      node {
+        id
+        introduction
+        label
+        correctAnswer
+        level
+        answers
+        metadata {
           id
-          _id
-          introduction
-          label
-          level
-          correctAnswer
-          answers
+          questionId
+          hits
+          misses
+          views
         }
+        createdAt
+        updatedAt
       }
     }
+    pageInfo {
+      endCursor
+      hasNextPage
+    }
+    count
+  }
   }
 `
 

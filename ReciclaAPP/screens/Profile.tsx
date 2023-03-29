@@ -57,7 +57,7 @@ export default class ProfileScreen extends PureComponent {
         <ScrollView style={styles.container}>
          {this.state.showImage && 
           <View style={styles.header}>
-            <UploadableAvatar image={me.picture} userId={me._id} name={me.name}/>
+            <UploadableAvatar image={me.image} userId={me._id} name={me.name}/>
             <Typography kind="title">{me.name}</Typography>
             <Typography kind="instructions">{me.email}</Typography>
             {me.cpf && <Typography kind="instructions" color={color.GREEN}>{`CPF ${me.cpf}`}</Typography>}

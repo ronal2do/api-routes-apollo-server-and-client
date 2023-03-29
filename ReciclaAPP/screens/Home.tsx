@@ -14,7 +14,7 @@ import { ADD_POINTS, USER_PUSH_TOKEN } from '../graphql/mutations';
 import { client } from '../services/apollo';
 import Analytics from '../services/Analytics';
 import Button from 'react-native-really-awesome-button';
-import { useNavigation } from 'expo-router';
+import { useNavigation } from '@react-navigation/native'
 
 interface QuoteType {
   id: string;
@@ -145,7 +145,7 @@ const Hero = () => {
           Você tem
         </Typography>
         <View style={styles.points}>
-          <AnimatedNumber kind="big" color={color.CYAN} value={me.points.points || 0} timing="linear"/>
+          <AnimatedNumber kind="big" color={color.CYAN} value={me.points || 0} timing="linear"/>
           <Typography kind="instructions" color={color.CYAN}>
             {' '}
             pontos
@@ -160,24 +160,22 @@ const Hero = () => {
 
 const ButtonGame = () => {
 	const { loading, data, error } = useQuery(PROFILE_QUERY)
-  // const router = useNavigation();
+  const router = useNavigation();
 
-	const welcomeToTheGame = async (points: number, _id: string) => {
+	const welcomeToTheGame = async (points: number, id: string) => {
+    if (Number(points) > 0) {
+      Analytics.track(Analytics.events.START_GAME, { id })
+      router.navigate('Quizz')
+    }
     try {
-      Number(points) === 0 ? 
-        client.mutate({
+      await client.mutate({
           mutation: ADD_POINTS,
-          variables: { userId: _id, action: 'GOLD' },
+          variables: { userId: id, action: 'GOLD' },
           refetchQueries: () => [{ query: PROFILE_QUERY }]
         }).then(() => {
-          Analytics.track(Analytics.events.START_GAME, { id: _id })
-          // router.navigate('Quizz')}
-        }) : (
-          Analytics.track(Analytics.events.START_GAME, { id: _id })
-
-        ) 
-				
-				// router.navigate('Quizz')
+          Analytics.track(Analytics.events.START_GAME, { id })
+          router.navigate('Quizz')
+        })
     } catch (error) {
       Analytics.track(Analytics.events.ERROR, { 
         path: 'Home.tsx', 
@@ -209,13 +207,13 @@ const ButtonGame = () => {
 			);
 		}
 
-		const { points: { points }, _id } = data.me;                
+		const { points, id } = data.me;                
 		return (
 			<Button
 				backgroundColor={color.GREEN}
 				raiseLevel={0}
 				textColor="white"
-				onPress={() => welcomeToTheGame(points, _id)}
+				onPress={() => welcomeToTheGame(points, id)}
 			>
         {Number(points) === 0 ? "Começar a jogar" : "Continuar jogando" }
       </Button>

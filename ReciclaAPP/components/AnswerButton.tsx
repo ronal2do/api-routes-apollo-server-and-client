@@ -6,7 +6,7 @@ type AnswerButtonProps = {
   value: number;
   label: string;
   correct?: number | null | undefined;
-  action: () => void;
+  action: (value: number) => void;
   response?: number | null | undefined;
 }
 
@@ -26,12 +26,16 @@ export default class AnswerButton extends PureComponent<AnswerButtonProps> {
 
     const textColor = Number(response) !== null && Number(response) !== Number(value) ? color.BLUE : 'white'
 
+    const handlePress = () => {
+      action(value)
+    }
+
     return (
       <Button 
         backgroundColor={selectColor}
         progress={true}
         disabled={response !== null}
-        onPress={action}
+        onPress={handlePress}
         textColor={textColor}
         label={label}
       />

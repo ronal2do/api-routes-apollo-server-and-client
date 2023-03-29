@@ -1,5 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
@@ -24,9 +25,19 @@ import ResetScreen from '../screens/Reset';
 import ForgetScreen from '../screens/Forget';
 import AboutScreen from '../screens/About';
 import ChangePasswordScreen from '../screens/ChangePassword';
-
-import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+
+export type RootStackParamList = {
+  App: undefined;
+  Home: undefined;
+  SignUp: { userId: string };
+  Forget: undefined;
+  Feed: { sort: 'latest' | 'top' } | undefined;
+};
+
+type Props = NativeStackScreenProps<RootStackParamList, 'App'>;
+
+
 
 
 const Stack = createStackNavigator();
@@ -62,13 +73,7 @@ function AuthStackScreens() {
 
 function MyDrawerNavigator() {
   return (
-    <Drawer.Navigator
-      // drawerContentOptions={{
-      //   activeTintColor: theme.CYAN,
-      //   inactiveTintColor: '#FFF',
-      //   drawerBackgroundColor: theme.BLUE
-      // }}
-    >
+    <Drawer.Navigator >
       <Drawer.Screen name="Home" component={AppStack} />
       <Drawer.Screen name="Sorteios" component={SorteioScreen} />
       <Drawer.Screen name="Cupons" component={CupomsScreen} />
@@ -86,24 +91,26 @@ function MyDrawerNavigator() {
 function AppStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="MyHome" component={MyHomeScreen} />
-      {/* <Stack.Screen name="Quizz" component={QuizzScreen} />
-      <Stack.Screen name="Profile" component={ProfileScreen} /> */}
+      <Stack.Screen name="MyHome" component={MyHomeScreen}
+      //  options={{
+      //   headerShown: false
+      // }}
+      />
+      <Stack.Screen name="Quizz" component={QuizzScreen} />
+      <Stack.Screen name="Profile" component={ProfileScreen} />
     </Stack.Navigator>
   );
 }
 
-export function AppNavigator() {
+export function AppNavigator({ userToken }: { userToken?: string }) {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name="AuthLoading" component={AuthLoadingScreen} /> */}
-        {/* <Stack.Screen name="AuthLoading" component={AuthLoadingScreen} /> */}
-        {/* <Stack.Screen name="App" component={MyDrawerNavigator} />
-        <Stack.Screen name="Auth" component={AuthStackScreens} /> */}
-        {/* <Stack.Screen name="Auth" component={AuthStackScreens} /> */}
-        <Stack.Screen name="App" component={MyDrawerNavigator} />
-        <Stack.Screen name="HomeDrawer" component={AppStack} />
+        { userToken == null ? (
+          <Stack.Screen name="Auth" component={AuthStackScreens} />
+        ): (
+          <Stack.Screen name="App" component={MyDrawerNavigator} />
+        )}
       </Stack.Navigator>
     </NavigationContainer> 
   );

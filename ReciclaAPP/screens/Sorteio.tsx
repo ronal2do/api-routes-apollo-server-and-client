@@ -28,7 +28,7 @@ export default class CupomsScreen extends React.PureComponent<{}, {}> {
     return (
       <ScrollView style={styles.container}>
         {/* <Typography kind="welcome">Datas, prêmios e regulamento.</Typography> */}
-        <Typography kind="title">Sorteios</Typography>
+        {/* <Typography kind="title">Sorteios</Typography> */}
         <Typography kind="instructions">
           Serão realizados 45 sorteios em cinco dias diferentes. Depois de converter os pontos em cupons, o saldo que ficar vale para a próxima troca e os cupons gerados valem para todos os sorteios.
         </Typography>

@@ -66,8 +66,10 @@ model User {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   userPushToken  UserPushToken?
-  Coupons        Coupons[]
-  answers        ComputedAnswers?
+  coupons        Coupons[]
+  answers        ComputedAnswers[]
+  points         Int?             @default(0)
+  cpf            Int?             @unique
 }
 
 model Quote {
@@ -107,6 +109,7 @@ model QuestionMetadata {
 type ComputedAnswers {
   userId     String   @db.ObjectId
   questionId String   @db.ObjectId
+  result     Boolean
   createdAt  DateTime @default(now())
 }
 

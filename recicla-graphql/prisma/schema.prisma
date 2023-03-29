@@ -66,8 +66,10 @@ model User {
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   userPushToken  UserPushToken?
-  Coupons        Coupons[]
-  answers        ComputedAnswers?
+  coupons        Coupons[]
+  answers        ComputedAnswers[]
+  points         Int?
+  cpf            Int?             @unique
 }
 
 model Quote {

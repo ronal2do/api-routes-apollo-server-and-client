@@ -26,9 +26,9 @@ const Me = () => {
       hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
     >
       <View>
-        {me.picture ?
+        {me.image ?
           <Image
-            source={{ uri: me.picture }}
+            source={{ uri: me.image }}
             style={styles.icon}
           /> :
           <View style={[styles.icon, { justifyContent: 'center', alignItems: 'center', backgroundColor: theme.GREEN }]}>

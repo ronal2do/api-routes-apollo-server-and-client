@@ -10,6 +10,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as Font from 'expo-font';
 import { StatusBar } from 'expo-status-bar';
 import Analytics from './services/Analytics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { APP_KEYS } from './utils/asyncStorage';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -28,6 +30,7 @@ function getActiveRouteName(navigationState: any = null): string | null {
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
+  const [token, setToken] = useState<string | null>(null)
 
   useEffect(() => {
     async function prepare() {
@@ -37,6 +40,9 @@ export default function App() {
         // Artificially delay for two seconds to simulate a slow loading
         // experience. Please remove this if you copy and paste the code!
         await new Promise(resolve => setTimeout(resolve, 2000));
+        const tk = await AsyncStorage.getItem(APP_KEYS.LOGIN)
+
+        setToken(tk)
       } catch (e) {
         console.warn(e);
       } finally {
@@ -69,7 +75,7 @@ export default function App() {
     <ApolloProvider client={client}>
       <View style={styles.container} onLayout={onLayoutRootView}>
         {Platform.OS === 'ios' && <StatusBar />}
-        <AppNavigator /> 
+        <AppNavigator userToken={token}/> 
       </View>
     </ApolloProvider>
   );

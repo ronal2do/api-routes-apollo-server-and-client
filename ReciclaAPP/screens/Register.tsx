@@ -4,24 +4,21 @@ import { FormikProps } from 'formik';
 import { useMutation } from '@apollo/client';
 import RegisterForm from './RegisterForm';
 import { errorsToHumans } from '../utils/normalizeErrors';
-import { theme as color } from '../constants/Colors';
 import { REGISTER_MUTATION } from '../graphql/mutations';
 import { APP_KEYS } from '../utils/asyncStorage';
 import Analytics from '../services/Analytics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../navigation/AppNavigator';
 
-type RegisterScreenProps = {
-  password: string,
-  email: string,
-}
+type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
-type MixedProps = { navigation: any } & FormikProps<RegisterScreenProps>
-
-export default function RegisterScreen({ navigation }: MixedProps) {
-  const [registerUser] = useMutation(REGISTER_MUTATION, {
+export default function RegisterScreen({ navigation }: Props) {
+  const [registerUserWithEmail] = useMutation(REGISTER_MUTATION, {
     onCompleted: (data: any) => {
-      const { UserRegisterWithEmail: { error, token, id, email } } = data;
+      const { registerUserWithEmail: { error, token, user, email } } = data;
       if (error) {
+        console.log('-== register error', error)
         return Alert.alert(
           'Oops!',
           errorsToHumans(error),
@@ -33,27 +30,17 @@ export default function RegisterScreen({ navigation }: MixedProps) {
       }
       AsyncStorage.setItem(APP_KEYS.LOGIN, token).then(() => {
         let trackingOpts = {
-          id,
+          id: user.id,
           usernameOrEmail: email,
         };
-
-        Analytics.identify(id);
-        Analytics.track(Analytics.events.USER_CREATED_ACCOUNT);
+        Analytics.identify(user.id);
+        Analytics.track(Analytics.events.USER_CREATED_ACCOUNT, trackingOpts);
         navigation.navigate('App');
       });
     }
   });
 
   return (
-    <RegisterForm navigation={navigation} mutation={registerUser} />
+    <RegisterForm mutation={registerUserWithEmail} />
   );
 }
-
-RegisterScreen.navigationOptions = {
-  title: 'Criar conta',
-  headerStyle: {
-    backgroundColor: '#fff',
-    borderBottomWidth: 0,
-  },
-  headerTintColor: color.BLUE,
-};
