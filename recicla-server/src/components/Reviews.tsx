@@ -118,7 +118,7 @@ function StarIcon(props: React.SVGProps<SVGSVGElement>) {
 function StarRating({ rating }) {
   return (
     <div className="flex">
-      {['', '', '', '', ''].map((index) => (
+      {['1', '2', '3', '4', '5'].map((index) => (
         <StarIcon
           key={index}
           className={clsx(
@@ -263,8 +263,8 @@ function ReviewGrid() {
           />
         </>
       )}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-gray-50" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-gray-50" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-gray-50 dark:from-gray-800" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-gray-50 dark:from-gray-800" />
     </div>
   )
 }

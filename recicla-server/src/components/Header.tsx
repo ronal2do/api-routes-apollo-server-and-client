@@ -10,6 +10,8 @@ import { Logo } from './Logo'
 import { NavLinks } from './NavLinks'
 import { PropsWithChildren } from 'react'
 import { ROUTES } from '../config'
+import { SunIcon } from '@heroicons/react/24/outline'
+import { ModeToggle } from './ModeToggle'
 
 function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -118,6 +120,9 @@ export function Header() {
                               Log in
                             </Button>
                             <Button href="#">Download the app</Button>
+                            <Button>
+                              <SunIcon width={24}/>
+                            </Button>
                           </div>
                         </Popover.Panel>
                       </>
@@ -132,6 +137,10 @@ export function Header() {
             <Button href="#" className="hidden lg:block">
               Download
             </Button>
+            {/* <Button href="#" variant="outline" className="hidden lg:block">
+              <SunIcon width={24}/>
+            </Button> */}
+            <ModeToggle />
           </div>
         </Container>
       </nav>
