@@ -16,8 +16,9 @@ export default {
           edges {
             cursor
             node {
-              email
               id
+              email
+              createdAt
             }
           }
           pageInfo {

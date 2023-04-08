@@ -1,4 +1,3 @@
-import { Avatar, Button, Flex, Stack, Text } from "@chakra-ui/react"
 import { User } from "@prisma/client"
 import { useRouter } from "next/router"
 
@@ -12,30 +11,26 @@ export const UserSearchList: React.FC<UserSearchListProps> = ({ users, onClose }
   return (
     <>
       {users.length === 0 ? (
-        <Text>no users found</Text>
+        <p>no users found</p>
       ) : (
-        <Stack>
+        <div>
           {users.map(user => (
-            <Stack direction="row" 
-            align="center" spacing={4} py={4} px={4} borderRadius={4} key={user.id}
-              _hover={{ bg: 'whiteAlpha.200' }}
+            <div className="row items-center py-4 px-4 rounded-sm"  key={user.id}
+             
             >
-              <Avatar
-                src={user.image || ''}
-                name={user.name || ''}
-              />
-              <Flex justify="space-between" width="100%">
-                <Text color="whiteAlpha.700">{user.name}</Text>
-                <Button bg="brand.100" _hover={{ bg: 'brand.100' }} 
+              
+              <div className="justify-between w-full">
+                <p color="whiteAlpha.700">{user.name}</p>
+                <button 
                 onClick={() => {
                   router.push({ pathname: "/dashboard/user", query: { id: user.id } });
                   onClose()
                 }
-                }>Select</Button>
-              </Flex>
-            </Stack>
+                }>Select</button>
+              </div>
+            </div>
           ))}
-        </Stack>
+        </div>
       )}
     </>
   )

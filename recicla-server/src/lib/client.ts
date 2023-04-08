@@ -8,7 +8,7 @@ export const getClient = () => {
   if (!client || typeof window === "undefined") {
     client = new ApolloClient({
       link: new HttpLink({
-        uri: "https://main--time-pav6zq.apollographos.net/graphql",
+        uri: "http://localhost:3000/api/graphql",
       }),
       cache: new InMemoryCache(),
     });

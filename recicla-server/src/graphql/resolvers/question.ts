@@ -124,7 +124,7 @@ const resolvers = {
     // addQuestionMetadata(questionId: String!, result: Boolean!): MetaQuestionPayload
     answerQuestion: async (
       _: any, 
-      args: { userId: string, questionId: string, result: Boolean }, 
+      args: { userId: string, questionId: string, result: boolean }, 
       context: GraphQLContext
     ): Promise<{ success?: boolean, error?: string | null }> => {
       const {

@@ -1,24 +1,14 @@
+'use client'
 
-
-import {
-  Flex,
-  Stack,
-  Heading,
-  Text,
-  Input,
-  Button,
-  Icon,
-  useColorModeValue,
-} from '@chakra-ui/react';
 import { useState } from "react";
-import { useToast } from '@chakra-ui/react'
-import { NotificationIcon } from './Icons';
 import { useCreateNewsletter } from '../hooks/graphql/useCreateNewsletter';
+import { TextField } from './Fields';
+import { Button } from "./Button";
 
 export const SubscribeToNewsletter: React.FunctionComponent<{}> = () => {
   const [inputEmail, setInputEmail] = useState('')
   const {createNewsletterEntry, data, loading, error } = useCreateNewsletter()
-  const toast = useToast()
+  // const toast = useToast()
 
   const onSubmit = async () => {
     if (!inputEmail) return;
@@ -30,25 +20,25 @@ export const SubscribeToNewsletter: React.FunctionComponent<{}> = () => {
       })
 
       if (data?.createNewsletterEntry.error || error) {
-        toast({
-          title: 'Added to the subscribe list.',
-          description: "We've created your account for you.",
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        })
+        // toast({
+        //   title: 'Added to the subscribe list.',
+        //   description: "We've created your account for you.",
+        //   status: 'error',
+        //   duration: 9000,
+        //   isClosable: true,
+        // })
         return {
           error: "algo deu errado"
         }
       }
 
-      toast({
-        title: 'Added to the subscribe list.',
-        description: "We've created your account for you.",
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      })
+      // toast({
+      //   title: 'Added to the subscribe list.',
+      //   description: "We've created your account for you.",
+      //   status: 'success',
+      //   duration: 9000,
+      //   isClosable: true,
+      // })
 
       setInputEmail('')
     } catch (error) {
@@ -57,59 +47,25 @@ export const SubscribeToNewsletter: React.FunctionComponent<{}> = () => {
   }
 
   return (
-    <Flex
-      // minH={'100vh'}
-      align={'center'}
-      justify={'center'}
-      py={12}
-      bg={useColorModeValue('gray.50', 'gray.800')}>
-      <Stack
-        boxShadow={'2xl'}
-        bg={useColorModeValue('white', 'gray.700')}
-        rounded={'xl'}
-        p={10}
-        spacing={8}
-        align={'center'}>
-        <Icon as={NotificationIcon} w={24} h={24} />
-        <Stack align={'center'} spacing={2}>
-          <Heading
-            textTransform={'uppercase'}
-            fontSize={'3xl'}
-            color={useColorModeValue('gray.800', 'gray.200')}>
-            Subscribe
-          </Heading>
-          <Text fontSize={'lg'} color={'gray.500'}>
-            Subscribe to our newsletter & stay up to date!
-          </Text>
-        </Stack>
-        <Stack spacing={4} direction={{ base: 'column', md: 'row' }} w={'full'}>
-          <Input
-            type={'text'}
-            placeholder={'john@doe.net'}
-            color={useColorModeValue('gray.800', 'gray.200')}
-            bg={useColorModeValue('gray.100', 'gray.600')}
-            rounded={'full'}
-            border={0}
-            value={inputEmail}
-            onChange={(event) => setInputEmail(event.target.value)}
-            _focus={{
-              bg: useColorModeValue('gray.200', 'gray.800'),
-              outline: 'none',
-            }}
-          />
-          <Button
-            bg={'blue.400'}
-            rounded={'full'}
-            color={'white'}
-            flex={'1 0 auto'}
-            isLoading={loading}
-            onClick={onSubmit}
-            _hover={{ bg: 'blue.500' }}
-            _focus={{ bg: 'blue.500' }}>
-            Subscribe
-          </Button>
-        </Stack>
-      </Stack>
-    </Flex>
+    <div className="flex w-full justify-center md:w-auto">
+      <TextField
+        type="email"
+        id="email"
+        aria-label="Email address"
+        placeholder={'john@doe.net'}
+        autoComplete="email"
+        required
+        value={inputEmail}
+        onChange={(event) => setInputEmail(event.target.value)}
+        className="w-60 min-w-0 shrink" />
+      <Button 
+      loading={loading}
+      onClick={onSubmit}
+      type="submit" color="cyan" className="ml-4 flex-none"
+      >
+        <span className="hidden lg:inline">Join our newsletter</span>
+        <span className="lg:hidden">Join newsletter</span>
+      </Button>
+    </div>
   )
 };

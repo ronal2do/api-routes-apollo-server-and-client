@@ -1,123 +1,71 @@
-import { ReactNode } from 'react';
-import {
-  Box,
-  Container,
-  Stack,
-  SimpleGrid,
-  Text,
-  Link,
-  VisuallyHidden,
-  chakra,
-  useColorModeValue,
-} from '@chakra-ui/react';
-import { FaTwitter, FaYoutube, FaInstagram } from 'react-icons/fa';
+"use client"
 
-// import AppStoreBadge from '@/components/AppStoreBadge';
-// import PlayStoreBadge from '@/components/PlayStoreBadge';
+import Image from 'next/image'
+import Link from 'next/link'
 
-const ListHeader = ({ children }: { children: ReactNode }) => {
+import { Button } from './Button'
+import { Container } from './Container'
+import { TextField } from './Fields'
+import { Logomark } from './Logo'
+import { NavLinks } from './NavLinks'
+import { SubscribeToNewsletter } from './SubscribeToNewsletter'
+const qrCode = '/images/qr-code.svg'
+
+function QrCodeBorder(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <Text fontWeight={'500'} fontSize={'lg'} mb={2}>
-      {children}
-    </Text>
-  );
-};
-
-const SocialButton = ({
-  children,
-  label,
-  href,
-}: {
-  children: ReactNode;
-  label: string;
-  href: string;
-}) => {
-  return (
-    <chakra.button
-      bg={useColorModeValue('blackAlpha.100', 'whiteAlpha.100')}
-      rounded={'full'}
-      w={8}
-      h={8}
-      cursor={'pointer'}
-      as={'a'}
-      href={href}
-      display={'inline-flex'}
-      alignItems={'center'}
-      justifyContent={'center'}
-      transition={'background 0.3s ease'}
-      _hover={{
-        bg: useColorModeValue('blackAlpha.200', 'whiteAlpha.200'),
-      }}>
-      <VisuallyHidden>{label}</VisuallyHidden>
-      {children}
-    </chakra.button>
-  );
-};
+    <svg viewBox="0 0 96 96" fill="none" aria-hidden="true" {...props}>
+      <path
+        d="M1 17V9a8 8 0 0 1 8-8h8M95 17V9a8 8 0 0 0-8-8h-8M1 79v8a8 8 0 0 0 8 8h8M95 79v8a8 8 0 0 1-8 8h-8"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  )
+}
 
 export function Footer() {
   return (
-    <Box
-      bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}>
-      <Container as={Stack} maxW={'6xl'} py={10}>
-        <SimpleGrid columns={{ base: 1, sm: 2, md: 4 }} spacing={8}>
-          <Stack align={'flex-start'}>
-            <ListHeader>Company</ListHeader>
-            <Link href={'#'}>About Us</Link>
-            <Link href={'#'}>Blog</Link>
-            <Link href={'#'}>Careers</Link>
-            <Link href={'#'}>Contact Us</Link>
-          </Stack>
-
-          <Stack align={'flex-start'}>
-            <ListHeader>Support</ListHeader>
-            <Link href={'#'}>Help Center</Link>
-            <Link href={'#'}>Safety Center</Link>
-            <Link href={'#'}>Community Guidelines</Link>
-          </Stack>
-
-          <Stack align={'flex-start'}>
-            <ListHeader>Legal</ListHeader>
-            <Link href={'#'}>Cookies Policy</Link>
-            <Link href={'#'}>Privacy Policy</Link>
-            <Link href={'#'}>Terms of Service</Link>
-            <Link href={'#'}>Law Enforcement</Link>
-          </Stack>
-
-          <Stack align={'flex-start'}>
-            <ListHeader>Install App</ListHeader>
-            {/* <AppStoreBadge />
-            <PlayStoreBadge /> */}
-          </Stack>
-        </SimpleGrid>
+    <footer className="border-t border-gray-200">
+      <Container>
+        <div className="flex flex-col items-start justify-between gap-y-12 pb-6 pt-16 lg:flex-row lg:items-center lg:py-16">
+          <div>
+            <div className="flex items-center text-gray-900">
+              <Logomark className="h-10 w-10 flex-none fill-cyan-500" />
+              <div className="ml-4">
+                <p className="text-base font-semibold">ReciclaAPP</p>
+                <p className="mt-1 text-sm">Invest at the perfect time.</p>
+              </div>
+            </div>
+            <nav className="mt-11 flex gap-8">
+              <NavLinks />
+            </nav>
+          </div>
+          <div className="group relative -mx-4 flex items-center self-stretch p-4 transition-colors hover:bg-gray-100 sm:self-auto sm:rounded-2xl lg:mx-0 lg:self-auto lg:p-6">
+            <div className="relative flex h-24 w-24 flex-none items-center justify-center">
+              <QrCodeBorder className="absolute inset-0 h-full w-full stroke-gray-300 transition-colors group-hover:stroke-cyan-500" />
+              <Image src={qrCode} fill
+                style={{ objectFit: 'contain' }} alt="" unoptimized />
+            </div>
+            <div className="ml-8 lg:w-64">
+              <p className="text-base font-semibold text-gray-900">
+                <Link href="#">
+                  <span className="absolute inset-0 sm:rounded-2xl" />
+                  Download the app
+                </Link>
+              </p>
+              <p className="mt-1 text-sm text-gray-700">
+                Scan the QR code to download the app from the App Store.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col items-center border-t border-gray-200 pb-12 pt-8 md:flex-row-reverse md:justify-between md:pt-6">
+          <SubscribeToNewsletter />
+          <p className="mt-6 text-sm text-gray-500 md:mt-0">
+            &copy; Copyright {new Date().getFullYear()}. All rights reserved.
+          </p>
+        </div>
       </Container>
-
-      <Box
-        borderTopWidth={1}
-        borderStyle={'solid'}
-        borderColor={useColorModeValue('gray.200', 'gray.700')}>
-        <Container
-          as={Stack}
-          maxW={'6xl'}
-          py={4}
-          direction={{ base: 'column', md: 'row' }}
-          spacing={4}
-          justify={{ md: 'space-between' }}
-          align={{ md: 'center' }}>
-          <Text>© 2022 Chakra Templates. All rights reserved</Text>
-          <Stack direction={'row'} spacing={6}>
-            <SocialButton label={'Twitter'} href={'#'}>
-              <FaTwitter />
-            </SocialButton>
-            <SocialButton label={'YouTube'} href={'#'}>
-              <FaYoutube />
-            </SocialButton>
-            <SocialButton label={'Instagram'} href={'#'}>
-              <FaInstagram />
-            </SocialButton>
-          </Stack>
-        </Container>
-      </Box>
-    </Box>
-  );
+    </footer>
+  )
 }

@@ -2,6 +2,7 @@ import { useMutation } from "@apollo/client";
 import { User } from "@prisma/client";
 
 import UserOperations from "../../graphql/operations/user";
+import { getClient } from "../../lib/client";
 
 interface ISignUpResponse {
   registerUserWithEmail: {
@@ -18,10 +19,11 @@ interface ISignupInput {
 }
 
 export const useRegisterUserWithEmail = () => {
+  const client = getClient();
   const [registerUserWithEmail, { data, loading, error }] = useMutation<
     ISignUpResponse, 
     ISignupInput
-  >(UserOperations.Mutations.registerUserWithEmail)
+  >(UserOperations.Mutations.registerUserWithEmail, { client })
 
   return {
     registerUserWithEmail, 

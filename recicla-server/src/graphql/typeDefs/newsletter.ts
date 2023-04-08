@@ -36,6 +36,7 @@ const typeDefs = gql`
   type Newsletter {
     id:    String
     email: String
+    createdAt: Date
   }
 
   schema {
