@@ -14,8 +14,6 @@ export const SignUpForm = () => {
   // const toast = useToast()
 
   const { registerUserWithEmail, data, loading, error } = useRegisterUserWithEmail()
-  console.log('data', data)
-
   const _signUp = async (e: FormEvent) => {
     e.preventDefault()
     if (!name || !email || !password) {

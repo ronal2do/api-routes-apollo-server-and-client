@@ -16,7 +16,6 @@ function useRouteBreadcrumbs() {
   const router = useRouter()
   const pathname = usePathname();
 
-  console.log('pathname', pathname)
   useEffect(() => {
     const pathWithoutQuery = pathname?.split("?")[0];
     let pathArray = pathWithoutQuery?.split("/");

@@ -1,25 +1,9 @@
 'use client'
-
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-import { Fragment, useState } from 'react'
+import { Fragment, useState, PropsWithChildren } from 'react'
 import { Dialog, Menu, Transition } from '@headlessui/react'
 import {
   Bars3CenterLeftIcon,
   BellIcon,
-  ClockIcon,
   CogIcon,
   CreditCardIcon,
   DocumentChartBarIcon,
@@ -56,7 +40,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function LayoutWrapper({ children }) {
+export default function LayoutWrapper({ children, session }: PropsWithChildren<{ session: any }>) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
@@ -256,7 +240,7 @@ export default function LayoutWrapper({ children }) {
                         alt=""
                       />
                       <span className="ml-3 hidden text-sm font-medium text-gray-700 lg:block">
-                        <span className="sr-only">Open user menu for </span>Emilia Birch
+                        <span className="sr-only">Open user menu for </span>{session.user.name}
                       </span>
                       <ChevronDownIcon
                         className="ml-1 hidden h-5 w-5 flex-shrink-0 text-gray-400 lg:block"

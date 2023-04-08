@@ -37,13 +37,11 @@ export const authOptions: NextAuthOptions = {
         if (!user) {
           throw new Error('user not found')
         }
-
         const checkPass = await compare(credentials.password, user.hashedPassword as string)
 
         if (!checkPass) {
           throw new Error('Incorred password')
         }
-
         return user
       },
       credentials: {
@@ -67,7 +65,20 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    session
+    async jwt({ token, account }) {
+      return token
+    },
+    async session(params: { session: Session; user: User; token: JWT }) {
+      const encodedToken = await encode({token: params.token, secret: process.env.NEXTAUTH_SECRET as string});
+      return params.session;
+    },
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url
+      return baseUrl
+    }
   }
 }
 

@@ -5,7 +5,8 @@ export default async function Page() {
 
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;
-  console.log('quiestions', data.question)
+  if (data.questions.edges.length === 0) return <>Empty</>
+  
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">

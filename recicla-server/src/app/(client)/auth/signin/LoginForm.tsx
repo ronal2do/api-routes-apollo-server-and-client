@@ -8,12 +8,10 @@ import { signIn } from 'next-auth/react'
 export const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
   // const toast = useToast()
 
   const _signIn = async (event: React.FormEvent) => {
     event.preventDefault()
-    console.log(email, password)
     if (!email || !password) return;
     // todo
     try {
@@ -34,7 +32,7 @@ export const LoginForm = () => {
       //   duration: 9000,
       //   isClosable: true,
       // })
-
+      
     } catch (error) {
       console.log('error', error)
     }
@@ -50,7 +48,6 @@ export const LoginForm = () => {
           type="email"
           onChange={(event) => setEmail(event.target.value)}
           value={email}
-          autoComplete="email"
           required />
         <TextField
           label="Password"
@@ -59,7 +56,6 @@ export const LoginForm = () => {
           type="password"
           onChange={(event) => setPassword(event.target.value)}
           value={password}
-          autoComplete="current-password"
           required />
       </div>
       <Button 

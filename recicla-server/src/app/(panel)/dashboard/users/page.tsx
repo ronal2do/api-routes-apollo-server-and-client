@@ -23,6 +23,7 @@ query ExampleQuery {
 export default async function Page() {
   const client = getClient();
   const { data } = await client.query({ query: NewsletterOperations.Queries.newsletters });
+  if (data.newsletters?.edges.length === 0) return <>No questions yet </>
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
