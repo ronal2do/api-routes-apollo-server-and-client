@@ -79,7 +79,7 @@ export function SocialProfile({ user }: SocialProfileProps) {
         <StatGroup mt={6}>
           <Stat>
             <StatLabel>Pontos</StatLabel>
-            <StatNumber>345,670</StatNumber>
+            <StatNumber>{user.points || 0}</StatNumber>
             <StatHelpText>
               <StatArrow type='increase' />
               23.36%
@@ -97,7 +97,7 @@ export function SocialProfile({ user }: SocialProfileProps) {
 
           <Stat>
             <StatLabel>Cupons</StatLabel>
-            <StatNumber>12</StatNumber>
+            <StatNumber>{user.coupoms || 0}</StatNumber>
           </Stat>
         </StatGroup>
 

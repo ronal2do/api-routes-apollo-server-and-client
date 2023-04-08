@@ -30,6 +30,10 @@ const resolvers = {
         const user = await prisma.user.findFirst({
           where: {
             id: found.id
+          },
+          include: {
+            accounts: true,
+            coupons: true
           }
         })
 
@@ -58,7 +62,7 @@ const resolvers = {
             id: {
               equals: id,
             }
-          }
+          },
         })
 
         if (!user) {

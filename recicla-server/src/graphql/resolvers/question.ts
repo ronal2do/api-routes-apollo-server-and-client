@@ -1,20 +1,6 @@
 import { Question, QuestionLevels } from "@prisma/client";
 import { GraphQLContext } from "../../pages/api/graphql";
 
-function getRandomDifferent(arr, last = undefined) {
-  if (arr.length === 0) {
-    return null;
-  } else if (arr.length === 1) {
-    return arr[0];
-  } else {
-    let num = 0;
-    do {
-      num = Math.floor(Math.random() * arr.length);
-    } while (arr[num] === last);
-    return arr[num];
-  }
-}
-
 function createRelayData(data: any, args: any) {
   if (data.length === 0) {
     return {
@@ -148,8 +134,6 @@ const resolvers = {
       } = args;
       const { session, prisma } = context;
 
-
-
       try {
         const findQuestion = await prisma.question.findUnique({
           where: {
@@ -220,7 +204,11 @@ const resolvers = {
   Query: {
     questions: async (_: any, args: any, context: GraphQLContext) => {
       const { prisma } = context;
-      const data = await prisma.question.findMany()
+      const data = await prisma.question.findMany({
+        include: {
+          metadata: true
+        },
+      })
       const convert = createRelayData(data, args)
       return convert
     },
