@@ -59,9 +59,9 @@ export const SubscribeToNewsletter: React.FunctionComponent<{}> = () => {
         onChange={(event) => setInputEmail(event.target.value)}
         className="w-60 min-w-0 shrink" />
       <Button 
-      loading={loading}
-      onClick={onSubmit}
-      type="submit" color="cyan" className="ml-4 flex-none"
+        loading={loading}
+        onClick={onSubmit}
+        type="submit" color="orange" className="ml-4 flex-none"
       >
         <span className="hidden lg:inline">Join our newsletter</span>
         <span className="lg:hidden">Join newsletter</span>

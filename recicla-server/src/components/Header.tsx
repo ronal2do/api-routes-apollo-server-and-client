@@ -58,7 +58,7 @@ export function Header({currentUser}) {
         <Container className="relative z-50 flex justify-between py-8 bg-sal">
           <div className="relative z-10 flex items-center gap-16">
             <Link href="/" aria-label="Home">
-              <Logo className="h-10 w-auto" />
+              <Logo className="h-12 w-auto" />
             </Link>
             <div className="hidden lg:flex lg:gap-10">
               <NavLinks />
@@ -116,7 +116,6 @@ export function Header({currentUser}) {
                             <MobileNavLink href="#faqs">FAQs</MobileNavLink>
                           </div>
                           <div className="mt-8 flex flex-col gap-4">
-                            <HeaderLoginButton type="mobile" currentUser={currentUser}/>
                             <Button href="#">Download the app</Button>
                             <Button>
                               <SunIcon width={24}/>

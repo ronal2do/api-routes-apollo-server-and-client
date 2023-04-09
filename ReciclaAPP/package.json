@@ -33,7 +33,7 @@
     "graphql": "^16.6.0",
     "lottie-react-native": "5.1.4",
     "react": "18.2.0",
-    "react-native": "0.71.4",
+    "react-native": "0.71.6",
     "react-native-aws3": "^0.0.9",
     "react-native-gesture-handler": "~2.9.0",
     "react-native-really-awesome-button": "^2.0.4",

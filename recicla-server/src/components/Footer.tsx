@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Button } from './Button'
 import { Container } from './Container'
 import { TextField } from './Fields'
-import { Logomark } from './Logo'
+import { Logo, Logomark } from './Logo'
 import { NavLinks } from './NavLinks'
 import { SubscribeToNewsletter } from './SubscribeToNewsletter'
 const qrCode = '/images/qr-code.svg'
@@ -30,11 +30,7 @@ export function Footer() {
         <div className="flex flex-col items-start justify-between gap-y-12 pb-6 pt-16 lg:flex-row lg:items-center lg:py-16">
           <div>
             <div className="flex items-center text-gray-900">
-              <Logomark className="h-10 w-10 flex-none fill-bay-leaf-300" />
-              <div className="ml-4">
-                <p className="text-base font-semibold">ReciclaAPP</p>
-                <p className="mt-1 text-sm">Invest at the perfect time.</p>
-              </div>
+              <Logo className="h-16 w-auto flex-none" />
             </div>
             <nav className="mt-11 flex gap-8">
               <NavLinks />

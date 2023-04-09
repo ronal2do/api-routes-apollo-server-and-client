@@ -100,33 +100,35 @@ function PlayIcon(props: React.SVGProps<SVGSVGElement>) {
   )
 }
 
+const homeMan = '/images/home-man.png'
+const stars = '/images/stars01.png'
+
 function AppDemo() {
   return (
     <AppScreen>
       <AppScreen.Body>
+        <AppScreen.Title>
+          <div className="text-xs p-4 leading-6 text-white bg-paradiso-900 bg-contain bg-no-repeat bg-right-bottom" style={{backgroundImage: `url(${homeMan})`, backgroundPosition: "164px 50px" }}>
+            <h2 className='text-white font-medium text-2xl'>Hi Ronaldo,</h2>
+            <p>you have</p>
+            <p className='text-paradiso-300 font-extrabold text-2xl'>8310 <span className='text-lg'>points</span></p>
+            <p className='w-48 pb-4'>To earn more points and coupons, answer questions and stay tuned for notifications.</p>
+          </div>
+        </AppScreen.Title>
         <div className="p-4">
           <div className="flex gap-2">
-            <div className="text-xs leading-6 text-gray-500">
-              Ronaldo Labs, Inc.
+            <div className="text-xs leading-6 text-paradiso-900">
+              <div className="bg-contain bg-no-repeat bg-right-bottom" style={{backgroundImage: `url(${stars})`}}>
+                <p className="font-bold text-center">Tip of the day</p>
+                <h1 className='text-bay-leaf-500 font-extrabold text-center py-4 text-2xl'>Services</h1>
+              </div>
+              <p className="text-paradiso-900 text-center font-medium py-4">Large volumes such as old furniture and appliances and tree trimmings have a sure way of discarding. Just call 3169.2900 and make an appointment with Ambiental's special solid waste collection staff.</p>
             </div>
-            <div className="text-sm text-gray-900">$CSS</div>
-            <svg viewBox="0 0 24 24" className="ml-auto h-6 w-6" fill="none">
-              <path
-                d="M5 12a7 7 0 1 1 14 0 7 7 0 0 1-14 0ZM12 9v6M15 12H9"
-                stroke="#171717"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
           </div>
-          <div className="mt-3 border-t border-gray-200 pt-5">
-            
-
-            <div className="mt-4 rounded-lg bg-bay-leaf-300 px-4 py-2 text-center text-sm font-semibold text-white">
-              Responder
+          <div className="mt-3 border-t border-gray-200 pt-5">            
+            <div className="mt-4 rounded-lg bg-bay-leaf-500 px-4 py-2 text-center text-sm font-semibold text-white">
+              Keep playing
             </div>
-           
           </div>
         </div>
       </AppScreen.Body>
@@ -143,11 +145,11 @@ export function Hero() {
             <h1 className="text-6xl font-bold tracking-tight text-bay-leaf-300">
               Recycle and have fun with positive impact!
             </h1>
-            <p className="mt-6 text-lg text-gray-600 dark:text-aqua-haze-50">
+            <p className="mt-6 text-lg text-paradiso-900 dark:text-aqua-haze-50">
               ReciclaAPP is the perfect app for anyone who wants to make a positive impact on the environment while having fun. Join the ReciclaAPP community today and start earning points for your efforts towards a sustainable future.
             </p>
 
-            <p className="mt-6 text-lg text-gray-600 dark:text-aqua-haze-50">
+            <p className="mt-6 text-lg text-paradiso-900 dark:text-aqua-haze-50">
               Download ReciclaAPP at:
             </p>
 
@@ -172,8 +174,8 @@ export function Hero() {
             </div>
           </div>
           <div className="relative -mt-4 lg:col-span-7 lg:mt-0 xl:col-span-6">
-            <p className="text-center text-sm font-semibold text-bay-leaf-300 lg:text-left">
-              Partner stores
+            <p className="text-center text-sm font-semibold text-bay-leaf-500 lg:text-left">
+              Partners
             </p>
             <ul
               role="list"

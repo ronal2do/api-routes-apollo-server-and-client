@@ -18,7 +18,7 @@ type ButtonProps = PropsWithChildren<{
 
 const baseStyles: Record<ButtonVariant, string> = {
   solid:
-    'inline-flex justify-center rounded-3xl py-2 px-3 text-sm font-semibold outline-2 outline-offset-2 transition-colors',
+    'inline-flex justify-center items-center rounded-3xl py-2 px-3 text-sm font-semibold outline-2 outline-offset-2 transition-colors',
   outline:
     'inline-flex justify-center rounded-3xl border py-[calc(theme(spacing.2)-1px)] px-[calc(theme(spacing.3)-1px)] text-sm font-medium text-blumine-700 outline-2 outline-offset-2 transition-colors',
 }
