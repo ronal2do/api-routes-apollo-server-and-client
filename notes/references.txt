@@ -1,0 +1,35 @@
+https://uicolors.app/create
+
+https://aco-viewer.appspot.com/7ab8a495839eb22a6aaba82cf985c394
+
+
+
+
+Title: EcoQuiz - The Recycling App
+
+Introduction:
+Welcome to EcoQuiz - the ultimate recycling app that rewards you for your efforts towards a sustainable future. With EcoQuiz, you can test your knowledge on recycling and earn points for every correct answer. Redeem your points for exciting rewards and contribute towards making the world a better place.
+
+Homepage:
+The homepage of EcoQuiz will have a simple and intuitive design, with the following sections:
+
+Header: Featuring the EcoQuiz logo, along with the login and signup options.
+Main banner: Highlighting the key features of the app, along with a call-to-action button to download the app.
+Quiz section: Displaying a sample quiz question, along with an option to start the quiz.
+Rewards section: Showcasing the various rewards that users can redeem using their earned points.
+Quiz Section:
+The quiz section will have the following layout:
+
+Quiz header: Displaying the quiz title and instructions.
+Question section: Featuring the quiz questions, along with multiple choice answers.
+Result section: Displaying the user's score, along with the correct answers for each question.
+Redeem section: Offering users the option to redeem their earned points for rewards.
+Rewards Section:
+The rewards section will showcase the various rewards that users can redeem using their earned points. The section will be divided into the following categories:
+
+Eco-friendly products: Displaying a range of eco-friendly products that users can purchase using their points.
+Charitable donations: Offering users the option to donate their points to a charitable organization of their choice.
+Discounts and vouchers: Providing users with discount codes and vouchers for various eco-friendly products and services.
+
+Conclusion:
+EcoQuiz is the perfect app for anyone who wants to make a positive impact on the environment while having fun. Join the EcoQuiz community today and start earning points for your efforts towards a sustainable future.

@@ -9,9 +9,9 @@ import { Container } from './Container'
 import { Logo } from './Logo'
 import { NavLinks } from './NavLinks'
 import { PropsWithChildren } from 'react'
-import { ROUTES } from '../config'
 import { SunIcon } from '@heroicons/react/24/outline'
 import { ModeToggle } from './ModeToggle'
+import { HeaderLoginButton } from './HeaderLoginButton'
 
 function MenuIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -51,11 +51,11 @@ function MobileNavLink({ children, href }: PropsWithChildren<{ href: string }>) 
   )
 }
 
-export function Header() {
+export function Header({currentUser}) {
   return (
     <header>
       <nav>
-        <Container className="relative z-50 flex justify-between py-8">
+        <Container className="relative z-50 flex justify-between py-8 bg-sal">
           <div className="relative z-10 flex items-center gap-16">
             <Link href="/" aria-label="Home">
               <Logo className="h-10 w-auto" />
@@ -116,9 +116,7 @@ export function Header() {
                             <MobileNavLink href="#faqs">FAQs</MobileNavLink>
                           </div>
                           <div className="mt-8 flex flex-col gap-4">
-                            <Button href={ROUTES.signin} variant="outline">
-                              Log in
-                            </Button>
+                            <HeaderLoginButton type="mobile" currentUser={currentUser}/>
                             <Button href="#">Download the app</Button>
                             <Button>
                               <SunIcon width={24}/>
@@ -131,9 +129,7 @@ export function Header() {
                 </>
               )}
             </Popover>
-            <Button href={ROUTES.signin} variant="outline" className="hidden lg:block">
-              Log in
-            </Button>
+            <HeaderLoginButton type="desktop" currentUser={currentUser}/>
             <Button href="#" className="hidden lg:block">
               Download
             </Button>

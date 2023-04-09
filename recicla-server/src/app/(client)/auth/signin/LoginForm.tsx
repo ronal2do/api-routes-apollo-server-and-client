@@ -4,13 +4,17 @@ import { useState } from 'react'
 import { Button } from '../../../../components/Button'
 import { TextField } from '../../../../components/Fields'
 import { signIn } from 'next-auth/react'
+import { useSearchParams } from 'next/navigation'
 
 export const LoginForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   // const toast = useToast()
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams?.get('callbackUrl');
 
   const _signIn = async (event: React.FormEvent) => {
+
     event.preventDefault()
     if (!email || !password) return;
     // todo
@@ -19,9 +23,8 @@ export const LoginForm = () => {
         email,
         password,
         redirect: true,
-        fallbackUrl: '/'
+        callbackUrl: callbackUrl || '/',
       })
-
       setEmail('')
       setPassword('')
 
@@ -39,7 +42,7 @@ export const LoginForm = () => {
   }
 
   return (
-    <form>
+    <>
       <div className="space-y-6">
         <TextField
           label="Email address"
@@ -75,6 +78,6 @@ export const LoginForm = () => {
       >
         Enter with google
       </Button>
-    </form>
+    </>
   )
 }

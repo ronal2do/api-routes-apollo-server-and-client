@@ -25,9 +25,13 @@ export default async function DashboardLayout({
   return (
     <html className={`${inter.className} h-full bg-gray-100 antialiased`} lang="en">
       <body className="flex h-full flex-col">
+        {session == null ? (
+          <div>nothing</div>
+        ) : (
         <LayoutWrapper session={session}>
           {children}
         </LayoutWrapper>
+        )}
       </body>
     </html>
   );

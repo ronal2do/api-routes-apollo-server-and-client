@@ -4,41 +4,23 @@ import { Container } from './Container'
 
 const features = [
   {
-    name: 'Invest any amount',
+    name: 'Eco-friendly products',
     description:
-      'Whether it’s $1 or $1,000,000, we can put your money to work for you.',
+      'Displaying a range of eco-friendly products that users can purchase using their points.',
     icon: DeviceArrowIcon,
   },
   {
-    name: 'Build a balanced portfolio',
+    name: 'Charitable donations',
     description:
-      'Invest in different industries to find the most opportunities to win huge.',
+      'Offering users the option to donate their points to a charitable organization of their choice.',
     icon: DeviceCardsIcon,
   },
   {
-    name: 'Trade in real-time',
+    name: 'Discounts and vouchers',
     description:
-      'Get insider tips on big stock moves and act on them within seconds.',
+      'Providing users with discount codes and vouchers for various eco-friendly products and services.',
     icon: DeviceClockIcon,
-  },
-  {
-    name: 'Profit from your network',
-    description:
-      'Invite new insiders to get tips faster and beat even other ReciclaAPP users.',
-    icon: DeviceListIcon,
-  },
-  {
-    name: 'Encrypted and anonymized',
-    description:
-      'Cutting-edge security technology that even the NSA doesn’t know about keeps you hidden.',
-    icon: DeviceLockIcon,
-  },
-  {
-    name: 'Portfolio tracking',
-    description:
-      'Watch your investments grow exponentially, leaving other investors in the dust.',
-    icon: DeviceChartIcon,
-  },
+  }
 ]
 
 function DeviceArrowIcon(props: React.SVGProps<SVGSVGElement>) {
@@ -196,11 +178,10 @@ export function SecondaryFeatures() {
       <Container>
         <div className="mx-auto max-w-2xl sm:text-center">
           <h2 className="text-3xl font-medium tracking-tight text-gray-900">
-            Now is the time to build your portfolio.
+            {`[Rewards section]`}
           </h2>
           <p className="mt-2 text-lg text-gray-600">
-            With typical market returns, you have to start young to secure your
-            future. With ReciclaAPP, it’s never too late to build your nest egg.
+           {"[Showcasing the various rewards that users can redeem using their earned points.]"}
           </p>
         </div>
         <ul

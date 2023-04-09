@@ -123,7 +123,7 @@ function StarRating({ rating }) {
           key={index}
           className={clsx(
             'h-5 w-5',
-            rating > index ? 'fill-cyan-500' : 'fill-gray-300'
+            rating > index ? 'fill-bay-leaf-300' : 'fill-gray-300'
           )}
         />
       ))}
@@ -284,7 +284,7 @@ export function Reviews() {
           Everyone is changing their life with ReciclaAPP.
         </h2>
         <p className="mt-2 text-lg text-gray-600 sm:text-center">
-          Thousands of people have doubled their net-worth in the last 30 days.
+          {"Thousands of people have [ add a better description]."}
         </p>
         <ReviewGrid />
       </Container>

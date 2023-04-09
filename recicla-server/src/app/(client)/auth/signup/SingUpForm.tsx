@@ -4,6 +4,8 @@ import { Button } from '../../../../components/Button'
 import { SelectField, TextField } from '../../../../components/Fields'
 import { FormEvent, useState } from 'react'
 import { useRegisterUserWithEmail } from '../../../../hooks'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 export const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -12,19 +14,13 @@ export const SignUpForm = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   // const toast = useToast()
+  const router = useRouter()
 
   const { registerUserWithEmail, data, loading, error } = useRegisterUserWithEmail()
   const _signUp = async (e: FormEvent) => {
     e.preventDefault()
     if (!name || !email || !password) {
       console.warn('fileds invaluid')
-      // toast({
-      //   title: 'Added to the subscribe list.',
-      //   description: "We've created your account for you.",
-      //   status: 'error',
-      //   duration: 9000,
-      //   isClosable: true,
-      // })
       return
     }
 
@@ -46,10 +42,12 @@ export const SignUpForm = () => {
         //   duration: 9000,
         //   isClosable: true,
         // })
-        console.warn('error invaluid', data?.registerUserWithEmail.error)
+        console.warn('error invaluid', data?.registerUserWithEmail.success)
         console.warn('error error', error)
 
       }
+
+      console.log('-==== DATA ==-', data)
 
       // toast({
       //   title: 'Added to the subscribe list.',
@@ -61,21 +59,33 @@ export const SignUpForm = () => {
 
       // TODO login and redirect
 
+      // await signIn('credentials', {
+      //   email: data?.registerUserWithEmail.user?.email,
+      //   password,
+      //   redirect: false,
+      //   callbackUrl: '/',
+      // })
+
+      if (data?.registerUserWithEmail.success) {
+        console.log('data', data.registerUserWithEmail.user)
+        await signIn('credentials', {
+          email,
+          password,
+          redirect: false,
+          callbackUrl: '/',
+        })
+        router.push('/')
+      }
+
     } catch (error) {
       console.log('error', error)
-      // toast({
-      //   title: 'Added to the subscribe list.',
-      //   description: error.messsage,
-      //   status: 'error',
-      //   duration: 9000,
-      //   isClosable: true,
-      // })
-    } finally {
-      setEmail('')
-      setName('')
-      setLastName('')
-      setPassword('')
-    }
+    } 
+    // finally {
+    //   setEmail('')
+    //   setName('')
+    //   setLastName('')
+    //   setPassword('')
+    // }
   }
 
   return (

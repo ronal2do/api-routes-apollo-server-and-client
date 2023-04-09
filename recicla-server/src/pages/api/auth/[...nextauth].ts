@@ -23,7 +23,6 @@ export const authOptions: NextAuthOptions = {
     }),
     CredentialsProvider({
       async authorize(credentials) {
-        console.log({credentials})
         if  (!credentials?.email || !credentials?.password) {
           throw new Error('empty fields')
         }
@@ -42,6 +41,7 @@ export const authOptions: NextAuthOptions = {
         if (!checkPass) {
           throw new Error('Incorred password')
         }
+        console.log('user', user)
         return user
       },
       credentials: {
