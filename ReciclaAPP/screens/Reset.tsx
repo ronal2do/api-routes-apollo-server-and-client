@@ -18,7 +18,7 @@ type ResetScreenProps = {
 
 type MixedProps = FormikProps<ResetScreenProps>;
 
-export default function ResetScreen({ }: MixedProps) {
+export default function ResetScreen({ navigation }: any) {
   const [resetPassword] = useMutation(RESET_PASSWORD, {
     onCompleted: (data: any) => _signInAsync(data),
   });

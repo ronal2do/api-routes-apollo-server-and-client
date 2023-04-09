@@ -3,10 +3,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import { Button } from './Button'
 import { Container } from './Container'
-import { TextField } from './Fields'
-import { Logo, Logomark } from './Logo'
+import { Logo } from './Logo'
 import { NavLinks } from './NavLinks'
 import { SubscribeToNewsletter } from './SubscribeToNewsletter'
 const qrCode = '/images/qr-code.svg'

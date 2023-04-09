@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import { Text, StyleSheet } from 'react-native'
 
 export type TypographyStyle =
@@ -18,17 +18,13 @@ type TypographyProps = {
   style?: any;
 }
 
-export default class Typography extends PureComponent<TypographyProps> {
-  render() {
-    const {
-      children,
-      kind,
-      color,
-      style,
-    } = this.props;
-
-    return <Text style={[styles[kind], { color }, style]}>{children}</Text>
-  }
+export default function Typography({
+  children,
+  kind,
+  color,
+  style,
+}: TypographyProps) {
+  return <Text style={[styles[kind], { color }, style]}>{children}</Text>
 }
 
 const styles = StyleSheet.create({
@@ -52,13 +48,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     textAlign: 'left',
-    fontWeight: '700', 
+    fontWeight: '700',
     paddingVertical: 15
   },
   titleSmall: {
     fontSize: 14,
     textAlign: 'left',
-    fontWeight: '700', 
+    fontWeight: '700',
     paddingVertical: 15
   },
   instructions: {

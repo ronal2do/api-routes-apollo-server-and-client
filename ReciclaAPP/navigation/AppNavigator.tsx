@@ -30,15 +30,13 @@ import { NavigationContainer } from '@react-navigation/native';
 export type RootStackParamList = {
   App: undefined;
   Home: undefined;
-  SignUp: { userId: string };
+  SignUp: { navigation: string };
   Forget: undefined;
   Feed: { sort: 'latest' | 'top' } | undefined;
+  Quizz: undefined
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'App'>;
-
-
-
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -92,9 +90,9 @@ function AppStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="MyHome" component={MyHomeScreen}
-      //  options={{
-      //   headerShown: false
-      // }}
+       options={{
+          headerShown: false
+        }}
       />
       <Stack.Screen name="Quizz" component={QuizzScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />

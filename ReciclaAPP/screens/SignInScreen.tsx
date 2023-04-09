@@ -9,12 +9,7 @@ import Analytics from '../services/Analytics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation } from '@apollo/client';
 
-type SignInScreenProps = {
-  password: string,
-  email: string,
-}
-
-type MixedProps = { navigation: any, mutation: any } & FormikProps<SignInScreenProps>
+type MixedProps = { navigation: any }
 
 export default function SignInScreen({ navigation }: MixedProps) {
   

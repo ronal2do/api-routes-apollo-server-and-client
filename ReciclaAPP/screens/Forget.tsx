@@ -14,7 +14,7 @@ type ForgetScreenProps = {
 
 type MixedProps = { navigation: any } & ForgetScreenProps;
 
-export default function ForgetScreen({ navigation }: MixedProps) {
+export default function ForgetScreen({ navigation }: any) {
   const [forgetPassword] = useMutation(FORGET_PASSWORD, {
     onCompleted: (data: any) => {
       const { UserForgetPassword: { error, email } } = data;

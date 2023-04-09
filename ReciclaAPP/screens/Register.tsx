@@ -13,7 +13,7 @@ import { RootStackParamList } from '../navigation/AppNavigator';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SignUp'>;
 
-export default function RegisterScreen({ navigation }: Props) {
+export default function RegisterScreen({ navigation }: any) {
   const [registerUserWithEmail] = useMutation(REGISTER_MUTATION, {
     onCompleted: (data: any) => {
       const { registerUserWithEmail: { error, token, user, email } } = data;

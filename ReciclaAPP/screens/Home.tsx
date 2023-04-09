@@ -145,7 +145,7 @@ const Hero = () => {
           Você tem
         </Typography>
         <View style={styles.points}>
-          <AnimatedNumber kind="big" color={color.CYAN} value={me.points || 0} timing="linear"/>
+          <AnimatedNumber kind="big" color={color.CYAN} value={parseInt(me.points) || 0} timing="linear"/>
           <Typography kind="instructions" color={color.CYAN}>
             {' '}
             pontos
