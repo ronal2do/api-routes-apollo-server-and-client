@@ -11,6 +11,8 @@ import { useNavigation } from '@react-navigation/native'
 import { Question, User } from '@prisma/client'
 import { theme as color } from '../constants/Colors';
 import Close from '../components/Close'
+import { StackScreenProps } from '@react-navigation/stack'
+import { MainStackParamList } from '../navigation/types'
 
 export type Stages = 'info' | 'answer' | 'final' | 'error' | 'end' | 'end-season'
 
@@ -49,8 +51,7 @@ export const useGetQuestions = (): IuseGetQuestionsPayload => {
   };
 }
 
-export default function QuizzScreen() {
-  const navigation = useNavigation()
+const QuizzScreen = ({navigation}: StackScreenProps<MainStackParamList>) => {
   const [me, setMe] = useState<User>()
   const [stage, setStage] = useState<Stages>('info')
   const [question, setQuestion] = useState<Question | null>(null)
@@ -126,3 +127,5 @@ export default function QuizzScreen() {
     </SafeAreaView>
   )
 }
+
+export default QuizzScreen

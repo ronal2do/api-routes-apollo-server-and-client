@@ -1,6 +1,5 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import SignInScreen from '../screens/SignInScreen';
@@ -25,25 +24,12 @@ import ForgetScreen from '../screens/Forget';
 import AboutScreen from '../screens/About';
 import { ChangePasswordScreen } from '../screens/ChangePassword';
 import { NavigationContainer } from '@react-navigation/native';
-import Loading from '../components/Loading';
+import { MainStackParamList } from './types';
 
-export type RootStackParamList = {
-  App: undefined;
-  Home: undefined;
-  SignUp: { navigation: string };
-  Forget: undefined;
-  Feed: { sort: 'latest' | 'top' } | undefined;
-  Quizz: undefined;
-  ProfileScreen: { me: any };
-  ChangePassword: undefined
-};
-
-type Props = NativeStackScreenProps<RootStackParamList, 'App'>;
-
-export const Stack = createStackNavigator();
+export const Stack = createStackNavigator<MainStackParamList>();
 const Drawer = createDrawerNavigator();
-export const AuthStack = createStackNavigator();
-const SettingsStack = createStackNavigator();
+export const AuthStack = createStackNavigator<MainStackParamList>();
+const SettingsStack = createStackNavigator<MainStackParamList>();
 
 function SettingsStacks() {
   return (
@@ -53,7 +39,6 @@ function SettingsStacks() {
       <SettingsStack.Screen name="SendAError" component={SendAErrorScreen} />
       <SettingsStack.Screen name="Feedback" component={FeedbackScreen} />
       <SettingsStack.Screen name="About" component={AboutScreen} />
-      <SettingsStack.Screen name="Profile" component={ProfileScreen} />
     </SettingsStack.Navigator>
   );
 }
@@ -97,14 +82,21 @@ function AppStack() {
   );
 }
 
-export function AppNavigator({ userToken, loading }: { userToken?: string, loading: boolean }) {
+interface AppNavigatorProps {
+  state: { userToken?: string, isLoading: boolean, isSignout: boolean }
+}
+
+export function AppNavigator({ state }: AppNavigatorProps) {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {loading ? (
+        {state.isLoading ? (
           // We haven't finished checking for the token yet
-          <Stack.Screen name="Splash" component={AuthLoadingScreen} />
-        ) : userToken == null ? (
+          <Stack.Screen name="Splash" component={AuthLoadingScreen} options={{
+            // When logging out, a pop animation feels intuitive
+            animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+          }} />
+        ) : state.userToken == null ? (
           <Stack.Screen name="Auth" component={AuthStackScreens} />
         ) : (
           <Stack.Screen name="App" component={MyDrawerNavigator} />

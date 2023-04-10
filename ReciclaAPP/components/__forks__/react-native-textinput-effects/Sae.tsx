@@ -68,7 +68,7 @@ export default class Sae extends PureComponent<SaeProps, BaseInputState> {
     width: 0,
   };
 
-  componentWillReceiveProps(newProps: SaeProps) {
+  UNSAFE_componentWillReceiveProps(newProps: SaeProps) {
     const newValue = newProps.value;
     if (newValue != null && newValue !== this.state.value) {
       const isFocused = this.input.current!.isFocused();

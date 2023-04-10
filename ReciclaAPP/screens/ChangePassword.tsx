@@ -6,8 +6,6 @@ import ChangePasswordForm from './ChangePasswordForm';
 import { errorsToHumans } from '../utils/normalizeErrors';
 import { CHANGE_PASSWORD } from '../graphql/mutations';
 import { useNavigation } from '@react-navigation/native';
-import Close from '../components/Close';
-import { theme } from '../constants/Colors';
 import { NavigationWrapper } from '../components/NavigationWrapper';
 
 type ChangePasswordScreenProps = {};

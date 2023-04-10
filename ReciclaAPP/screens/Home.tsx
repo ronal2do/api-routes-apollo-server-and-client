@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { View, StatusBar, ImageBackground, ActivityIndicator, Platform, StyleSheet, Text } from 'react-native';
+import { View, ImageBackground, ActivityIndicator, Platform, StyleSheet, StatusBar } from 'react-native';
 import * as Permissions from 'expo-permissions'
 import * as Notifications from 'expo-notifications';
 import Typography from '../components/Typography';
@@ -13,11 +13,12 @@ import AnimatedNumber from '../components/AnimatedNumber';
 import { ADD_POINTS, USER_PUSH_TOKEN } from '../graphql/mutations';
 import { client } from '../services/apollo';
 import Analytics from '../services/Analytics';
-import { useNavigation } from '@react-navigation/native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Menu from '../components/Menu';
 import Me from '../components/Me';
 import Button from '../components/Button';
+import { StackScreenProps } from '@react-navigation/stack';
+import { MainStackParamList } from '../navigation/types';
 
 interface QuoteType {
   id: string;
@@ -25,10 +26,9 @@ interface QuoteType {
   phrase: string;
 }
 
-export const MyHomeScreen: React.FC = () => {
+export const MyHomeScreen = ({ navigation }: StackScreenProps<MainStackParamList>) => {
   const [quote, setQuote] = useState<QuoteType | null>(null);
   const [me, setMe] = useState<any | null>(null);
-  const navigation = useNavigation()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -90,40 +90,39 @@ export const MyHomeScreen: React.FC = () => {
 
   return (
     <>
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.BLUE }}>
-      <StatusBar barStyle="light-content" />
-      <View style={{ width: '100%', justifyContent: 'space-between', flexDirection: 'row', padding: 2, paddingTop: 12 }}>
-        <Menu />
-        <Me />
-      </View>
-      <ImageBackground style={styles.header} imageStyle={styles.backImage} resizeMode="contain" source={require('../assets/images/home.png')}>
-        <Hero />
-      </ImageBackground>
-      <View style={styles.container}>
-        {quote !== null ? (
-          <>
-            <ImageBackground resizeMode="contain" style={styles.stars} source={require('../assets/images/stars01.png')}>
-              <Typography kind="instructions" style={{ fontWeight: '900' }}>
-                Dica do dia
-              </Typography>
-              <Typography kind="welcome" color={color.GREEN}>
-                {quote.title}
-              </Typography>
-            </ImageBackground>
+      <SafeAreaView style={{ flex: 1, backgroundColor: color.BLUE, padding: 0, margin: 0 }}>
+        <StatusBar barStyle="light-content" />
+        <View style={{ width: '100%', justifyContent: 'space-between', flexDirection: 'row', padding: 2, paddingTop: 12 }}>
+          <Menu />
+          <Me />
+        </View>
+        <ImageBackground style={styles.header} imageStyle={styles.backImage} resizeMode="contain" source={require('../assets/images/home.png')}>
+          <Hero />
+        </ImageBackground>
+        <View style={styles.container}>
+          {quote !== null ? (
+            <>
+              <ImageBackground resizeMode="contain" style={styles.stars} source={require('../assets/images/stars01.png')}>
+                <Typography kind="instructions" style={{ fontWeight: '900' }}>
+                  Dica do dia
+                </Typography>
+                <Typography kind="welcome" color={color.GREEN}>
+                  {quote.title}
+                </Typography>
+              </ImageBackground>
 
-            <Typography kind="instructions" style={{ paddingVertical: 20, paddingHorizontal: 40, textAlign: 'center' }}>
-              {quote.phrase}
-            </Typography>
-          </>
-        ) : (
-          <ActivityIndicator />
-        )}
-      </View>
-      <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'white' }}>
-        <ButtonGame />
-      </View>
-    </SafeAreaView>
-     <SafeAreaView style={{ flex: 0, backgroundColor: 'white' }} />
+              <Typography kind="instructions" style={{ paddingVertical: 20, paddingHorizontal: 40, textAlign: 'center' }}>
+                {quote.phrase}
+              </Typography>
+            </>
+          ) : (
+            <ActivityIndicator />
+          )}
+        </View>
+        <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'white' }}>
+          <ButtonGame navigation={navigation}/>
+        </View>
+      </SafeAreaView>
     </>
   );
 };
@@ -174,14 +173,13 @@ const Hero = () => {
   );
 }
 
-const ButtonGame = () => {
+const ButtonGame = ({ navigation }: Pick<StackScreenProps<MainStackParamList>, 'navigation'>)=> {
   const { loading, data, error } = useQuery(PROFILE_QUERY)
-  const router = useNavigation();
 
   const welcomeToTheGame = async (points: number, id: string) => {
     if (Number(points) > 0) {
       Analytics.track(Analytics.events.START_GAME, { id })
-      router.navigate('Quizz')
+      navigation.navigate('Quizz')
     }
     try {
       await client.mutate({
@@ -190,7 +188,7 @@ const ButtonGame = () => {
         refetchQueries: () => [{ query: PROFILE_QUERY }]
       }).then(() => {
         Analytics.track(Analytics.events.START_GAME, { id })
-        router.navigate('Quizz')
+        navigation.navigate('Quizz')
       })
     } catch (error) {
       Analytics.track(Analytics.events.ERROR, {

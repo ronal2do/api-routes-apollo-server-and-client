@@ -1,56 +1,39 @@
-import React, { PureComponent } from 'react'
+import React, { useEffect, useState } from 'react'
 import { StyleSheet, View, ScrollView, TouchableOpacity } from 'react-native'
 import * as WebBrowser from 'expo-web-browser';
 
 import Typography from '../components/Typography'
-import Menu from '../components/Menu';
 import { theme as color } from '../constants/Colors';
 import SettingsRow from '../components/SettingsRow';
-import Me from '../components/Me';
 import { clearStorage, logout } from '../utils/asyncStorage';
 import * as Linking from 'expo-linking';
 import { ENV } from '../environment';
 import Analytics from '../services/Analytics';
 import { client } from '../services/apollo';
 import { NavigationWrapper } from '../components/NavigationWrapper';
+import { AuthContext } from '../navigation/AuthContext';
+import { StackScreenProps } from '@react-navigation/stack';
+import { MainStackParamList } from '../navigation/types';
 
-const DEVELOPER_ENABLE_TIMEOUT_MS: number = 500;
+const DEVELOPER_ENABLE_TIMEOUT_MS: number = 750;
 const DEVELOPER_ENABLE_NUM_TAPS: number = 5;
-const FeedbackLink: string = 'mailto://fernando.pereira@stqpublicidade.com.br?subject=Recicla BC [ Feedback ]'
-const SendAErrorLink: string = 'mailto://fernando.pereira@stqpublicidade.com.br?subject=Recicla BC [ Erro ]'
-export default class SettingsScreen extends PureComponent {
-  public _timeoutId?: any;
-  public _taps?: any;
+const FeedbackLink: string = 'mailto:fernando.pereira@stqpublicidade.com.br?subject=Recicla BC [ Feedback ]'
+const SendAErrorLink: string = 'mailto:fernando.pereira@stqpublicidade.com.br?subject=Recicla BC [ Erro ]'
 
-  static navigationOptions = {
-    title: 'Configurações',
-    // @ts-ignore
-    headerLeft: <Menu variant />,
-    headerRight: <Me />,
-    headerStyle: {
-      backgroundColor: '#fff',
-      borderBottomWidth: 0,
-    },
-    headerTintColor: color.BLUE,
-  }
+export const SettingsScreen = ({ navigation }: StackScreenProps<MainStackParamList>) => {
+  // const [points, setPoints] = useState(false)
+  const [devMode, setDevMode] = useState(false)
+  const [taps, setTaps] = useState(0)
+  const [timerId, setTimerId] = useState<NodeJS.Timeout | null>(null);
+  const { signOut } = React.useContext(AuthContext);
 
-  state = { points: false, devMode: false }
-
-  _showMoreApp = () => {
-    this.props.navigation.navigate('Home');
-  };
-
-  _signOutAsync = async () => {
+  const _signOutAsync = async () => {
     await logout();
     client.resetStore()
-    this.props.navigation.navigate('Auth');
+    signOut();
   };
 
-  _goTo = (route: string) => {
-    this.props.navigation.navigate(route);
-  };
-
-  goToLink = (url: string): void => {
+  const goToLink = (url: string): void => {
     Linking.canOpenURL(url)
       .then((supported: boolean) => {
         if (!supported) {
@@ -63,39 +46,36 @@ export default class SettingsScreen extends PureComponent {
       .catch((err: string) => Analytics.track(Analytics.events.ERROR, { path: 'Settings.tsx', func: 'goToLink', error: err }));
   }
 
-  _onAboutPressed = () => {
-    // if (!this.props.devMode) {
-    if (!this.state.devMode) {
-      if (this._timeoutId != undefined) {
-        clearTimeout(this._timeoutId);
-        this._timeoutId = undefined;
+  const onAboutPressed = () => {
+    if (!devMode) {
+      if (timerId != null) {
+        clearTimeout(timerId);
+        setTimerId(null);
       }
-      if (this._taps >= DEVELOPER_ENABLE_NUM_TAPS) {
-        // this.props.enableDevelopers(true);
-        this.setState({ devMode: true })
-        clearTimeout(this._timeoutId);
-        this._timeoutId = undefined;
+      if (taps >= DEVELOPER_ENABLE_NUM_TAPS) {
+        setDevMode(true)
+        if (timerId != null) {
+          clearTimeout(timerId);
+          setTimerId(null);
+        }
       } else {
-        this._taps++;
-        this._timeoutId = setTimeout(() => {
-          this._taps = 0;
+        setTaps(taps + 1)
+        const newTimerId = setTimeout(() => {
+          setTaps(0)
         }, DEVELOPER_ENABLE_TIMEOUT_MS);
+        setTimerId(newTimerId);
       }
     }
   }
 
-  _handlePressButtonAsync = async () => {
-    WebBrowser.openBrowserAsync(ENV.SUPPORT_URL);
-  };
+  useEffect(() => {
+    return () => {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+      }
+    };
+  }, [timerId]);
 
-  componentWillUnmount() {
-    if (this._timeoutId != null) {
-      clearTimeout(this._timeoutId)
-    }
-  }
-
-  render() {
-    const { devMode, points } = this.state
     return (
       <NavigationWrapper drawer={true} variant={true}>
         <ScrollView style={styles.container}>
@@ -104,10 +84,10 @@ export default class SettingsScreen extends PureComponent {
           <View style={{ paddingTop: 35 }}/> */}
 
           <TouchableOpacity
-            onPress={() => this._onAboutPressed()}
+            onPress={() => onAboutPressed()}
           ><Typography kind="welcome" style={{ marginBottom: 0 }}>Informaçōes</Typography></TouchableOpacity>
-          <SettingsRow onPress={() => this._goTo('About')} label="Sobre o APP" />
-          <SettingsRow onPress={() => this._handlePressButtonAsync()} label="Política de Privacidade" />
+          <SettingsRow onPress={() => navigation.navigate('About')} label="Sobre o APP" />
+          <SettingsRow onPress={() => WebBrowser.openBrowserAsync(ENV.SUPPORT_URL)} label="Política de Privacidade" />
           <View style={{ paddingTop: 35 }} />
 
           {devMode &&
@@ -115,24 +95,25 @@ export default class SettingsScreen extends PureComponent {
               <Typography kind="welcome" style={{ marginBottom: 0 }}>Modo desenvolvedor</Typography>
               <SettingsRow onPress={() => { }} label="Push Notification" />
               <SettingsRow onPress={() => {
-                this._signOutAsync()
+                _signOutAsync()
                 clearStorage()
               }} label="Clean storage" />
-              <SettingsRow onPress={() => this.setState({ devMode: false })} label="Turn off develop mode" />
+              <SettingsRow onPress={() => setDevMode(false)} label="Turn off develop mode" />
               <View style={{ paddingTop: 35 }} />
             </>
           }
 
           <Typography kind="welcome" style={{ marginBottom: 0 }}>Configurações gerais</Typography>
-          <SettingsRow onPress={() => this.goToLink(FeedbackLink)} label="Enviar feedback" />
-          <SettingsRow onPress={() => this.goToLink(SendAErrorLink)} label="Reportar erro" />
-          <SettingsRow onPress={this._signOutAsync} label="Sair" textStyle={{ color: color.RED, fontWeight: '700' }} />
+          <SettingsRow onPress={() => goToLink(FeedbackLink)} label="Enviar feedback" />
+          <SettingsRow onPress={() => goToLink(SendAErrorLink)} label="Reportar erro" />
+          <SettingsRow onPress={_signOutAsync} label="Sair" textStyle={{ color: color.RED, fontWeight: '700' }} />
           <View style={{ padding: 30 }} />
         </ScrollView>
       </NavigationWrapper>
     )
   }
-}
+
+export default SettingsScreen
 
 const styles = StyleSheet.create({
   container: {

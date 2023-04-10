@@ -11,7 +11,7 @@ const Menu = ({ variant = false }: MenuProps) => {
   const navigation = useNavigation();
   
   return (
-    <TouchableOpacity style={{ marginLeft: 20 }} 
+    <TouchableOpacity style={styles.wrapper} 
       onPress={() => navigation.dispatch(DrawerActions.toggleDrawer()) }
       hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
     >
@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24
+  },
+  wrapper: { 
+    marginLeft: 20,
   }
 });
 
