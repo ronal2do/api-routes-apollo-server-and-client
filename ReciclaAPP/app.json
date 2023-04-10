@@ -20,9 +20,9 @@
       "bundleIdentifier": "com.stq.reciclaapp",
       "buildNumber": "1.1.31",
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos.",
+        "NSPhotoLibraryUsageDescription": "ReciclaAPP gostaria de ter acesso a sua camera, para personalizar o seu avatar",
         "NSCameraUsageDescription": "ReciclaAPP gostaria de ter acesso a sua camera, para personalizar o seu avatar",
-        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos."
+        "NSPhotoLibraryAddUsageDescription": "ReciclaAPP gostaria de ter acesso a sua camera, para personalizar o seu avatar"
       }
     },
     "android": {
@@ -43,15 +43,15 @@
       [
         "expo-media-library",
         {
-          "photosPermission": "Allow $(PRODUCT_NAME) to access your photos.",
-          "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+          "photosPermission": "ReciclaAPP gostaria de ter acesso a sua camera, para personalizar o seu avatar",
+          "savePhotosPermission": "ReciclaAPP gostaria de ter acesso a sua camera, para personalizar o seu avatar",
+          "cameraPermission": "ReciclaAPP gostaria de ter acesso a sua camera, para personalizar o seu avatar"
         }
       ],
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
+          "cameraPermission": "ReciclaAPP gostaria de ter acesso a sua camera, para personalizar o seu avatar"
         }
       ]
     ],

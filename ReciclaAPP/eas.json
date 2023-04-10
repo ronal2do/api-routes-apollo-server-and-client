@@ -8,17 +8,37 @@
       "distribution": "internal",
       "ios": {
         "resourceClass": "m-medium"
+      },
+      "env": {
+        "API": "http://192.168.1.14:3000/api/graphql",
+        "SUPPORT_URL": "https://reciclaapp.vercel.app/politica-de-privacidade",
+        "RULES_URL": "https://reciclaapp.vercel.app/regulamento-plano-de-operacao-da-promocao",
+        "AMPLITUDE": "18944a4f066e0f82e14f03bbcf0edfc2",
+        "STQ_URL": "https://stqpublicidade.com.br"
       }
     },
     "preview": {
       "distribution": "internal",
+      "channel": "staging",
       "ios": {
         "resourceClass": "m-medium"
-      }
+      },
+      "extends": "production"
     },
     "production": {
+      "channel": "production",
       "ios": {
         "resourceClass": "m-medium"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./keys/google-services.json"
+      },
+      "env": {
+        "API": "https://reciclaapp.vercel.app",
+        "SUPPORT_URL": "https://reciclaapp.vercel.app/politica-de-privacidade",
+        "RULES_URL": "https://reciclaapp.vercel.app/regulamento-plano-de-operacao-da-promocao",
+        "AMPLITUDE": "7039bbeb8b65acc499c721eb4a9571ab",
+        "STQ_URL": "https://stqpublicidade.com.br/?ref=app-reciclaabc"
       }
     }
   },

@@ -16,11 +16,11 @@ const ENVFILE = {
     STQ_URL: 'https://stqpublicidade.com.br'
   },
   prod: {
-    API: 'https://reciclaapp.vercel.app',
-    SUPPORT_URL: 'https://reciclaapp.vercel.app/politica-de-privacidade',
-    RULES_URL: 'https://reciclaapp.vercel.app/regulamento-plano-de-operacao-da-promocao',
-    AMPLITUDE: '7039bbeb8b65acc499c721eb4a9571ab',
-    STQ_URL: 'https://stqpublicidade.com.br/?ref=app-reciclaabc'
+    "API": "https://reciclaapp.vercel.app",
+    "SUPPORT_URL": "https://reciclaapp.vercel.app/politica-de-privacidade",
+    "RULES_URL": "https://reciclaapp.vercel.app/regulamento-plano-de-operacao-da-promocao",
+    "AMPLITUDE": "7039bbeb8b65acc499c721eb4a9571ab",
+    "STQ_URL": "https://stqpublicidade.com.br/?ref=app-reciclaabc"
   },
 }
 
