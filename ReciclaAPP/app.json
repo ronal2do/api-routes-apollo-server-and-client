@@ -1,18 +1,17 @@
 {
   "expo": {
     "name": "ReciclaAPP",
-    "scheme": "ReciclaAPP",
+    "scheme": "reciclaapp",
     "slug": "ReciclaAPP",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#2A3E52"
     },
-    
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -20,12 +19,10 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.stq.reciclaapp",
       "buildNumber": "1.1.31",
-      "config": {
-        "usesNonExemptEncryption": false
-      },
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "ReciclaAPP gostaria de ter acesso a suas fotos, para personalizar o seu avatar",
-        "NSCameraUsageDescription": "ReciclaAPP gostaria de ter acesso a sua camera, para personalizar o seu avatar"
+        "NSPhotoLibraryUsageDescription": "Allow $(PRODUCT_NAME) to access your photos.",
+        "NSCameraUsageDescription": "ReciclaAPP gostaria de ter acesso a sua camera, para personalizar o seu avatar",
+        "NSPhotoLibraryAddUsageDescription": "Allow $(PRODUCT_NAME) to save photos."
       }
     },
     "android": {
@@ -35,7 +32,12 @@
       "package": "com.stq.reciclaapp",
       "versionCode": 28,
       "googleServicesFile": "./keys/google-services.json",
-      "permissions": []
+      "permissions": [
+        "android.permission.READ_EXTERNAL_STORAGE",
+        "android.permission.WRITE_EXTERNAL_STORAGE",
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "plugins": [
       [
@@ -45,13 +47,24 @@
           "savePhotosPermission": "Allow $(PRODUCT_NAME) to save photos.",
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
         }
-      ], 
+      ],
       [
         "expo-camera",
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "75028df9-9589-47dc-90c1-24bd972ed936"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/75028df9-9589-47dc-90c1-24bd972ed936"
+    }
   }
 }
