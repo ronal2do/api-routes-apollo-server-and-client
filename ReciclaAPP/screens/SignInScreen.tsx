@@ -8,11 +8,13 @@ import { APP_KEYS } from '../utils/asyncStorage';
 import Analytics from '../services/Analytics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useMutation } from '@apollo/client';
+import { AuthContext } from '../App';
 
 type MixedProps = { navigation: any }
 
 export default function SignInScreen({ navigation }: MixedProps) {
-  
+  const { signIn } = React.useContext(AuthContext);
+
   const [loginUserWithEmail] = useMutation(LOGIN_MUTATION, {
     onCompleted: (data: any) => {
       const { loginUserWithEmail: { error, token, id } } = data;
@@ -26,10 +28,11 @@ export default function SignInScreen({ navigation }: MixedProps) {
           { cancelable: true },
         );
       }
+      signIn({ token })
       AsyncStorage.setItem(APP_KEYS.LOGIN, token).then(() => {
         Analytics.identify(id);
         Analytics.track(Analytics.events.USER_CREATED_ACCOUNT);
-        navigation.navigate('App');
+        // navigation.navigate('App');
       });
     }
   });

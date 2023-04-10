@@ -89,7 +89,7 @@ export default withFormik<any, ForgetScreenFormProps>({
 
   handleSubmit: async (
     values,
-    { props, setError }
+    { props }
   ) => {
     console.log('@@ props token ', props)
     await props.mutation({

@@ -1,11 +1,10 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import SignInScreen from '../screens/SignInScreen';
-import {MyHomeScreen} from '../screens/Home';
+import { MyHomeScreen } from '../screens/Home';
 import QuizzScreen from '../screens/Quizz';
 import ColetaScreen from '../screens/Coleta';
 import ContatoScreen from '../screens/Contato';
@@ -24,8 +23,9 @@ import RegisterScreen from '../screens/Register';
 import ResetScreen from '../screens/Reset';
 import ForgetScreen from '../screens/Forget';
 import AboutScreen from '../screens/About';
-import ChangePasswordScreen from '../screens/ChangePassword';
+import { ChangePasswordScreen } from '../screens/ChangePassword';
 import { NavigationContainer } from '@react-navigation/native';
+import Loading from '../components/Loading';
 
 export type RootStackParamList = {
   App: undefined;
@@ -33,15 +33,16 @@ export type RootStackParamList = {
   SignUp: { navigation: string };
   Forget: undefined;
   Feed: { sort: 'latest' | 'top' } | undefined;
-  Quizz: undefined
+  Quizz: undefined;
+  ProfileScreen: { me: any };
+  ChangePassword: undefined
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'App'>;
 
-const Stack = createStackNavigator();
+export const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
-const Tab = createBottomTabNavigator();
-const AuthStack = createStackNavigator();
+export const AuthStack = createStackNavigator();
 const SettingsStack = createStackNavigator();
 
 function SettingsStacks() {
@@ -53,12 +54,11 @@ function SettingsStacks() {
       <SettingsStack.Screen name="Feedback" component={FeedbackScreen} />
       <SettingsStack.Screen name="About" component={AboutScreen} />
       <SettingsStack.Screen name="Profile" component={ProfileScreen} />
-      {/* <SettingsStack.Screen name="ChangePassword" component={ChangePasswordScreen} /> */}
     </SettingsStack.Navigator>
   );
 }
 
-function AuthStackScreens() {
+export function AuthStackScreens() {
   return (
     <AuthStack.Navigator>
       <AuthStack.Screen name="SignIn" component={SignInScreen} />
@@ -69,9 +69,9 @@ function AuthStackScreens() {
   );
 }
 
-function MyDrawerNavigator() {
+export function MyDrawerNavigator() {
   return (
-    <Drawer.Navigator >
+    <Drawer.Navigator screenOptions={{ headerShown: false }}>
       <Drawer.Screen name="Home" component={AppStack} />
       <Drawer.Screen name="Sorteios" component={SorteioScreen} />
       <Drawer.Screen name="Cupons" component={CupomsScreen} />
@@ -89,27 +89,27 @@ function MyDrawerNavigator() {
 function AppStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="MyHome" component={MyHomeScreen}
-       options={{
-          headerShown: false
-        }}
-      />
+      <Stack.Screen name="MyHome" component={MyHomeScreen} />
       <Stack.Screen name="Quizz" component={QuizzScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="ChangePassword" component={ChangePasswordScreen} />
     </Stack.Navigator>
   );
 }
 
-export function AppNavigator({ userToken }: { userToken?: string }) {
+export function AppNavigator({ userToken, loading }: { userToken?: string, loading: boolean }) {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        { userToken == null ? (
+        {loading ? (
+          // We haven't finished checking for the token yet
+          <Stack.Screen name="Splash" component={AuthLoadingScreen} />
+        ) : userToken == null ? (
           <Stack.Screen name="Auth" component={AuthStackScreens} />
-        ): (
+        ) : (
           <Stack.Screen name="App" component={MyDrawerNavigator} />
         )}
       </Stack.Navigator>
-    </NavigationContainer> 
+    </NavigationContainer>
   );
 }

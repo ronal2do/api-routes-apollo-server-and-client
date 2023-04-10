@@ -6,6 +6,7 @@ import Typography from '../components/Typography'
 import { theme as color } from '../constants/Colors';
 import SettingsRow from '../components/SettingsRow';
 import { ENV } from '../environment';
+import { NavigationWrapper } from '../components/NavigationWrapper';
 
 const AboutScreen = () => {
   const handlePressButtonAsync = useCallback(async () => {
@@ -17,17 +18,19 @@ const AboutScreen = () => {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.optionButton}>
-        <Typography kind="instructions">Versão do APP: {String(Constants.manifest?.version || 0)}</Typography>
-      </View>
-      <View style={styles.optionButton}>
-        <Typography kind="instructions">Native App Version: {String(Constants.nativeAppVersion || 0)}</Typography>
-      </View>
-      <SettingsRow onPress={handlePressButtonAsync} label="Desenvolvedora: STQ Digital" />
-      <SettingsRow onPress={() => goTo('Licences')} label="Licenças de terceira parte" />
-      <View style={{ padding: 35 }} />
-    </ScrollView>
+    <NavigationWrapper variant={true}>
+      <ScrollView style={styles.container}>
+        <View style={styles.optionButton}>
+          <Typography kind="instructions">Versão do APP: {String(Constants.manifest?.version || 0)}</Typography>
+        </View>
+        <View style={styles.optionButton}>
+          <Typography kind="instructions">Native App Version: {String(Constants.nativeAppVersion || 0)}</Typography>
+        </View>
+        <SettingsRow onPress={handlePressButtonAsync} label="Desenvolvedora: STQ Digital" />
+        <SettingsRow onPress={() => goTo('Licences')} label="Licenças de terceira parte" />
+        <View style={{ padding: 35 }} />
+      </ScrollView>
+    </NavigationWrapper>
   );
 };
 

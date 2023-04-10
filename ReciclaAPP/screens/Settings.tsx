@@ -12,6 +12,7 @@ import * as Linking from 'expo-linking';
 import { ENV } from '../environment';
 import Analytics from '../services/Analytics';
 import { client } from '../services/apollo';
+import { NavigationWrapper } from '../components/NavigationWrapper';
 
 const DEVELOPER_ENABLE_TIMEOUT_MS: number = 500;
 const DEVELOPER_ENABLE_NUM_TAPS: number = 5;
@@ -96,37 +97,39 @@ export default class SettingsScreen extends PureComponent {
   render() {
     const { devMode, points } = this.state
     return (
-      <ScrollView style={styles.container}>
-        {/* <Typography kind="welcome" style={{ marginBottom: 0 }}>Notificações</Typography>
-        <SettingsRow onPress={() => this.setState({ points: !points }) } isSwitch={true} switchValue={points} label="Avisar dias de sorteios"/>
-        <View style={{ paddingTop: 35 }}/> */}
+      <NavigationWrapper drawer={true} variant={true}>
+        <ScrollView style={styles.container}>
+          {/* <Typography kind="welcome" style={{ marginBottom: 0 }}>Notificações</Typography>
+          <SettingsRow onPress={() => this.setState({ points: !points }) } isSwitch={true} switchValue={points} label="Avisar dias de sorteios"/>
+          <View style={{ paddingTop: 35 }}/> */}
 
-        <TouchableOpacity
-          onPress={() => this._onAboutPressed()}
-        ><Typography kind="welcome" style={{ marginBottom: 0 }}>Informaçōes</Typography></TouchableOpacity>
-        <SettingsRow onPress={() => this._goTo('About')} label="Sobre o APP" />
-        <SettingsRow onPress={() => this._handlePressButtonAsync()} label="Política de Privacidade" />
-        <View style={{ paddingTop: 35 }} />
+          <TouchableOpacity
+            onPress={() => this._onAboutPressed()}
+          ><Typography kind="welcome" style={{ marginBottom: 0 }}>Informaçōes</Typography></TouchableOpacity>
+          <SettingsRow onPress={() => this._goTo('About')} label="Sobre o APP" />
+          <SettingsRow onPress={() => this._handlePressButtonAsync()} label="Política de Privacidade" />
+          <View style={{ paddingTop: 35 }} />
 
-        {devMode &&
-          <>
-            <Typography kind="welcome" style={{ marginBottom: 0 }}>Modo desenvolvedor</Typography>
-            <SettingsRow onPress={() => { }} label="Push Notification" />
-            <SettingsRow onPress={() => {
-              this._signOutAsync()
-              clearStorage()
-            }} label="Clean storage" />
-            <SettingsRow onPress={() => this.setState({ devMode: false })} label="Turn off develop mode" />
-            <View style={{ paddingTop: 35 }} />
-          </>
-        }
+          {devMode &&
+            <>
+              <Typography kind="welcome" style={{ marginBottom: 0 }}>Modo desenvolvedor</Typography>
+              <SettingsRow onPress={() => { }} label="Push Notification" />
+              <SettingsRow onPress={() => {
+                this._signOutAsync()
+                clearStorage()
+              }} label="Clean storage" />
+              <SettingsRow onPress={() => this.setState({ devMode: false })} label="Turn off develop mode" />
+              <View style={{ paddingTop: 35 }} />
+            </>
+          }
 
-        <Typography kind="welcome" style={{ marginBottom: 0 }}>Configurações gerais</Typography>
-        <SettingsRow onPress={() => this.goToLink(FeedbackLink)} label="Enviar feedback" />
-        <SettingsRow onPress={() => this.goToLink(SendAErrorLink)} label="Reportar erro" />
-        <SettingsRow onPress={this._signOutAsync} label="Sair" textStyle={{ color: color.RED, fontWeight: '700' }} />
-        <View style={{ padding: 30 }} />
-      </ScrollView>
+          <Typography kind="welcome" style={{ marginBottom: 0 }}>Configurações gerais</Typography>
+          <SettingsRow onPress={() => this.goToLink(FeedbackLink)} label="Enviar feedback" />
+          <SettingsRow onPress={() => this.goToLink(SendAErrorLink)} label="Reportar erro" />
+          <SettingsRow onPress={this._signOutAsync} label="Sair" textStyle={{ color: color.RED, fontWeight: '700' }} />
+          <View style={{ padding: 30 }} />
+        </ScrollView>
+      </NavigationWrapper>
     )
   }
 }

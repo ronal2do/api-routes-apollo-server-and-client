@@ -6,6 +6,7 @@ import Menu from '../components/Menu';
 import { COLETA_MOCK } from '../constants/Data';
 import Me from '../components/Me';
 import Analytics from '../services/Analytics';
+import { NavigationWrapper } from '../components/NavigationWrapper';
 
 type ContactScreenState = {
   centro: any,
@@ -16,16 +17,6 @@ type ContactScreenState = {
 };
 
 export default class ContactScreen extends React.PureComponent<{}, ContactScreenState> {
-  static navigationOptions = {
-    title: 'Coleta',
-    headerStyle: {
-      backgroundColor: color.RED,
-      borderBottomWidth: 0,
-    },
-    headerLeft: <Menu />,
-    headerRight: <Me />
-  }
-
   state: ContactScreenState = {
     centro: null,
     vila: null,
@@ -68,6 +59,7 @@ export default class ContactScreen extends React.PureComponent<{}, ContactScreen
   render() {
     const { centro, vila, nacoes, outros, loading } = this.state;
     return (
+      <NavigationWrapper drawer={true} variant={true} backgroundColor={color.RED}>
       <ScrollView style={{ backgroundColor: color.RED }}>
         <View style={styles.container}>
           <Typography kind="welcome" color="#fff">
@@ -155,6 +147,7 @@ export default class ContactScreen extends React.PureComponent<{}, ContactScreen
           <Image source={require("../assets/images/truck.png")} />
         </View>
       </ScrollView>
+      </NavigationWrapper>
     );
   }
 }

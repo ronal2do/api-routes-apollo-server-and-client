@@ -4,6 +4,7 @@ import Typography from '../components/Typography';
 import Menu from '../components/Menu';
 import Me from '../components/Me';
 import { theme as color } from '../constants/Colors';
+import { NavigationWrapper } from '../components/NavigationWrapper';
 
 export default class ContactScreen extends React.PureComponent<{}, {}> {
   static navigationOptions = {
@@ -19,7 +20,7 @@ export default class ContactScreen extends React.PureComponent<{}, {}> {
 
   render() {
     return (
-      <>
+      <NavigationWrapper drawer={true} variant={true}>
         <View style={styles.container}>
           <Typography kind="welcome">ReciclaAPP</Typography>
           <Typography kind="instructions">
@@ -35,7 +36,7 @@ Com a sua participação, vamos alcançar um padrão europeu de sustentabilidade
         <View style={styles.logoContainer}>
           <Image source={require('../assets/images/programa.png')} />
         </View>
-      </>
+      </NavigationWrapper>
     );
   }
 }

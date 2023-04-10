@@ -4,7 +4,7 @@ import { theme as color } from '../constants/Colors'
 import Typography from './Typography'
 import AnimatedNumber from './AnimatedNumber';
 
-type InfoHeaderProps = { points: string };
+type InfoHeaderProps = { points: any };
 
 export default function InfoHeader({ points }: InfoHeaderProps) {
   return (

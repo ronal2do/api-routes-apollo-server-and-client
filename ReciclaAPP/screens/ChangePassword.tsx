@@ -1,21 +1,18 @@
-import React, { useCallback } from 'react';
-import { Alert } from 'react-native';
+import React, { useCallback, useLayoutEffect } from 'react';
+import { Alert, SafeAreaView, View } from 'react-native';
 import { useMutation } from '@apollo/client';
 import { FormikProps } from 'formik';
 import ChangePasswordForm from './ChangePasswordForm';
 import { errorsToHumans } from '../utils/normalizeErrors';
-import { theme as color } from '../constants/Colors';
 import { CHANGE_PASSWORD } from '../graphql/mutations';
 import { useNavigation } from '@react-navigation/native';
+import Close from '../components/Close';
+import { theme } from '../constants/Colors';
+import { NavigationWrapper } from '../components/NavigationWrapper';
 
-type ChangePasswordScreenProps = {
-  password: string;
-  email: string;
-};
+type ChangePasswordScreenProps = {};
 
-type MixedProps = FormikProps<ChangePasswordScreenProps>;
-
-export default function ChangePasswordScreen({ }: MixedProps) {
+export const ChangePasswordScreen = ({ }: ChangePasswordScreenProps) => {
   const navigation = useNavigation()
   const [changePassword, { loading }] = useMutation(CHANGE_PASSWORD);
 
@@ -45,15 +42,8 @@ export default function ChangePasswordScreen({ }: MixedProps) {
   }, [changePassword, navigation]);
 
   return (
-    <ChangePasswordForm onSubmit={handleSubmit} loading={loading} />
+    <NavigationWrapper variant={true}>
+      <ChangePasswordForm onSubmit={handleSubmit} loading={loading} />
+    </NavigationWrapper>
   );
 }
-
-ChangePasswordScreen.navigationOptions = {
-  title: 'Alterar senha',
-  headerStyle: {
-    backgroundColor: '#fff',
-    borderBottomWidth: 0,
-  },
-  headerTintColor: color.BLUE,
-};

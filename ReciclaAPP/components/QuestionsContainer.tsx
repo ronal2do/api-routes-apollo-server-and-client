@@ -1,11 +1,10 @@
 
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ActivityIndicator, Platform, ScrollView } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Platform, ScrollView, SafeAreaView } from 'react-native';
 import { theme as color } from '../constants/Colors';
 import { ADD_POINTS, ANSWER_QUESTION } from '../graphql/mutations';
 import { PROFILE_QUERY } from '../graphql/queries';
 import { Stages } from '../screens/Quizz';
-import Analytics from '../services/Analytics';
 import { client } from '../services/apollo';
 import { getRulles } from '../utils';
 import AnswerButton from './AnswerButton';
@@ -20,17 +19,17 @@ import SuccessHeader from './SuccessHeader';
 import Typography from './Typography';
 
 const QuestionHeaderSec = ({
-  question, 
+  question,
   stage
 }: {
-  question: any, 
+  question: any,
   stage: Stages
 }) => {
-  switch(stage) {
+  switch (stage) {
     case 'info':
-      return <InfoHeader points={getRulles(question.level)}/>
+      return <InfoHeader points={getRulles(question.level)} />
     case 'answer':
-      return <QuestionHeader label={question.label} answer={question.correctAnswer} points={getRulles(question.level)}/>
+      return <QuestionHeader label={question.label} answer={question.correctAnswer} points={getRulles(question.level)} />
     case 'error':
       return <ErrorHeader />
     case 'final':
@@ -46,7 +45,7 @@ const QuestionHeaderSec = ({
 
 const errorText = 'Oops!, Algo deu errado'
 
-type QuestiobBodyTypes = {question: any, stage: Stages, userId: string, setStage: (stage: Stages) => void}
+type QuestiobBodyTypes = { question: any, stage: Stages, userId: string, setStage: (stage: Stages) => void }
 
 export enum Rules {
   SOFT = 'SOFT',
@@ -56,34 +55,33 @@ export enum Rules {
   GOLD = 'GOLD',
 }
 
-const addPointsToTheUser = async ({ userId, action }:{ userId: string, action: Rules}) => {
+const addPointsToTheUser = async ({ userId, action }: { userId: string, action: Rules }) => {
   try {
     await client.mutate({
-        mutation: ADD_POINTS,
-        variables: { userId, action},
-        refetchQueries: () => [{ query: PROFILE_QUERY }]
-      }).then(() => {
-          console.log("points addded")
-      })
+      mutation: ADD_POINTS,
+      variables: { userId, action },
+      refetchQueries: () => [{ query: PROFILE_QUERY }]
+    }).then(() => {
+      console.log("points addded")
+    })
   } catch (error) {
-      console.log('eerror to adicionar pontos', error)
+    console.log('eerror to adicionar pontos', error)
   }
 }
 
-const QuestionBody = ({question, stage, userId, setStage}: QuestiobBodyTypes) => {
-
+const QuestionBody = ({ question, stage, userId, setStage }: QuestiobBodyTypes) => {
   const [response, setResponse] = useState(null)
 
   useEffect(() => {
     setResponse(null)
   }, [question])
-  
+
 
   useEffect(() => {
     if (!response) return
     const { correctAnswer, id, level } = question
     const result: Boolean = Number(response) === Number(correctAnswer)
-    setStage(!!result ? 'final' : 'error' )
+    setStage(!!result ? 'final' : 'error')
 
     client
       .mutate({
@@ -101,8 +99,8 @@ const QuestionBody = ({question, stage, userId, setStage}: QuestiobBodyTypes) =>
     })
 
   }, [response])
-  
-  switch(stage) {
+
+  switch (stage) {
     case 'info':
       return (
         <Typography kind="instructions" style={styles.textStyle}>
@@ -126,7 +124,7 @@ const QuestionBody = ({question, stage, userId, setStage}: QuestiobBodyTypes) =>
     case 'end':
       return (
         <Typography kind="instructions" style={styles.textStyle}>
-         Você zerou essa fase de perguntas, mas fique ligado pois em breve teremos novidades.
+          Você zerou essa fase de perguntas, mas fique ligado pois em breve teremos novidades.
         </Typography>
       )
     case 'end-season':
@@ -148,38 +146,35 @@ type QuestionsContainerProps = {
   setStage: (stage: Stages) => void;
 }
 
-export default function QuestionsContainer({ onPress, question, stage, userId, setStage}: QuestionsContainerProps) {
+export default function QuestionsContainer({ onPress, question, stage, userId, setStage }: QuestionsContainerProps) {
   return (
-    <> 
-      <ScrollView>
-        <View style={styles.header}>
-          <QuestionHeaderSec question={question} stage={stage} />
-        </View>
-        <View style={styles.container}>
-          { question ? (
-            <QuestionBody question={question} stage={stage} userId={userId} setStage={setStage}/>
-          ) : <ActivityIndicator/> }
-        </View>
-      </ScrollView>
-      <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
+    <ScrollView contentContainerStyle={{ flex: 1 }}>
+      <View style={styles.header}>
+        <QuestionHeaderSec question={question} stage={stage} />
+      </View>
+      <View style={styles.container}>
+        {question ? (
+          <QuestionBody question={question} stage={stage} userId={userId} setStage={setStage} />
+        ) : <ActivityIndicator />}
+      </View>
+      <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'white' }}>
         <Button
           backgroundColor={color.GREEN}
           raiseLevel={0}
           textColor="white"
-          label={stage === 'info' ? 'Responder' : stage === 'answer' ? 'Pular pergunta' : stage === 'end' ? 'Voltar' :'Próxima pergunta' }
+          label={stage === 'info' ? 'Responder' : stage === 'answer' ? 'Pular pergunta' : stage === 'end' ? 'Voltar' : 'Próxima pergunta'}
           onPress={onPress}
         />
       </View>
-    </>
+    </ScrollView>
   )
-} 
+}
 const styles = StyleSheet.create({
   header: {
-    height: Platform.OS === 'ios' ? 237 : 187,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: color.BLUE,
-    padding: 30,
+    height: 250
   },
   stars: {
     justifyContent: 'center',
@@ -196,6 +191,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#FFF',
     marginTop: 15,
+    paddingTop: 20,
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
   welcome: {
     fontSize: 20,
@@ -206,8 +204,8 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: '#fff',
   },
-  textStyle: { 
-    padding: 40, 
-    textAlign: 'center' 
+  textStyle: {
+    padding: 40,
+    textAlign: 'center'
   }
 });

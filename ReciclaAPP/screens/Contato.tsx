@@ -5,6 +5,7 @@ import Menu from '../components/Menu';
 import { theme as color } from '../constants/Colors';
 import Me from '../components/Me';
 import SettingsRow from '../components/SettingsRow';
+import { NavigationWrapper } from '../components/NavigationWrapper';
 
 const links = [
   {link: 'mailto://contato@reclicabc.com.br', text: 'E-mail: contato@reclicabc.com.br'},
@@ -39,7 +40,7 @@ export default class ContactScreen extends PureComponent<{}, {}> {
 
   render() {
     return (
-      <>
+      <NavigationWrapper drawer={true} variant={true}>
         <View style={styles.container}>
           <Typography kind="welcome">Clique no canal desejado e fale com a gente</Typography>
           {links.map((l,i) =>
@@ -49,7 +50,7 @@ export default class ContactScreen extends PureComponent<{}, {}> {
         <View style={styles.logoContainer}>
           <Image style={{ height: 250 }} resizeMode="contain" source={require('../assets/images/man.png')} />
         </View>
-      </>
+      </NavigationWrapper>
     );
   }
 }

@@ -2,23 +2,12 @@ import React from 'react';
 import { StyleSheet, View, Image, Platform } from 'react-native';
 import Typography from '../components/Typography';
 import { theme as color } from '../constants/Colors';
-import Menu from '../components/Menu';
-import Me from '../components/Me';
+import { NavigationWrapper } from '../components/NavigationWrapper';
 
 export default class ContactScreen extends React.PureComponent<{}, {}> {
-  static navigationOptions = {
-    title: 'Reciclagem',
-    headerStyle: {
-      backgroundColor: color.CYAN,
-      borderBottomWidth: 0,
-    },
-    headerLeft: <Menu />,
-    headerRight: <Me />
-  }
-
   render() {
     return (
-      <>
+      <NavigationWrapper drawer={true} variant={true} backgroundColor={color.CYAN}>
         <View style={styles.container}>
           <Typography color="#FFF" kind="welcome">
             Confira o percentual de separação de recicláveis.{' '}
@@ -37,7 +26,7 @@ export default class ContactScreen extends React.PureComponent<{}, {}> {
             <Image source={require('../assets/images/reciclagem.png')} />
           </View>
         )}
-      </>
+      </NavigationWrapper>
     );
   }
 }

@@ -71,9 +71,6 @@ export default class Sae extends PureComponent<SaeProps, BaseInputState> {
   componentWillReceiveProps(newProps: SaeProps) {
     const newValue = newProps.value;
     if (newValue != null && newValue !== this.state.value) {
-      // this.setState({
-      //   value: newValue,
-      // });
       const isFocused = this.input.current!.isFocused();
       
       if (!isFocused) {
@@ -82,7 +79,6 @@ export default class Sae extends PureComponent<SaeProps, BaseInputState> {
         if (isActive !== this.isActive) {
           this._toggle(isActive);
         }
-
       }
     }
   }
@@ -93,10 +89,7 @@ export default class Sae extends PureComponent<SaeProps, BaseInputState> {
     });
   }
 
-  // _onChange = (event: NativeSyntheticEvent<TextInputChangeEventData>): void => {
   _onChange = (text: any): void => {
-    // const nt = `NN - ${text}`
-// cpfMask
     const newText = this.props.cpfMask === true ? cpfMask(text) : text
     
     this.setState({
@@ -168,8 +161,6 @@ export default class Sae extends PureComponent<SaeProps, BaseInputState> {
       inputStyle,
       labelStyle,
       secureTextEntry,
-      cpfMask,
-      autoFocus,
     } = this.props;
     const { width, focusedAnim, value } = this.state;
 
@@ -243,7 +234,6 @@ export default class Sae extends PureComponent<SaeProps, BaseInputState> {
             height: borderHeight,
             width: focusedAnim.interpolate({
               inputRange: [0, 1],
-              // outputRange: [0, width],
               outputRange: [width, width],
             }),
             backgroundColor: 'gray',

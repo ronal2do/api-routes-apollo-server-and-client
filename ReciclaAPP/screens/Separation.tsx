@@ -2,25 +2,15 @@ import React from 'react';
 import { StyleSheet, View, Image, ScrollView } from 'react-native';
 import Typography from '../components/Typography';
 import { theme as color } from '../constants/Colors';
-import Menu from '../components/Menu';
-import Me from '../components/Me';
 import { LIXO_COMUM_MOCK, LIXO_RECICLAVEL_MOCK } from '../constants/Data';
+import { NavigationWrapper } from '../components/NavigationWrapper';
 
 type ContactScreenProps = {};
 
 export default class ContactScreen extends React.PureComponent<ContactScreenProps, {}> {
-  static navigationOptions = {
-    title: 'Separação',
-    headerStyle: {
-      backgroundColor: color.YELLOW,
-      borderBottomWidth: 0,
-    },
-    headerLeft: <Menu />,
-    headerRight: <Me />
-  }
-
   render() {
     return (
+      <NavigationWrapper drawer={true} variant={true} backgroundColor={color.YELLOW}>
       <ScrollView style={{ backgroundColor: color.YELLOW }}>
         <View style={styles.container}>
           <Typography color='#fff' kind='welcome'>
@@ -67,6 +57,7 @@ export default class ContactScreen extends React.PureComponent<ContactScreenProp
           ))}
         </View>
       </ScrollView>
+      </NavigationWrapper>
     );
   }
 }

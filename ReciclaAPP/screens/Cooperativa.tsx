@@ -4,6 +4,7 @@ import Typography from '../components/Typography';
 import Menu from '../components/Menu';
 import { theme as color } from '../constants/Colors';
 import Me from '../components/Me';
+import { NavigationWrapper } from '../components/NavigationWrapper';
 
 type ContactScreenProps = {};
 
@@ -21,7 +22,7 @@ export default class ContactScreen extends React.PureComponent<ContactScreenProp
 
   render() {
     return (
-      <>
+      <NavigationWrapper drawer={true} variant={true}>
         <View style={styles.container}>
           <Typography kind="welcome">Cooperativas</Typography>
           <Typography kind="instructions">
@@ -31,7 +32,7 @@ export default class ContactScreen extends React.PureComponent<ContactScreenProp
         <View style={styles.logoContainer}>
           <Image style={{ height: 250 }} resizeMode="contain" source={require('../assets/images/cooperativas.png')} />
         </View>
-      </>
+      </NavigationWrapper>
     );
   }
 }

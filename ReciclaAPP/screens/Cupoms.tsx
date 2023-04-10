@@ -10,6 +10,7 @@ import { client } from '../services/apollo';
 import { ADD_CPF } from '../graphql/mutations';
 import CpfForm from '../components/CpfForm';
 import { useMutation, useQuery } from '@apollo/client';
+import { NavigationWrapper } from '../components/NavigationWrapper';
 
 type CupomsScreenState = {
   cpf?: any,
@@ -63,6 +64,7 @@ export default class CupomsScreen extends React.PureComponent<{}, CupomsScreenSt
   render() {
     const { cpf } = this.state;
     return (
+      <NavigationWrapper drawer={true} variant={true}>
       <View style={styles.container}>
         <Typography kind="instructions"style={{ padding: 30, paddingBottom: 0 }}>A cada 1.000 pontos você ganha um cupom. Valem os pontos somados até uma hora antes dos sorteios.
         {`\n`}Seus cupons e seu saldo seguirão valendo para os sorteios futuros. Continue participando para aumentar suas chances.
@@ -70,6 +72,7 @@ export default class CupomsScreen extends React.PureComponent<{}, CupomsScreenSt
         <Typography kind="welcome" style={{ padding: 30, paddingBottom: 0 }}>{!cpf ? generate : mycupoms}</Typography>
         {this.renderContent(!!cpf)}
       </View>
+      </NavigationWrapper>
     );
   }
 }
