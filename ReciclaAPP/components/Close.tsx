@@ -11,7 +11,7 @@ const Close = ({ variant = false }: CloseProps) => {
   const navigation = useNavigation();
   
   return (
-    <TouchableOpacity style={{ marginLeft: 20, marginTop: 20 }} 
+    <TouchableOpacity style={{ marginLeft: 20 }} 
       onPress={() => navigation.goBack() }
       hitSlop={{ top: 20, bottom: 20, left: 50, right: 50 }}
     >

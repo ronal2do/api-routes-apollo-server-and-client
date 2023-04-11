@@ -132,9 +132,6 @@ export function Header({currentUser}) {
             <Button href="#" className="hidden lg:block">
               Download
             </Button>
-            {/* <Button href="#" variant="outline" className="hidden lg:block">
-              <SunIcon width={24}/>
-            </Button> */}
             <ModeToggle />
           </div>
         </Container>

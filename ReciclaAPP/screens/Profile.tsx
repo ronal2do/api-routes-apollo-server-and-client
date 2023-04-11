@@ -30,42 +30,14 @@ const ProfileScreen = () => {
       <ScrollView style={styles.container}>
         {showImage && 
         <View style={styles.header}>
-          <UploadableAvatar image={me.image} userId={me._id} name={me.name}/>
+          <UploadableAvatar image={me.image} userId={me.id} name={me.name}/>
           <Typography kind="title">{me.name}</Typography>
           <Typography kind="instructions">{me.email}</Typography>
           {me.cpf && <Typography kind="instructions" color={color.GREEN}>{`CPF ${me.cpf}`}</Typography>}
           <Typography kind="instructions" color={color.GREEN}>{`Você tem ${me.points || 0} pontos`}</Typography>
         </View>   
       }
-      
-        {/* <AwesomeInput
-          label="Nome"
-          value="Rafaela Orioli"
-          onChange={() => {}}
-          color={color.BLUE}
-        />
 
-        <AwesomeInput
-          label="E-mail"
-          value="Rafaela@Orioli.com"
-          onChange={() => {}}
-          color={color.BLUE}
-        />
-
-        <AwesomeInput
-          label="Senha"
-          value="12345"
-          secureTextEntry={true}
-          onChange={() => {}}
-          color={color.BLUE}
-        />
-        <AwesomeInput
-          label="Confirmar senha"
-          value="12345"
-          secureTextEntry={true}
-          onChange={() => {}}
-          color={color.BLUE}
-        /> */}
         <View style={{ height: 80 }}/>
         <SettingsRow 
           label="Alterar senha"
@@ -73,20 +45,6 @@ const ProfileScreen = () => {
         />
       </ScrollView>
 
-      {/* <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginBottom: 50 }}> */}
-        {/* <Button
-          backgroundColor={color.GREEN}
-          raiseLevel={0}
-          textColor="white"
-          label="Salvar"
-          onPress={() => {}}
-        /> */}
-        {/* <SettingsRow 
-          label="Alterar senha"
-          onPress={() => this.props.navigation.navigate('ChangePassword')}
-        /> */}
-      {/* </View> */}
-      
     </NavigationWrapper>
   )
 }

@@ -9,7 +9,7 @@ type InfoHeaderProps = { points: any };
 export default function InfoHeader({ points }: InfoHeaderProps) {
   return (
     <ImageBackground style={styles.header} imageStyle={styles.backImage} resizeMode="contain" source={require('../assets/images/stars02.png')}>
-      <Typography kind="instructions" color="#fff" style={{ textAlign: 'center' }}>
+      <Typography kind="title" color="#fff" style={{ textAlign: 'center' }}>
         Leia atentamente pois a próxima pergunta vale
       </Typography>
       <AnimatedNumber value={parseInt(points)} color={color.GREEN} timing="linear" />

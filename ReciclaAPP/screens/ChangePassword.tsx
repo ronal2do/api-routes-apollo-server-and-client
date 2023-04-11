@@ -1,5 +1,5 @@
 import React, { useCallback, useLayoutEffect } from 'react';
-import { Alert, SafeAreaView, View } from 'react-native';
+import { Alert, View } from 'react-native';
 import { useMutation } from '@apollo/client';
 import { FormikProps } from 'formik';
 import ChangePasswordForm from './ChangePasswordForm';

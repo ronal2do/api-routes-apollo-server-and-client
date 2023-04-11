@@ -1,5 +1,5 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import AuthLoadingScreen from '../screens/AuthLoadingScreen';
 import SignInScreen from '../screens/SignInScreen';
@@ -26,10 +26,10 @@ import { ChangePasswordScreen } from '../screens/ChangePassword';
 import { NavigationContainer } from '@react-navigation/native';
 import { MainStackParamList } from './types';
 
-export const Stack = createStackNavigator<MainStackParamList>();
+export const Stack = createNativeStackNavigator<MainStackParamList>();
 const Drawer = createDrawerNavigator();
-export const AuthStack = createStackNavigator<MainStackParamList>();
-const SettingsStack = createStackNavigator<MainStackParamList>();
+export const AuthStack = createNativeStackNavigator<MainStackParamList>();
+const SettingsStack = createNativeStackNavigator<MainStackParamList>();
 
 function SettingsStacks() {
   return (

@@ -12,7 +12,7 @@ import Analytics from '../services/Analytics';
 import { client } from '../services/apollo';
 import { NavigationWrapper } from '../components/NavigationWrapper';
 import { AuthContext } from '../navigation/AuthContext';
-import { StackScreenProps } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../navigation/types';
 
 const DEVELOPER_ENABLE_TIMEOUT_MS: number = 750;

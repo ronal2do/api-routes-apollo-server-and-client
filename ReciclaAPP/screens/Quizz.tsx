@@ -1,6 +1,6 @@
 
 import React, { useEffect, useLayoutEffect, useState } from 'react'
-import { ActivityIndicator, SafeAreaView, View, Platform } from 'react-native'
+import { ActivityIndicator, View, Platform } from 'react-native'
 import QuestionsContainer from '../components/QuestionsContainer'
 import Loading from '../components/Loading'
 import { PROFILE_QUERY, RANDOM_QUESTION } from '../graphql/queries'
@@ -11,8 +11,12 @@ import { useNavigation } from '@react-navigation/native'
 import { Question, User } from '@prisma/client'
 import { theme as color } from '../constants/Colors';
 import Close from '../components/Close'
-import { StackScreenProps } from '@react-navigation/stack'
+import { StackScreenProps } from '@react-navigation/native-stack'
 import { MainStackParamList } from '../navigation/types'
+import {
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
+
 
 export type Stages = 'info' | 'answer' | 'final' | 'error' | 'end' | 'end-season'
 
@@ -55,6 +59,7 @@ const QuizzScreen = ({navigation}: StackScreenProps<MainStackParamList>) => {
   const [me, setMe] = useState<User>()
   const [stage, setStage] = useState<Stages>('info')
   const [question, setQuestion] = useState<Question | null>(null)
+  const insets = useSafeAreaInsets();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -113,7 +118,15 @@ const QuizzScreen = ({navigation}: StackScreenProps<MainStackParamList>) => {
   if (!question) return (<ActivityIndicator />)
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: color.BLUE }}>
+    <View style={{ 
+      flex: 1, 
+      backgroundColor: color.BLUE,
+            // Paddings to handle safe area
+            paddingTop: insets.top,
+            paddingBottom: 0,
+            paddingLeft: insets.left,
+            paddingRight: insets.right,
+    }}>
       <View style={{ width: '100%', justifyContent: 'space-between', flexDirection: 'row', padding: 2, paddingTop: Platform.OS === 'android' ? 12 : 0 }}>
         <Close />
       </View>
@@ -124,7 +137,7 @@ const QuizzScreen = ({navigation}: StackScreenProps<MainStackParamList>) => {
         onPress={() => renderFunction(() => refetch())}
         userId={me.id}
       />
-    </SafeAreaView>
+    </View>
   )
 }
 

@@ -13,12 +13,14 @@ import AnimatedNumber from '../components/AnimatedNumber';
 import { ADD_POINTS, USER_PUSH_TOKEN } from '../graphql/mutations';
 import { client } from '../services/apollo';
 import Analytics from '../services/Analytics';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import Menu from '../components/Menu';
 import Me from '../components/Me';
 import Button from '../components/Button';
-import { StackScreenProps } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/native-stack';
 import { MainStackParamList } from '../navigation/types';
+import {
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 interface QuoteType {
   id: string;
@@ -29,6 +31,7 @@ interface QuoteType {
 export const MyHomeScreen = ({ navigation }: StackScreenProps<MainStackParamList>) => {
   const [quote, setQuote] = useState<QuoteType | null>(null);
   const [me, setMe] = useState<any | null>(null);
+  const insets = useSafeAreaInsets();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -53,28 +56,63 @@ export const MyHomeScreen = ({ navigation }: StackScreenProps<MainStackParamList
     }
   };
 
-  const registerForPushNotificationsAsync = async () => {
-    Notifications.getBadgeCountAsync().then(() => Notifications.setBadgeCountAsync(0));
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+  // const registerForPushNotificationsAsync = async () => {
+  //   Notifications.getBadgeCountAsync().then(() => Notifications.setBadgeCountAsync(0));
+  //   const { status: existingStatus } = await Notifications.getPermissionsAsync();
 
-    if (status !== 'granted') {
+  //   if (status !== 'granted') {
+  //     return;
+  //   }
+
+  //   try {
+  //     const token = await Notifications.getExpoPushTokenAsync();
+  //     await client
+  //       .mutate({
+  //         mutation: USER_PUSH_TOKEN,
+  //         variables: {
+  //           os: Platform.OS,
+  //           token
+  //         },
+  //       });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  async function registerForPushNotificationsAsync() {
+    let token;
+  
+    if (Platform.OS === 'android') {
+      await Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+  
+    const { status: existingStatus } = await Notifications.getPermissionsAsync();
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Notifications.requestPermissionsAsync();
+      finalStatus = status;
+    }
+
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
       return;
     }
-
-    try {
-      const token = await Notifications.getExpoPushTokenAsync();
-      await client
-        .mutate({
-          mutation: USER_PUSH_TOKEN,
-          variables: {
-            os: Platform.OS,
-            token
-          },
-        });
-    } catch (error) {
-      console.log(error);
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    await client
+      .mutate({
+        mutation: USER_PUSH_TOKEN,
+        variables: {
+          os: Platform.OS,
+          token
+        },
+      });
+      return token;
     }
-  };
 
   const getQuote = async () => {
     try {
@@ -90,7 +128,13 @@ export const MyHomeScreen = ({ navigation }: StackScreenProps<MainStackParamList
 
   return (
     <>
-      <SafeAreaView style={{ flex: 1, backgroundColor: color.BLUE, padding: 0, margin: 0 }}>
+      <View style={{ flex: 1, 
+        backgroundColor: color.BLUE,
+        paddingTop: insets.top,
+        paddingBottom: 0,
+        paddingLeft: insets.left,
+        paddingRight: insets.right,
+      }}>
         <StatusBar barStyle="light-content" />
         <View style={{ width: '100%', justifyContent: 'space-between', flexDirection: 'row', padding: 2, paddingTop: 12 }}>
           <Menu />
@@ -119,10 +163,10 @@ export const MyHomeScreen = ({ navigation }: StackScreenProps<MainStackParamList
             <ActivityIndicator />
           )}
         </View>
-        <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'white' }}>
+        <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'white', paddingBottom: insets.bottom + 16, }}>
           <ButtonGame navigation={navigation}/>
         </View>
-      </SafeAreaView>
+      </View>
     </>
   );
 };
@@ -235,7 +279,7 @@ const ButtonGame = ({ navigation }: Pick<StackScreenProps<MainStackParamList>, '
 
 const styles = StyleSheet.create({
   header: {
-    height: 250,
+    height: 260,
     alignItems: 'flex-start',
     backgroundColor: color.BLUE,
     paddingHorizontal: 24,

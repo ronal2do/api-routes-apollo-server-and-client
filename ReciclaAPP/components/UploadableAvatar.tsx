@@ -1,7 +1,7 @@
-import React, { PureComponent } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, View, Image, ImageBackground, TouchableOpacity, Platform, ActivityIndicator } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
+import * as MediaLibrary from 'expo-media-library';
 
 import { RNS3 } from 'react-native-aws3';
 import { client } from '../services/apollo';
@@ -31,54 +31,56 @@ type PostResponseBody = {
   location: string;
 }
 interface IImage {
-  cancelled: boolean;
+  canceled: boolean;
   height:  number;
   type: string;
   uri: string;
   width:  number;
 }
 
-export default class UploadableAvatar extends PureComponent<UploadableAvatarProps, UploadableAvatarState> {
-  state: UploadableAvatarState = {
-    image: this.props.image,
-    isLoading: false
-  }
+export const UploadableAvatar = ({ image: propsImage, userId, name }: UploadableAvatarProps) => {
+  const [image, setImage] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-  componentDidMount() {
-    this.getPermissionAsync();
-  }
+  useEffect(() => {
+    getPermissionAsync();
+  }, [])
+  
 
-  getPermissionAsync = async () => {
+  const getPermissionAsync = async () => {
     if (Platform.OS === 'ios') {
-      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-      if (status !== 'granted') {
+      const { granted } = await MediaLibrary.getPermissionsAsync();
+      if (!granted) {
         // @ts-ignore
         alert('Sorry, we need camera roll permissions to make this work!');
+        const { granted } = await MediaLibrary.requestPermissionsAsync();
+        return granted;
       }
     }
   }
 
-  _pickImage = async () => {
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 0.1
+      quality: 1,
     });
-    
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-      this.upload(result)
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      upload(result.assets[0].uri)
     }
   };
 
-  upload = async (image: any) => {
-    this.setState({ isLoading: true })
+  const upload = async (image: IImage) => {
+    setIsLoading(true)
     const rand = `${Math.random().toString(36)}00000000000000000`.slice(2,10);
 
     const file = {
-      uri: image.uri,
-      name: `${this.props.userId}/${rand}.png`,
+      uri: image,
+      name: `${userId}/${rand}.png`,
       type: "image/png"
     }
     
@@ -93,30 +95,28 @@ export default class UploadableAvatar extends PureComponent<UploadableAvatarProp
 
     RNS3.put(file, options).then((response: PostResponse) => {
       if (response.status !== 201) throw new Error("Failed to upload image to S3");
+      console.warn('response', response)
       client
         .mutate({
           mutation: CHANGE_PICTURE,
           variables: {
-            picture: `https://gamesassets.s3.amazonaws.com/avatars%2F${this.props.userId}%2F${rand}.png`,
+            picture: `https://gamesassets.s3.amazonaws.com/avatars/${userId}/${rand}.png`,
           },
           refetchQueries: () => [{ query: PROFILE_QUERY }]
         }).then(() => this.setState({ isLoading: false }) )
     });
   }
 
-  render() { 
-    const { image, isLoading } = this.state;
-
     return (
       <View style={styles.placeholder}>
-        {image ? 
+        {image || propsImage ? 
          <ImageBackground 
           style={styles.bg} 
           imageStyle={{ marginLeft: 15, height: 200, width: 200, borderRadius: 100 }}
-          source={{uri: image}}
+          source={{uri: image || propsImage}}
           resizeMode="cover"
         >
-          <TouchableOpacity onPress={this._pickImage}>
+          <TouchableOpacity onPress={pickImage}>
             {!isLoading ? 
               <Image source={require('../assets/images/cam.png')} />: 
               <View style={styles.loader}>
@@ -130,8 +130,8 @@ export default class UploadableAvatar extends PureComponent<UploadableAvatarProp
           styles.bg, 
           styles.initials,
         ]}>
-          <Typography kind="max" color={theme.BLUE} style={styles.testStyles}>{generateInitials(this.props.name)}</Typography>
-          <TouchableOpacity onPress={this._pickImage}>
+          <Typography kind="max" color={theme.BLUE} style={styles.testStyles}>{generateInitials(name)}</Typography>
+          <TouchableOpacity onPress={pickImage}>
             {!isLoading ? 
               <Image source={require('../assets/images/cam.png')} />: 
               <View style={styles.loader}>
@@ -147,7 +147,8 @@ export default class UploadableAvatar extends PureComponent<UploadableAvatarProp
       </View> 
     )
   }
-}
+
+export default UploadableAvatar
 
 const styles = StyleSheet.create({
   bg: {

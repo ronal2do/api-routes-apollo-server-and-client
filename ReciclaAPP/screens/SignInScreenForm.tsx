@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Image, View, StyleSheet, Dimensions, Keyboard, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Image, View, StyleSheet, Dimensions, Keyboard, TouchableOpacity } from 'react-native';
 import * as WebBrowser from 'expo-web-browser';
 import { theme as color } from '../constants/Colors';
 import LoginButton from '../components/LoginButton';
 import AwesomeInput from '../components/AwesomeInput';
 import Typography from '../components/Typography';
-
+import {
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 import { ENV } from '../environment';
 import { useNavigation } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/AppNavigator';
@@ -20,6 +22,7 @@ const SignInScreenForm = ({ mutation }: any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const inputRef = React.useRef(null);
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => setShowImage(false));
@@ -53,8 +56,10 @@ const SignInScreenForm = ({ mutation }: any) => {
   return (
     <>
     <View/>
-      <SafeAreaView style={{ backgroundColor: color.GREEN }} />
-      <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <View style={{ flex: 1, backgroundColor: '#fff',  paddingTop: insets.top,
+        paddingBottom: insets.bottom,
+        paddingLeft: insets.left,
+        paddingRight: insets.right, }}>
         {!!showImage && (
           <View style={styles.header}>
             <Image style={{ height: 154 }} resizeMode="contain" source={require('../assets/images/header.png')} />
@@ -142,7 +147,7 @@ const SignInScreenForm = ({ mutation }: any) => {
             </TouchableOpacity>
           </View>
         )}
-      </SafeAreaView>
+      </View>
     </>
   )
 }

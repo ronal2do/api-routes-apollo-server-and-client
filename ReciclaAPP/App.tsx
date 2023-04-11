@@ -11,7 +11,9 @@ import * as Font from 'expo-font';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { APP_KEYS } from './utils/asyncStorage';
 import { AuthContext, AuthContextType } from './navigation/AuthContext';
-
+import {
+  SafeAreaProvider,
+} from 'react-native-safe-area-context';
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
@@ -112,13 +114,15 @@ export default function App() {
   const prefix = Linking.createURL('/');
   console.log('@@ prefix', prefix)
   return (
-    <ApolloProvider client={client}>
-      <AuthContext.Provider value={authContext}>
-      <View style={styles.container} onLayout={onLayoutRootView}>
-        <AppNavigator state={state}/> 
-      </View>
-      </AuthContext.Provider>
-    </ApolloProvider>
+    <SafeAreaProvider>
+      <ApolloProvider client={client}>
+        <AuthContext.Provider value={authContext}>
+        <View style={styles.container} onLayout={onLayoutRootView}>
+          <AppNavigator state={state}/> 
+        </View>
+        </AuthContext.Provider>
+      </ApolloProvider>
+    </SafeAreaProvider>
   );
 }
 

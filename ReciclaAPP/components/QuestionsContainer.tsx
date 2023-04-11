@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, ActivityIndicator, Platform, ScrollView, SafeAreaView } from 'react-native';
+import { StyleSheet, View, ActivityIndicator, Platform, ScrollView } from 'react-native';
 import { theme as color } from '../constants/Colors';
 import { ADD_POINTS, ANSWER_QUESTION } from '../graphql/mutations';
 import { PROFILE_QUERY } from '../graphql/queries';
@@ -17,6 +17,9 @@ import InfoHeader from './InfoHeader';
 import QuestionHeader from './QuestionHeader';
 import SuccessHeader from './SuccessHeader';
 import Typography from './Typography';
+import {
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context';
 
 const QuestionHeaderSec = ({
   question,
@@ -147,6 +150,8 @@ type QuestionsContainerProps = {
 }
 
 export default function QuestionsContainer({ onPress, question, stage, userId, setStage }: QuestionsContainerProps) {
+  const insets = useSafeAreaInsets();
+
   return (
     <ScrollView contentContainerStyle={{ flex: 1 }}>
       <View style={styles.header}>
@@ -157,7 +162,8 @@ export default function QuestionsContainer({ onPress, question, stage, userId, s
           <QuestionBody question={question} stage={stage} userId={userId} setStage={setStage} />
         ) : <ActivityIndicator />}
       </View>
-      <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'white' }}>
+      <View style={{ height: 80, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', backgroundColor: 'white', paddingBottom: insets.bottom + 16,
+ }}>
         <Button
           backgroundColor={color.GREEN}
           raiseLevel={0}

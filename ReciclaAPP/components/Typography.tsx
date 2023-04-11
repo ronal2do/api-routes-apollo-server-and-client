@@ -1,3 +1,4 @@
+
 import React from 'react'
 import { Text, StyleSheet } from 'react-native'
 
@@ -58,6 +59,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15
   },
   instructions: {
+    fontSize: 16,
     textAlign: 'left',
     marginBottom: 5,
   },
