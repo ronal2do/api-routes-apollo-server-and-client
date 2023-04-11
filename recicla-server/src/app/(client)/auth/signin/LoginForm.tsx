@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { Button } from '../../../../components/Button'
-import { TextField } from '../../../../components/Fields'
+import { Button } from '@/components/Button'
+import { TextField } from '@/components/Fields'
 import { signIn } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
 

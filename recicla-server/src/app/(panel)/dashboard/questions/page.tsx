@@ -1,4 +1,4 @@
-import { getQuestionsList } from "../../../../actions/question";
+import { getQuestionsList } from "@/actions/question";
 
 export default async function Page() {
   const { data, loading, error } = await getQuestionsList();

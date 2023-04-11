@@ -1,5 +1,5 @@
-import { getClient } from "../../../../lib/client";
-import NewsletterOperations from "../../../../graphql/operations/newsletter";
+import { getClient } from "@/lib/client";
+import NewsletterOperations from "@/graphql/operations/newsletter";
 import gql from "graphql-tag";
 
 const people = [

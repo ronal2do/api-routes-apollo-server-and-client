@@ -17,7 +17,7 @@ import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/20/solid'
-import { Breadcrumb } from '../../../components'
+import { Breadcrumb } from '@/components'
 import { signOut } from 'next-auth/react'
 
 const navigation = [

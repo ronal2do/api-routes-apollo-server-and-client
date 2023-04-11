@@ -1,6 +1,6 @@
 import { ApolloError, useQuery } from "@apollo/client";
 import { Newsletter } from "@prisma/client";
-import NewsletterOperations from "../../graphql/operations/newsletter";
+import NewsletterOperations from "@/graphql/operations/newsletter";
 
 interface INewsletterInput {}
 

@@ -1,7 +1,9 @@
-import { getNewslettersList } from "../../../../actions/newsletter";
+import NewsletterOperations from '@/graphql/operations/newsletter'
+import { getClient } from "@/lib/client";
 
 export default async function Page() {
-  const { data, loading, error } = await getNewslettersList();
+  const client = getClient();
+  const { data, loading, error } = await client.query({query: NewsletterOperations.Queries.newsletters});
 
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;

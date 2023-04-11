@@ -6,9 +6,9 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession } from 'next-auth';
 import { getToken, JWT } from 'next-auth/jwt';
 import { authOptions } from './auth/[...nextauth]';
-import resolvers from "../../graphql/resolvers";
-import typeDefs from "../../graphql/typeDefs";
-import { prisma } from '../../lib/prisma';
+import resolvers from "@/graphql/resolvers";
+import typeDefs from "@/graphql/typeDefs";
+import { prisma } from '@/lib/prisma';
 
 export interface Session {
   user?: Partial<User>;

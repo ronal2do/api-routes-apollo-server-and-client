@@ -3,8 +3,6 @@ import { withAuth } from "next-auth/middleware"
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
   function middleware(req) {
-    console.log('middleware req', req)
-    console.log('middleware', req.nextauth.token)
   },
   {
     callbacks: {
@@ -15,5 +13,6 @@ export default withAuth(
 
 export const config = { matcher: [
   "/dashboard",
-  "/dashboard/(.*)"
+  "/dashboard/questions",
+  "/dashboard/newsletters",
 ] }

@@ -1,8 +1,8 @@
 import Link from 'next/link'
 
-import { AuthLayout } from '../../../../components/AuthLayout'
+import { AuthLayout } from '@/components/AuthLayout'
 import { LoginForm } from './LoginForm'
-import { ROUTES } from '../../../../config'
+import { ROUTES } from '@/config'
 
 export default async function Login() {
   return (

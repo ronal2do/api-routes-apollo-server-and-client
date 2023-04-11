@@ -1,9 +1,9 @@
 'use client'
 
-import { Button } from '../../../../components/Button'
-import { SelectField, TextField } from '../../../../components/Fields'
+import { Button } from '@/components/Button'
+import { SelectField, TextField } from '@/components/Fields'
 import { FormEvent, useState } from 'react'
-import { useRegisterUserWithEmail } from '../../../../hooks'
+import { useRegisterUserWithEmail } from '@/hooks'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 

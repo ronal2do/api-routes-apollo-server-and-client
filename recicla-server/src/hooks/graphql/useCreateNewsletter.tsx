@@ -1,6 +1,6 @@
 import { ApolloError, useMutation, useQuery } from "@apollo/client";
-import NewsletterOperations from "../../graphql/operations/newsletter";
-import { getClient } from "../../lib/client";
+import NewsletterOperations from "@/graphql/operations/newsletter";
+import { getClient } from "@/lib/client";
 
 interface ICreateNewsletterInput {
   variables: {

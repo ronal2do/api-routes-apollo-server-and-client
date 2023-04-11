@@ -1,7 +1,7 @@
 import { ApolloError, useQuery } from "@apollo/client";
 import { User as UserType } from "@prisma/client";
 
-import UserOperations from "../../graphql/operations/user";
+import UserOperations from "@/graphql/operations/user";
 
 interface IUserData {
   user: UserType

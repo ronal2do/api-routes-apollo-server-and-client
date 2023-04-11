@@ -1,4 +1,3 @@
-import { useMutation, useQuery } from "@apollo/client";
 import { getClient } from "../lib/client";
 
 export async function useServerQuery(query: any) {

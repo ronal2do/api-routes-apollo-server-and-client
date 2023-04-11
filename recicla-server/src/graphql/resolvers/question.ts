@@ -1,5 +1,5 @@
 import { Question, QuestionLevels } from "@prisma/client";
-import { GraphQLContext } from "../../pages/api/graphql";
+import { GraphQLContext } from "@/pages/api/graphql";
 
 function createRelayData(data: any, args: any) {
   if (data.length === 0) {

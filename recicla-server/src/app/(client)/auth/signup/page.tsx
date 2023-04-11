@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import { AuthLayout } from '../../../../components/AuthLayout'
-import { ROUTES } from '../../../../config'
+import { AuthLayout } from '@/components/AuthLayout'
+import { ROUTES } from '@/config'
 import { SignUpForm } from './SingUpForm'
 
 export default function Login() {

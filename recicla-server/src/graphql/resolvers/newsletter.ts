@@ -1,4 +1,4 @@
-import { GraphQLContext } from "../../pages/api/graphql";
+import { GraphQLContext } from "@/pages/api/graphql";
 
 function createRelayData(data: any, args: any) {
   let first = 5;

@@ -1,7 +1,7 @@
 import { useLazyQuery } from "@apollo/client";
 import { User } from "@prisma/client";
 
-import UserOperations from "../../graphql/operations/user";
+import UserOperations from "@/graphql/operations/user";
 
 export interface SearchUserInput {
   name: string;

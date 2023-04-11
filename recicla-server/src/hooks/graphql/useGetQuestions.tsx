@@ -1,6 +1,6 @@
 import { ApolloError, useQuery } from "@apollo/client";
 import { Question } from "@prisma/client";
-import QuestionOperations from "../../graphql/operations/question";
+import QuestionOperations from "@/graphql/operations/question";
 
 interface IQuestionInput {}
 

@@ -1,8 +1,8 @@
 import { useMutation } from "@apollo/client";
 import { User } from "@prisma/client";
 
-import UserOperations from "../../graphql/operations/user";
-import { getClient } from "../../lib/client";
+import UserOperations from "@/graphql/operations/user";
+import { getClient } from "@/lib/client";
 
 interface ISignUpResponse {
   registerUserWithEmail: {

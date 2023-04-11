@@ -1,9 +1,9 @@
 import { ApolloError } from "@apollo/client";
 import { User } from "@prisma/client";
 import { compareSync, hash } from "bcryptjs";
-import { generateToken, getUser } from "../../lib/auth";
-import { getRules, Rules } from "../../lib/game";
-import { GraphQLContext } from "../../pages/api/graphql";
+import { generateToken, getUser } from "@/lib/auth";
+import { getRules, Rules } from "@/lib/game";
+import { GraphQLContext } from "@/pages/api/graphql";
 
 const resolvers = {
   Query: {

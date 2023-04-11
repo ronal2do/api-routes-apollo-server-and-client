@@ -3,7 +3,7 @@ import '../../globals.css';
 import { Inter } from 'next/font/google';
 import LayoutWrapper from './LayoutWrapper';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '../../../pages/api/auth/[...nextauth]';
+import { authOptions } from '@/pages/api/auth/[...nextauth]';
 
 // If loading a variable font, you don't need to specify the font weight
 const inter = Inter({

@@ -3,8 +3,8 @@ import { compare } from "bcryptjs";
 import NextAuth, { NextAuthOptions, Session, User } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google";
-import { ROUTES } from "../../../config";
-import { prisma } from "../../../lib/prisma";
+import { ROUTES } from "@/config";
+import { prisma } from "@/lib/prisma";
 import { JWT, encode } from 'next-auth/jwt';
 
 const session = async function session(params: { session: Session; user: User; token: JWT }) {
