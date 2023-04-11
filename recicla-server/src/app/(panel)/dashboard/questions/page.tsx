@@ -5,6 +5,7 @@ export default async function Page() {
 
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;
+  if (data.questions == null) return <p>No newsletters yet</p> 
   if (data.questions.edges.length === 0) return <>Empty</>
   
   return (

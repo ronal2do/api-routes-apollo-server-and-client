@@ -5,7 +5,8 @@ export default async function Page() {
 
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;
-  if (data.newsletters?.edges.length === 0) return <>No questions yet </>
+  if (data.newsletters == null) return <p>No newsletters yet</p> 
+  if (data.newsletters?.edges.length === 0) return <>No newsletters yet </>
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">

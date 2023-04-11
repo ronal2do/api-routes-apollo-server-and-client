@@ -9,18 +9,16 @@ import {
   DocumentChartBarIcon,
   HomeIcon,
   QuestionMarkCircleIcon,
-  ScaleIcon,
   ShieldCheckIcon,
   UserGroupIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import {
-  BuildingOfficeIcon,
-  CheckCircleIcon,
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from '@heroicons/react/20/solid'
 import { Breadcrumb } from '../../../components'
+import { signOut } from 'next-auth/react'
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },
@@ -282,6 +280,7 @@ export default function LayoutWrapper({ children, session }: PropsWithChildren<{
                         {({ active }) => (
                           <a
                             href="#"
+                            onClick={() => signOut()}
                             className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                           >
                             Logout
