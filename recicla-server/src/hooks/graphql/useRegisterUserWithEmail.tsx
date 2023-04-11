@@ -23,7 +23,7 @@ export const useRegisterUserWithEmail = () => {
   const [registerUserWithEmail, { data, loading, error }] = useMutation<
     ISignUpResponse, 
     ISignupInput
-  >(UserOperations.Mutations.registerUserWithEmail, { client })
+  >(UserOperations.Mutations.registerUserWithEmail)
 
   return {
     registerUserWithEmail, 

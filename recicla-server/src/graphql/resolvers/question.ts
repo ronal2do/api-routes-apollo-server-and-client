@@ -1,60 +1,6 @@
 import { Question, QuestionLevels } from "@prisma/client";
 import { GraphQLContext } from "@/pages/api/graphql";
-
-function createRelayData(data: any, args: any) {
-  if (data.length === 0) {
-    return {
-      count: 0,
-      pageInfo: {
-        endCursor: null,
-        hasNextPage: null,
-      },
-      edges: [],
-    }
-  }
-
-  let first = 5;
-
-  if (args.first !== undefined) {
-    const min_value = 1;
-    const max_value = 25;
-    if (args.first < min_value || args.first > max_value) {
-      throw new Error(
-        `Invalid limit value (min value: ${min_value}, max: ${max_value})`
-      );
-    }
-    first = args.first;
-  }
-  // initialise cursor
-  let after = 0;
-  if (args.after !== undefined) {
-    const index = data.findIndex((item: any) => item.id === args.after);
-    if (index === -1) {
-      throw new Error(`Invalid after value: cursor not found.`);
-    }
-    after = index + 1;
-    if (after === data.length) {
-      throw new Error(
-        `Invalid after value: no items after provided cursor.`
-      );
-    }
-  }
-
-  const entities = data.slice(after, after + first);
-  const last = entities[entities.length - 1];
-
-  return {
-    count: data.length,
-    pageInfo: {
-      endCursor: last.id,
-      hasNextPage: after + first < data.length,
-    },
-    edges: entities.map((entity: any) => ({
-      cursor: entity.id,
-      node: entity,
-    })),
-  };
-}
+import { connectionFromArray } from "@/lib/connection";
 
 interface QuestionInputArgs {
   introduction: string
@@ -209,7 +155,7 @@ const resolvers = {
           metadata: true
         },
       })
-      const convert = createRelayData(data, args)
+      const convert = connectionFromArray(data, args)
       return convert
     },
     randomQuestions: async (_: any, args: any, context: GraphQLContext) => {

@@ -1,6 +1,5 @@
-import { ApolloError, useMutation, useQuery } from "@apollo/client";
+import { ApolloError, useMutation } from "@apollo/client";
 import NewsletterOperations from "@/graphql/operations/newsletter";
-import { getClient } from "@/lib/client";
 
 interface ICreateNewsletterInput {
   variables: {
@@ -27,12 +26,10 @@ interface IuseCreateNewsletterPayload {
 }
 
 export const useCreateNewsletter = (): IuseCreateNewsletterPayload => {
-  const client = getClient();
   const [createNewsletterEntry, { data, loading, error }] = useMutation<
     ISubscribeToNewsletter, 
     SubscripbeToNewsletterInput
-  >(NewsletterOperations.Mutations.createNewsletterEntry, { client })
-
+  >(NewsletterOperations.Mutations.createNewsletterEntry)
   return {
     createNewsletterEntry,
     data,

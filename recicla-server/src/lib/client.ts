@@ -1,4 +1,5 @@
-import { ApolloClient, InMemoryCache, HttpLink } from "@apollo/client";
+import { ApolloClient, InMemoryCache, HttpLink, createHttpLink } from "@apollo/client";
+// import { setContext } from '@apollo/client/link/context'
 
 let client: ApolloClient<any> | null = null;
 
@@ -8,7 +9,7 @@ export const getClient = () => {
   if (!client || typeof window === "undefined") {
     client = new ApolloClient({
       link: new HttpLink({
-        uri: `${process.env.NEXTAUTH_URL}/api/graphql` || "https://reciclaapp.vercel.app/api/graphql",
+        uri:"https://reciclaapp.vercel.app",
       }),
       cache: new InMemoryCache(),
     });

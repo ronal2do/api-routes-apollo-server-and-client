@@ -1,6 +1,7 @@
 import '../globals.css';
 
 import { Montserrat } from 'next/font/google';
+import { Providers } from './providers';
 
 const inter = Montserrat({
   subsets: ['latin'],
@@ -51,7 +52,11 @@ export default function RootLayout({
       <head>
         <script dangerouslySetInnerHTML={{ __html: modeScript }} />
       </head>
-      <body className={`${inter.className} flex h-full flex-col bg-gray-50 dark:bg-gray-800 `}>{children}</body>
+      <body className={`${inter.className} flex h-full flex-col bg-gray-50 dark:bg-gray-800 `}>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }

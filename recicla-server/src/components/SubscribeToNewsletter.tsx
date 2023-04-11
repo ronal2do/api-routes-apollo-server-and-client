@@ -8,7 +8,6 @@ import { Button } from "./Button";
 export const SubscribeToNewsletter: React.FunctionComponent<{}> = () => {
   const [inputEmail, setInputEmail] = useState('')
   const {createNewsletterEntry, data, loading, error } = useCreateNewsletter()
-  // const toast = useToast()
 
   const onSubmit = async () => {
     if (!inputEmail) return;
@@ -20,25 +19,10 @@ export const SubscribeToNewsletter: React.FunctionComponent<{}> = () => {
       })
 
       if (data?.createNewsletterEntry.error || error) {
-        // toast({
-        //   title: 'Added to the subscribe list.',
-        //   description: "We've created your account for you.",
-        //   status: 'error',
-        //   duration: 9000,
-        //   isClosable: true,
-        // })
         return {
           error: "algo deu errado"
         }
       }
-
-      // toast({
-      //   title: 'Added to the subscribe list.',
-      //   description: "We've created your account for you.",
-      //   status: 'success',
-      //   duration: 9000,
-      //   isClosable: true,
-      // })
 
       setInputEmail('')
     } catch (error) {
