@@ -8,7 +8,7 @@ export const getClient = () => {
   if (!client || typeof window === "undefined") {
     client = new ApolloClient({
       link: new HttpLink({
-        uri: "https://reciclaapp.vercel.app/api/graphql",
+        uri: `${process.env.NEXTAUTH_URL}/api/graphql` || "https://reciclaapp.vercel.app/api/graphql",
       }),
       cache: new InMemoryCache(),
     });
