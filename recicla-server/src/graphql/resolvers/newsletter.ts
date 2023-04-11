@@ -1,3 +1,4 @@
+import { connectionFromArray } from "@/lib/connection";
 import { GraphQLContext } from "@/pages/api/graphql";
 
 function createRelayData(data: any, args: any) {
@@ -91,7 +92,7 @@ const resolvers = {
     newsletters: async (_: any, args: any, context: GraphQLContext) => {
       const { prisma, session } = context;
       const data = await prisma.newsletter.findMany()
-      const convert = createRelayData(data, args)
+      const convert = connectionFromArray(data, args)
       return convert
     },
   },
