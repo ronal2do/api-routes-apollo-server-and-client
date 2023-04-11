@@ -25,7 +25,7 @@ const navigation = [
   // { name: 'History', href: '#', icon: ClockIcon, current: false },
   // { name: 'Balances', href: '#', icon: ScaleIcon, current: false },
   { name: 'Questions', href: '/dashboard/questions', icon: CreditCardIcon, current: false },
-  { name: 'Users', href: '#', icon: UserGroupIcon, current: false },
+  { name: 'Users', href: '/dashboard/users', icon: UserGroupIcon, current: false },
   { name: 'Newsletter', href: '/dashboard/newsletters', icon: DocumentChartBarIcon, current: false },
 ]
 const secondaryNavigation = [

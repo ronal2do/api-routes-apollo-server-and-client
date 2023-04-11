@@ -9,6 +9,7 @@ export async function useServerQuery(query: any) {
         next: { revalidate: 5 },
       },
     },
+    fetchPolicy: "no-cache"
   });
 
   return {
