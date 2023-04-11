@@ -1,4 +1,4 @@
-import NewsletterOperations from "../graphql/operations/newsletter";
+import NewsletterOperations from "@/graphql/operations/newsletter";
 import { useServerQuery } from "./apollo";
 
 export async function getNewslettersList() {
