@@ -88,8 +88,8 @@ export const UploadableAvatar = ({ image: propsImage, userId, name }: Uploadable
       keyPrefix: "avatars/",
       bucket: "gamesassets",
       region: "us-west-2",
-      accessKey: "AKIAJ5GPD5DMZNUJOI6A",
-      secretKey: "qc7zpgcCYCY+hPsrFY00WX8E/teZak+onANX9Rpi",
+      accessKey: "AKIAJ5GPD5DMZNUJOI6A",  // not existent key tutorial example 
+      secretKey: "qc7zpgcCYCY+hPsrFY00WX8E/teZak+onANX9Rpi", // not existent key
       successActionStatus: 201
     }
 
